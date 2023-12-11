@@ -25,7 +25,9 @@
     "express": "^4.18.2",
     "helmet": "^7.1.0",
     "morgan": "^1.10.0",
-    "mysql2": "^3.6.5"
+    "mysql2": "^3.6.5",
+    "routing-controllers": "^0.10.4",
+    "typedi": "^0.10.0"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
