@@ -8,14 +8,13 @@ export const useInvoiceService = () => {
       const invoices = await getAllInvoices();
 
       const output = _(invoices)
-        .groupBy("invoice_id")
+        .groupBy(["invoice_id", "user_id"])
         .map((invoices: any, invoice_id: any) => ({
           invoice_id: Number(invoice_id),
           ..._.omit(invoices[0], "service_id", "label"),
-          services: invoices.map(({ service_id, label, street }: any) => ({
+          services: invoices.map(({ service_id, label }: any) => ({
             service_id,
             label,
-            street,
           })),
         }))
         .value();
