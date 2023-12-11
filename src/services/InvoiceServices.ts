@@ -8,14 +8,11 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
       const invoices = await getAllInvoices();
 
       const output = _(invoices)
-        .groupBy(["invoice_id", "user_id"])
+        .groupBy("invoice_id")
         .map((invoices: any, invoice_id: any) => ({
           invoice_id: Number(invoice_id),
           ..._.omit(invoices[0], "service_id", "service_label"),
-          services: invoices.map(({ service_id, service_label }: any) => ({
-            service_id,
-            service_label,
-          })),
+          services: invoices.map(({ service_label }: any) => service_label),
         }))
         .value();
 
@@ -63,7 +60,6 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         cart,
         services,
       });
-      
     } catch (error: any) {
       throw new Error(`Error saving invoices: ${error.message}`);
     }

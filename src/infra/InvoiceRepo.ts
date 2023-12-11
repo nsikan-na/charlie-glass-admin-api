@@ -66,6 +66,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(
         `
       SELECT 
+      cart_item_id, 
       description,
       quantity,
       price
