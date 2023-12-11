@@ -40,7 +40,7 @@ router.post<{}, MessageResponse>(
     const { user_id } = req.params;
     const { saveInvoice } = useInvoiceService({ user_id });
     try {
-      return res.send(await saveInvoice());
+      return res.send(await saveInvoice(req.body));
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });

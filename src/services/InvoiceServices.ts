@@ -42,9 +42,28 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const saveInvoice: any = async () => {
+  const saveInvoice: any = async ({
+    receiver_name,
+    street,
+    city,
+    state,
+    zip,
+    cart,
+    services,
+  }: any) => {
+    const { saveInvoice } = useInvoiceRepo({ user_id });
     try {
-      return await saveInvoice();
+      return await saveInvoice({
+        receiver_name,
+        date_of_invoice: new Date(),
+        street,
+        city,
+        state,
+        zip,
+        cart,
+        services,
+      });
+      
     } catch (error: any) {
       throw new Error(`Error saving invoices: ${error.message}`);
     }

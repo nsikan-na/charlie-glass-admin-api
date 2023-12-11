@@ -110,17 +110,55 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const saveInvoice = async () => {
+  const saveInvoice = async ({
+    receiver_name,
+    date_of_invoice,
+    street,
+    city,
+    state,
+    zip,
+    cart,
+    services,
+  }: any) => {
     try {
-      // const connection = await mysql.createConnection(
-      //   process.env.DATABASE_URL || ""
-      // );
-      // const [rows, fields] = await connection.execute(
-      //   "SELECT * FROM invoice_cart_view WHERE invoice_id = ?",
-      //   [1]
-      // );
-      // connection.end();
-      // return rows;
+      const connection = await mysql.createConnection(
+        process.env.DATABASE_URL || ""
+      );
+      await connection.beginTransaction();
+
+      const [insertTable1]: any = await connection.execute(
+        "INSERT INTO invoice (user_id, receiver_name, date_of_invoice, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?, ?);",
+        [user_id, receiver_name, date_of_invoice, street, city, state, zip]
+      );
+
+      const lastPrimaryKey = insertTable1.insertId;
+
+      const cartQuery =
+        "INSERT INTO invoice_cart (invoice_id, description, quantity, price) VALUES (?, ?, ?, ?);";
+      await Promise.all(
+        cart.map((cartItem: any) =>
+          connection.execute(cartQuery, [
+            lastPrimaryKey,
+            cartItem.description,
+            cartItem.quantity,
+            cartItem.price,
+          ])
+        )
+      );
+
+      const serviceQuery =
+        "INSERT INTO invoice_service (invoice_id, service_id) VALUES (?, ?);";
+      await Promise.all(
+        services.map((service_id: any) =>
+          connection.execute(serviceQuery, [lastPrimaryKey, service_id])
+        )
+      );
+
+      await connection.commit();
+
+      await connection.end();
+
+      return "Invoice saved successfully";
     } catch (error: any) {
       throw new Error(`Error saving invoices: ${error.message}`);
     }
@@ -131,5 +169,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     getInvoiceById,
     getInvoiceServicesById,
     getInvoiceCartById,
+    saveInvoice,
   };
 };
