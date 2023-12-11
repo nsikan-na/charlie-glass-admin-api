@@ -1,10 +1,10 @@
 import { useInvoiceRepo } from "../infra/InvoiceRepo";
 import _ from "lodash";
 
-export const useInvoiceService = () => {
-  const getAllInvoices: any = async () => {
+export const useInvoiceService = ({ user_id }: { user_id: string }) => {
+  const getAllInvoices = async () => {
     try {
-      const { getAllInvoices } = useInvoiceRepo();
+      const { getAllInvoices } = useInvoiceRepo({ user_id });
       const invoices = await getAllInvoices();
 
       const output = _(invoices)
@@ -25,6 +25,22 @@ export const useInvoiceService = () => {
     }
   };
 
+  const getInvoiceById = async ({ id }: { id: string }) => {
+    try {
+      const { getInvoiceById, getInvoiceCartById, getInvoiceServicesById } =
+        useInvoiceRepo({ user_id });
+      const invoice: any = await getInvoiceById({ id });
+      const invoiceCart = await getInvoiceCartById({ id });
+      const invoiceServices = await getInvoiceServicesById({ id });
+      const output = invoice[0];
+      output["cart"] = invoiceCart;
+      output["services"] = invoiceServices;
+      return output;
+    } catch (error: any) {
+      throw new Error(`Error retrieving invoices: ${error.message}`);
+    }
+  };
+
   const saveInvoice: any = async () => {
     try {
       return await saveInvoice();
@@ -33,5 +49,5 @@ export const useInvoiceService = () => {
     }
   };
 
-  return { getAllInvoices, saveInvoice };
+  return { getAllInvoices, saveInvoice, getInvoiceById };
 };
