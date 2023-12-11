@@ -11,10 +11,10 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         .groupBy(["invoice_id", "user_id"])
         .map((invoices: any, invoice_id: any) => ({
           invoice_id: Number(invoice_id),
-          ..._.omit(invoices[0], "service_id", "label"),
-          services: invoices.map(({ service_id, label }: any) => ({
+          ..._.omit(invoices[0], "service_id", "service_label"),
+          services: invoices.map(({ service_id, service_label }: any) => ({
             service_id,
-            label,
+            service_label,
           })),
         }))
         .value();
@@ -30,6 +30,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
       const { getInvoiceById, getInvoiceCartById, getInvoiceServicesById } =
         useInvoiceRepo({ user_id });
       const invoice: any = await getInvoiceById({ id });
+      if (invoice.length === 0) return {};
       const invoiceCart = await getInvoiceCartById({ id });
       const invoiceServices = await getInvoiceServicesById({ id });
       const output = invoice[0];

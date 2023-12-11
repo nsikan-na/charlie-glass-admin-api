@@ -66,7 +66,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(
         `
       SELECT 
-      invoice_id,
       description,
       quantity,
       price
@@ -94,7 +93,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(
         `
       SELECT 
-      invoice_id,
       service_id,
       service_label
       FROM invoice_service_view
