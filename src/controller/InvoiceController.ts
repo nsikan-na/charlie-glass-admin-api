@@ -6,12 +6,13 @@ import { useInvoiceService } from "../services/InvoiceServices";
 const router = express.Router();
 
 router.get<{}, MessageResponse>(
-  "/:user_id/",
+  "/:user_id/services",
   async (req: Request, res: Response) => {
+    console.log("\ntest\n");
     const { user_id } = req.params;
-    const { getAllInvoices } = useInvoiceService({ user_id });
+    const { getAllServices } = useInvoiceService({ user_id });
     try {
-      return res.send(await getAllInvoices());
+      return res.send(await getAllServices());
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
@@ -19,7 +20,6 @@ router.get<{}, MessageResponse>(
   }
 );
 
-//get invoice by id
 router.get<{}, MessageResponse>(
   "/:user_id/:id",
   async (req: Request, res: Response) => {
@@ -27,6 +27,20 @@ router.get<{}, MessageResponse>(
     const { getInvoiceById } = useInvoiceService({ user_id });
     try {
       return res.send(await getInvoiceById({ id }));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
+
+router.get<{}, MessageResponse>(
+  "/:user_id",
+  async (req: Request, res: Response) => {
+    const { user_id } = req.params;
+    const { getAllInvoices } = useInvoiceService({ user_id });
+    try {
+      return res.send(await getAllInvoices());
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
@@ -47,4 +61,5 @@ router.post<{}, MessageResponse>(
     }
   }
 );
+
 export default router;

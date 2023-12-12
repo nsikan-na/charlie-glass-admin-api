@@ -24,13 +24,18 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
 
   const getInvoiceById = async ({ id }: { id: string }) => {
     try {
-      const { getInvoiceById, getInvoiceCartById, getInvoiceServicesById } =
-        useInvoiceRepo({ user_id });
+      const {
+        getInvoiceById,
+        getInvoiceCartById,
+        getInvoiceServicesById,
+        getInvoiceReceiverInfoById,
+      } = useInvoiceRepo({ user_id });
       const invoice: any = await getInvoiceById({ id });
       if (invoice.length === 0) return {};
       const invoiceCart = await getInvoiceCartById({ id });
       const invoiceServices = await getInvoiceServicesById({ id });
-      const output = invoice[0];
+      const invoiceReceiverInfo: any = await getInvoiceReceiverInfoById({ id });
+      const output = { ...invoice[0], ...invoiceReceiverInfo[0] };
       output["cart"] = invoiceCart;
       output["services"] = invoiceServices;
       return output;
@@ -52,7 +57,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await saveInvoice({
         receiver_name,
-        date_of_invoice: new Date(),
+        creation_date: new Date(),
         street,
         city,
         state,
@@ -64,6 +69,14 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
       throw new Error(`Error saving invoices: ${error.message}`);
     }
   };
+  const getAllServices: any = async () => {
+    const { getAllServices } = useInvoiceRepo({ user_id });
+    try {
+      return await getAllServices();
+    } catch (error: any) {
+      throw new Error(`Error saving invoices: ${error.message}`);
+    }
+  };
 
-  return { getAllInvoices, saveInvoice, getInvoiceById };
+  return { getAllInvoices, saveInvoice, getInvoiceById, getAllServices };
 };
