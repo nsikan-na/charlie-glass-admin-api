@@ -8,7 +8,6 @@ const router = express.Router();
 router.get<{}, MessageResponse>(
   "/:user_id/services",
   async (req: Request, res: Response) => {
-    console.log("\ntest\n");
     const { user_id } = req.params;
     const { getAllServices } = useInvoiceService({ user_id });
     try {

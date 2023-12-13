@@ -66,7 +66,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   };
 
   const getAllServices = async () => {
-    console.log(user_id);
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
@@ -193,16 +192,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     cart,
     services,
   }: any) => {
-    console.log(
-      receiver_name,
-      creation_date,
-      street,
-      city,
-      state,
-      zip,
-      cart,
-      services
-    );
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
