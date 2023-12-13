@@ -1,0 +1,228 @@
+{
+	"info": {
+		"_postman_id": "d200cbfe-79fd-44c2-b80d-c95dd4fdeb37",
+		"name": "New Collection",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"_exporter_id": "19570875"
+	},
+	"item": [
+		{
+			"name": "prod",
+			"item": [
+				{
+					"name": "charlie-glass-admin-api",
+					"item": [
+						{
+							"name": "getAllInvoices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{CGI_BASE_URL}}/api/v1/invoices/4?invoice_id=132&fromDate=2023-12-11&toDate=2023-12-11&pageSize=10&page=1",
+									"host": [
+										"{{CGI_BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"invoices",
+										"4"
+									],
+									"query": [
+										{
+											"key": "invoice_id",
+											"value": "132"
+										},
+										{
+											"key": "name",
+											"value": "David",
+											"disabled": true
+										},
+										{
+											"key": "fromDate",
+											"value": "2023-12-11"
+										},
+										{
+											"key": "toDate",
+											"value": "2023-12-11"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getInvoiceById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{CGI_BASE_URL}}/api/v1/invoices/4/260"
+							},
+							"response": []
+						},
+						{
+							"name": "getInvoiceById Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver_name\": \"Jane Smith\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"cart\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n          {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        27,\n        28\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{CGI_BASE_URL}}/api/v1/invoices/4/add"
+							},
+							"response": []
+						},
+						{
+							"name": "getAllServices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{CGI_BASE_URL}}/api/v1/invoices/4/services"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "localhost",
+			"item": [
+				{
+					"name": "charlie-glass-admin-api",
+					"item": [
+						{
+							"name": "getAllInvoices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4?invoice_id=132&fromDate=2023-12-11&toDate=2023-12-11&pageSize=10&page=1",
+									"host": [
+										"{{LOCALHOST_BASE_URL}}"
+									],
+									"path": [
+										"api",
+										"v1",
+										"invoices",
+										"4"
+									],
+									"query": [
+										{
+											"key": "invoice_id",
+											"value": "132"
+										},
+										{
+											"key": "name",
+											"value": "David",
+											"disabled": true
+										},
+										{
+											"key": "fromDate",
+											"value": "2023-12-11"
+										},
+										{
+											"key": "toDate",
+											"value": "2023-12-11"
+										},
+										{
+											"key": "pageSize",
+											"value": "10"
+										},
+										{
+											"key": "page",
+											"value": "1"
+										}
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "getInvoiceById",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4/260"
+							},
+							"response": []
+						},
+						{
+							"name": "getInvoiceById Copy",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"receiver_name\": \"Jane Smith\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"cart\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n          {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        27,\n        28\n    ]\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4/add"
+							},
+							"response": []
+						},
+						{
+							"name": "getAllServices",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4/services"
+							},
+							"response": []
+						}
+					]
+				}
+			]
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "CGI_BASE_URL",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "LOCALHOST_BASE_URL",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
