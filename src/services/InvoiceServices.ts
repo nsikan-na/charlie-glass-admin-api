@@ -7,6 +7,8 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     invoice_id,
     fromDate,
     toDate,
+    page,
+    pageSize,
   }: any) => {
     try {
       const { getAllInvoices } = useInvoiceRepo({ user_id });
@@ -15,6 +17,8 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         invoice_id,
         fromDate,
         toDate,
+        page,
+        pageSize,
       });
 
       const output = _(invoices)

@@ -15,6 +15,8 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     invoice_id,
     toDate,
     fromDate,
+    page,
+    pageSize,
   }: any) => {
     try {
       const connection = await mysql.createConnection(
@@ -26,7 +28,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       WHERE user_id = ?
     `;
 
-      const params = [user_id];
+      const params: (string | number)[] = [user_id];
 
       if (name) {
         query += ` AND receiver_name LIKE ?`;
@@ -43,7 +45,16 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         params.push(`${toDate}`);
       }
 
-      query += ` ORDER BY invoice_creation_date;`;
+      query += ` ORDER BY invoice_id DESC`;
+
+      if (page && pageSize) {
+        if (+page <= 0) {
+          throw new Error("Invalid page number");
+        }
+        const offset: any = (page - 1) * pageSize;
+        query += ` LIMIT ? OFFSET ?`;
+        params.push(+pageSize, +offset);
+      }
 
       logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
