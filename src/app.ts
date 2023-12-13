@@ -3,9 +3,9 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
-import * as middlewares from "./middlewares";
-import InvoiceController from "./controller/InvoiceController";
-import MessageResponse from "./interfaces/MessageResponse";
+import * as middlewares from "./api/v1/middlewares/middlewares";
+import InvoiceController from "./api/v1/controller/InvoiceController";
+import MessageResponse from "./api/v1/interfaces/MessageResponse";
 
 require("dotenv").config();
 
