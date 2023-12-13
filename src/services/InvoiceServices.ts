@@ -12,7 +12,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     try {
       const { getAllInvoices } = useInvoiceRepo({ user_id });
-      const invoices = await getAllInvoices({
+      return await getAllInvoices({
         name,
         invoice_id,
         fromDate,
@@ -20,17 +20,6 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         page,
         pageSize,
       });
-
-      const output = _(invoices)
-        .groupBy("invoice_id")
-        .map((invoices: any, invoice_id: any) => ({
-          invoice_id: Number(invoice_id),
-          ..._.omit(invoices[0], "service_id", "service_label"),
-          services: invoices.map(({ service_label }: any) => service_label),
-        }))
-        .value();
-
-      return output;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
     }

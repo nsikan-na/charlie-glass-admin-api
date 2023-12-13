@@ -24,7 +24,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       );
       let query = `
       SELECT *
-      FROM invoice_service_view
+      FROM invoice_view
       WHERE user_id = ?
     `;
 
