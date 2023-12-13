@@ -12,7 +12,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     try {
       const { getAllInvoices } = useInvoiceRepo({ user_id });
-      return await getAllInvoices({
+      const queryResult: any = await getAllInvoices({
         name,
         invoice_id,
         fromDate,
@@ -20,6 +20,10 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         page,
         pageSize,
       });
+      return queryResult.map((invoice: any) => ({
+        ...invoice,
+        invoice_services: invoice?.invoice_services.split(","),
+      }));
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
     }
