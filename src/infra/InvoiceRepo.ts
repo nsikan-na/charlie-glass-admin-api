@@ -1,6 +1,7 @@
 import * as mysql from "mysql2/promise";
 
 export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
+  const logger = console;
   // const pool = mysql.createPool({
   //   connectionLimit: 10, // Adjust as needed
   //   host: process.env.DB_HOST,
@@ -9,22 +10,43 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   //   database: process.env.DB_DATABASE,
   // });
 
-  const getAllInvoices = async () => {
+  const getAllInvoices = async ({
+    name,
+    invoice_id,
+    toDate,
+    fromDate,
+  }: any) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
-
-      const [rows, fields] = await connection.execute(
-        `
+      let query = `
       SELECT *
       FROM invoice_service_view
-      where user_id = ?
-      order by invoice_creation_date DESC;
-      `,
-        [user_id]
-      );
+      WHERE user_id = ?
+    `;
 
+      const params = [user_id];
+
+      if (name) {
+        query += ` AND receiver_name LIKE ?`;
+        params.push(`%${name}%`);
+      }
+
+      if (invoice_id) {
+        query += ` AND invoice_id LIKE ?`;
+        params.push(`%${invoice_id}%`);
+      }
+      if (toDate && fromDate) {
+        query += ` AND invoice_creation_date between ? and ?`;
+        params.push(`${fromDate}`);
+        params.push(`${toDate}`);
+      }
+
+      query += ` ORDER BY invoice_creation_date;`;
+
+      logger.log(query);
+      const [rows, fields] = await connection.execute(query, params);
       connection.end();
       return rows;
     } catch (error: any) {
@@ -38,17 +60,15 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
-
-      const [rows, fields] = await connection.execute(
-        `
+      const query = `
       SELECT distinct id, label
       FROM service
-      `,
-        []
-      );
+      `;
+
+      const [rows, fields] = await connection.execute(query, []);
 
       connection.end();
-      console.log(rows);
+      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
@@ -60,19 +80,16 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
-
-      const [rows, fields] = await connection.execute(
-        `
-      SELECT *
-      FROM invoice
-      where user_id = ?
-      and id = ?
-      `,
-        [user_id, id]
-      );
+      const query = `
+  SELECT *
+  FROM invoice
+  where user_id = ?
+  and id = ?
+`;
+      const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.end();
-
+      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
@@ -84,9 +101,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
-
-      const [rows, fields] = await connection.execute(
-        `
+      const query = `
       SELECT 
       cart_item_id, 
       description,
@@ -95,12 +110,12 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       FROM invoice_cart_view
       where user_id = ?
       and invoice_id = ?;
-      `,
-        [user_id, id]
-      );
+      `;
+
+      const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.end();
-
+      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
@@ -112,21 +127,19 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
-
-      const [rows, fields] = await connection.execute(
-        `
+      const query = `
       SELECT 
       service_id,
       service_label
       FROM invoice_service_view
       where user_id = ? 
       and invoice_id = ?;
-      `,
-        [user_id, id]
-      );
+      `;
+
+      const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.end();
-
+      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
@@ -138,8 +151,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         process.env.DATABASE_URL || ""
       );
 
-      const [rows, fields] = await connection.execute(
-        `
+      const query = `
       SELECT 
       receiver_name,
       receiver_street,
@@ -149,12 +161,11 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       FROM invoice_receiver_info_view
       where user_id = ? 
       and invoice_id = ?;
-      `,
-        [user_id, id]
-      );
+      `;
+      const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.end();
-      console.log(rows);
+      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
@@ -186,22 +197,31 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         process.env.DATABASE_URL || ""
       );
       await connection.beginTransaction();
+      const invoiceQuery = `INSERT INTO invoice (user_id, creation_date) VALUES (?, ?)`;
 
-      const [insertTable1]: any = await connection.execute(
-        "INSERT INTO invoice (user_id, creation_date) VALUES (?, ?);",
-        [user_id, creation_date]
-      );
-
+      const [insertTable1]: any = await connection.execute(invoiceQuery, [
+        user_id,
+        creation_date,
+      ]);
+      logger.log(invoiceQuery);
       const lastPrimaryKey = insertTable1.insertId;
 
-      await connection.execute(
-        "INSERT INTO invoice_receiver_info (invoice_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);",
-        [lastPrimaryKey, receiver_name, street, city, state, zip]
-      );
+      const receiverInfoQuery =
+        "INSERT INTO invoice_receiver_info (invoice_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
+
+      await connection.execute(receiverInfoQuery, [
+        lastPrimaryKey,
+        receiver_name,
+        street,
+        city,
+        state,
+        zip,
+      ]);
+      logger.log(receiverInfoQuery);
 
       const cartQuery =
         "INSERT INTO invoice_cart (invoice_id, description, quantity, price) VALUES (?, ?, ?, ?);";
-
+      logger.log(cart);
       await Promise.all(
         cart.map((cartItem: any) =>
           connection.execute(cartQuery, [
@@ -215,7 +235,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       const serviceQuery =
         "INSERT INTO invoice_service (invoice_id, service_id) VALUES (?, ?);";
-
+      logger.log(serviceQuery);
       await Promise.all(
         services.map((service_id: any) =>
           connection.execute(serviceQuery, [lastPrimaryKey, service_id])

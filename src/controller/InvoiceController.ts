@@ -38,9 +38,12 @@ router.get<{}, MessageResponse>(
   "/:user_id",
   async (req: Request, res: Response) => {
     const { user_id } = req.params;
+    const { name, invoice_id, fromDate, toDate } = req.query;
     const { getAllInvoices } = useInvoiceService({ user_id });
     try {
-      return res.send(await getAllInvoices());
+      return res.send(
+        await getAllInvoices({ name, invoice_id, fromDate, toDate })
+      );
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });

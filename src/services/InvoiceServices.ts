@@ -2,10 +2,20 @@ import { useInvoiceRepo } from "../infra/InvoiceRepo";
 import _ from "lodash";
 
 export const useInvoiceService = ({ user_id }: { user_id: string }) => {
-  const getAllInvoices = async () => {
+  const getAllInvoices = async ({
+    name,
+    invoice_id,
+    fromDate,
+    toDate,
+  }: any) => {
     try {
       const { getAllInvoices } = useInvoiceRepo({ user_id });
-      const invoices = await getAllInvoices();
+      const invoices = await getAllInvoices({
+        name,
+        invoice_id,
+        fromDate,
+        toDate,
+      });
 
       const output = _(invoices)
         .groupBy("invoice_id")
