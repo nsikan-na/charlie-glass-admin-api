@@ -22,7 +22,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
       });
       return queryResult.map((invoice: any) => ({
         ...invoice,
-        invoice_services: invoice?.invoice_services.split(","),
+        invoice_services: invoice?.invoice_services?.split(","),
       }));
     } catch (error: any) {
       throw new Error(`Error retrieving invoices: ${error.message}`);
