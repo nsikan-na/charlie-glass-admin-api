@@ -1,7 +1,7 @@
 {
 	"info": {
 		"_postman_id": "d200cbfe-79fd-44c2-b80d-c95dd4fdeb37",
-		"name": "New Collection",
+		"name": "cgi-api",
 		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
 		"_exporter_id": "19570875"
 	},
@@ -18,7 +18,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{CGI_BASE_URL}}/api/v1/invoices/4?invoice_id=132&fromDate=2023-12-11&toDate=2023-12-11&pageSize=10&page=1",
+									"raw": "{{CGI_BASE_URL}}/api/v1/invoices/4?pageSize=10&page=1",
 									"host": [
 										"{{CGI_BASE_URL}}"
 									],
@@ -31,7 +31,8 @@
 									"query": [
 										{
 											"key": "invoice_id",
-											"value": "132"
+											"value": "132",
+											"disabled": true
 										},
 										{
 											"key": "name",
@@ -40,11 +41,13 @@
 										},
 										{
 											"key": "fromDate",
-											"value": "2023-12-11"
+											"value": "2023-12-11",
+											"disabled": true
 										},
 										{
 											"key": "toDate",
-											"value": "2023-12-11"
+											"value": "2023-12-11",
+											"disabled": true
 										},
 										{
 											"key": "pageSize",
@@ -69,7 +72,7 @@
 							"response": []
 						},
 						{
-							"name": "getInvoiceById Copy",
+							"name": "addNewInvoice",
 							"request": {
 								"method": "POST",
 								"header": [],
@@ -111,7 +114,7 @@
 								"method": "GET",
 								"header": [],
 								"url": {
-									"raw": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4?invoice_id=132&fromDate=2023-12-11&toDate=2023-12-11&pageSize=10&page=1",
+									"raw": "{{LOCALHOST_BASE_URL}}/api/v1/invoices/4?invoice_id=132&name=David&fromDate=2023-12-11&toDate=2023-12-11&pageSize=10&page=1",
 									"host": [
 										"{{LOCALHOST_BASE_URL}}"
 									],
@@ -128,8 +131,7 @@
 										},
 										{
 											"key": "name",
-											"value": "David",
-											"disabled": true
+											"value": "David"
 										},
 										{
 											"key": "fromDate",
@@ -216,12 +218,12 @@
 	"variable": [
 		{
 			"key": "CGI_BASE_URL",
-			"value": "",
+			"value": "https://charlie-glass-admin-api.vercel.app",
 			"type": "string"
 		},
 		{
 			"key": "LOCALHOST_BASE_URL",
-			"value": "",
+			"value": "http://127.0.0.1:8080",
 			"type": "string"
 		}
 	]
