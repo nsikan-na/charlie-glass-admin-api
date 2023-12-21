@@ -9,12 +9,12 @@
 --     zip VARCHAR(255)
 -- );
 
--- DROP TABLE IF EXISTS invoice;
--- CREATE TABLE   invoice (
---     id INT AUTO_INCREMENT PRIMARY KEY,
---     user_id INT,
---     invoice_creation_date DATE
--- );
+DROP TABLE IF EXISTS invoice;
+CREATE TABLE   invoice (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    creation_date DATE
+);
 
 -- DROP TABLE IF EXISTS invoice_cart;
 

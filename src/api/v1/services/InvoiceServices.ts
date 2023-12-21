@@ -64,9 +64,14 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await saveInvoice({
         receiver_name,
-        creation_date: new Date().toLocaleDateString("en-US", {
-          timeZone: "America/New_York",
-        }),
+        creation_date: new Date(
+          new Date().toLocaleDateString("en-US", {
+            timeZone: "America/New_York",
+          })
+        )
+          .toISOString()
+          .split("T")[0]
+          .split("T")[0],
         street,
         city,
         state,
