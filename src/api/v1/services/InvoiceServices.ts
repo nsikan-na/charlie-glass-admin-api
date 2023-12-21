@@ -70,7 +70,6 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
           })
         )
           .toISOString()
-          .split("T")[0]
           .split("T")[0],
         street,
         city,
