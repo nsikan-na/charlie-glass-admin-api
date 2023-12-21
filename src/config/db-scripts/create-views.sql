@@ -1,72 +1,77 @@
--- DROP VIEW IF EXISTS invoice_cart_view;
+DROP VIEW IF EXISTS quote_summary_view;
+CREATE VIEW quote_summary_view AS
+SELECT
+    q.id as quote_id,
+    q.user_id,
+    q.creation_date,
+    q.expense, 
+    q.isSigned,
+    q.signature_date
+FROM (
+    select * 
+    from quote q
+    where q.isActive = '1'
+) as q;
+SELECT * FROM quote_summary_view;
 
--- CREATE VIEW invoice_cart_view AS
+
+
+
+    -- GROUP_CONCAT(s.label) AS service_array
+
+-- DROP VIEW IF EXISTS quote_item_view;
+-- CREATE VIEW quote_item_view AS
 -- SELECT
---     ic.id as cart_item_id,
---     ic.invoice_id,
---     i.user_id,
---     iri.name as receiver_name,
---     i.creation_date as invoice_creation_date,
---     ic.description,
---     ic.quantity,
---     ic.price
+--     qi.id as item_id,
+--     qi.quote_id,
+--     q.user_id,
+--     qr.name as receiver_name,
+--     q.creation_date as quote_creation_date,
+--     qi.description,
+--     qi.quantity,
+--     qi.price
 -- FROM
---     invoice i
--- left join invoice_receiver_info iri on iri.invoice_id = i.id
--- LEFT JOIN invoice_cart ic ON i.id = ic.invoice_id;
+--     quote q
+-- LEFT JOIN quote_receiver qr ON qr.quote_id = q.id
+-- LEFT JOIN quote_item qi ON q.id = qi.quote_id
+-- where q.isActive = '1';
+-- -- SELECT * FROM quote_item_view;
 
--- select * from invoice_cart_view;
 
--- DROP VIEW IF EXISTS invoice_service_view;
 
--- CREATE VIEW invoice_service_view AS
+-- DROP VIEW IF EXISTS quote_service_view;
+-- CREATE VIEW quote_service_view AS
 -- SELECT
---     ins.invoice_id,
---     i.user_id,
--- i.creation_date as invoice_creation_date,
---     iri.name as receiver_name,
---     ins.service_id,
---     ser.label as service_label
+--     qs.quote_id,
+--     q.user_id,
+--     q.creation_date as quote_creation_date,
+--     qr.name as receiver_name,
+--     qs.service_id,
+--     s.label as service_label
 -- FROM
---     invoice_service ins
--- LEFT JOIN invoice i ON i.id = ins.invoice_id
--- left join invoice_receiver_info iri on iri.invoice_id = i.id
--- left join service ser on ins.service_id = ser.id;
+--     quote_service qs
+-- LEFT JOIN quote q ON q.id = qs.quote_id
+-- LEFT JOIN quote_receiver qr ON qr.quote_id = q.id
+-- LEFT JOIN service s ON qs.service_id = s.id
+-- where q.isActive = '1';
+-- -- SELECT * FROM quote_service_view;
 
--- select * from invoice_service_view;
 
--- DROP VIEW IF EXISTS invoice_receiver_info_view;
 
--- CREATE VIEW invoice_receiver_info_view AS
+-- DROP VIEW IF EXISTS quote_receiver_view;
+-- CREATE VIEW quote_receiver_view AS
 -- SELECT
---     iri.invoice_id,
---     i.user_id,
---     i.creation_date as invoice_creation_date,
---     iri.name as receiver_name,
---     iri.street as receiver_street,
---     iri.city as receiver_city,
---     iri.state as receiver_state,
---     iri.zip as receiver_zip
+--     qr.quote_id,
+--     q.user_id,
+--     q.creation_date as quote_creation_date,
+--     qr.name as receiver_name,
+--     qr.street as receiver_street,
+--     qr.city as receiver_city,
+--     qr.state as receiver_state,
+--     qr.zip as receiver_zip
 -- FROM
---     invoice_receiver_info iri
--- LEFT JOIN invoice i on iri.invoice_id = i.id;
+--     quote_receiver qr
+-- LEFT JOIN quote q ON qr.quote_id = q.id
+-- where q.isActive = '1';
+-- SELECT * FROM quote_receiver_view;
 
--- select * from invoice_receiver_info_view
-
--- DROP VIEW IF EXISTS invoice_view;
-
--- CREATE VIEW invoice_view AS
--- SELECT
---     ins.invoice_id,
---     i.user_id,
---     i.creation_date as invoice_creation_date,
---     iri.name as receiver_name,
---      GROUP_CONCAT(ser.label) AS service_array
--- FROM
---     invoice_service ins
--- LEFT JOIN invoice i ON i.id = ins.invoice_id
--- left join invoice_receiver_info iri on iri.invoice_id = i.id
--- left join service ser on ins.service_id = ser.id
--- group by ins.invoice_id, i.user_id,i.creation_date, iri.name;
-
--- select * from invoice_view where user_id = '4'
