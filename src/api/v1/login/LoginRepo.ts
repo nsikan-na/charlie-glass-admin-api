@@ -4,32 +4,25 @@ import logger from "../../../util/logger";
 export const useLoginRepo = () => {
   const login = async ({ username, password }: any) => {
     try {
-      //   const connection = await dbConnection();
-      //   let query = `
-      //   SELECT
-      //   signature_date,
-      //   revenue,
-      //   expense,
-      //   profit
-      //   FROM profit_report_view
-      //   WHERE user_id = ?
-      // `;
+      const connection = await dbConnection();
+      let query = `
+        SELECT name
+        FROM user
+        WHERE username = ?
+        and password = ?
+        and isActive = '1'
+      `;
 
-      //   const params: (string | number)[] = [user_id];
+      logger.log(query);
 
-      //   if (toDate && fromDate) {
-      //     query += ` AND signature_date between ? and ?`;
-      //     params.push(`${fromDate}`);
-      //     params.push(`${toDate}`);
-      //   }
+      const [rows, fields] = await connection.execute(query, [
+        username,
+        password,
+      ]);
 
-      //   query += ` ORDER BY signature_date DESC`;
-
-      //   logger.log(query);
-      //   const [rows, fields] = await connection.execute(query, params);
-      //   connection.end();
-      // return rows;
-      return "login";
+      connection.end();
+      console.log(rows);
+      return rows;
     } catch (error: any) {
       throw new Error(`Error in getProfitData Repo: ${error.message}`);
     }

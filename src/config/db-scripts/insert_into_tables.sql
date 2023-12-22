@@ -1,3 +1,10 @@
+-- TRUNCATE table user;
+-- INSERT INTO user (username, password, name, isActive) VALUES (NULL, NULL, 'Admin', 1);
+-- INSERT INTO user (username, password, name, isActive) VALUES (NULL, NULL, 'DemoAdmin', 1);
+-- INSERT INTO user (username, password, name, isActive) VALUES (NULL, NULL, 'DemoAdmin2', 1);
+-- select * from user;
+
+
 TRUNCATE table quote;
 INSERT INTO quote (user_id, expense, creation_date, isSigned, signature_date, isActive) VALUES
 (1, NULL, '2023-11-05', 0, NULL, 1),
