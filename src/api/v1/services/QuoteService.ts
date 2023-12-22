@@ -64,7 +64,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
     try {
-      return await saveQuote({
+      const newQuoteId = await saveQuote({
         receiver_name,
         creation_date: new Date(
           new Date().toLocaleDateString("en-US", {
@@ -80,6 +80,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         cart,
         services,
       });
+      return getQuoteById({ id: newQuoteId });
     } catch (error: any) {
       throw new Error(`Error saving quotes: ${error.message}`);
     }

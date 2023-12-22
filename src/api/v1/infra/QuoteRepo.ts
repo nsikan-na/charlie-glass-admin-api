@@ -206,7 +206,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         process.env.DATABASE_URL || ""
       );
       await connection.beginTransaction();
-      const quoteQuery = `INSERT INTO quote (user_id, creation_date) VALUES (?, ?)`;
+      const quoteQuery = `INSERT INTO quote (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)`;
 
       const [insertTable1]: any = await connection.execute(quoteQuery, [
         user_id,
@@ -216,7 +216,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const lastPrimaryKey = insertTable1.insertId;
 
       const receiverInfoQuery =
-        "INSERT INTO quote_receiver_info (quote_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
+        "INSERT INTO quote_receiver (quote_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
 
       await connection.execute(receiverInfoQuery, [
         lastPrimaryKey,
@@ -229,7 +229,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(receiverInfoQuery);
 
       const cartQuery =
-        "INSERT INTO quote_cart (quote_id, description, quantity, price) VALUES (?, ?, ?, ?);";
+        "INSERT INTO quote_item (quote_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
       logger.log(cart);
       await Promise.all(
         cart.map((cartItem: any) =>
@@ -243,7 +243,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       const serviceQuery =
-        "INSERT INTO quote_service (quote_id, service_id) VALUES (?, ?);";
+        "INSERT INTO quote_service (quote_id, service_id, isActive) VALUES (?, ?, 1);";
       logger.log(serviceQuery);
       await Promise.all(
         services.map((service_id: any) =>
@@ -255,7 +255,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.end();
 
-      return `Quote ${lastPrimaryKey} saved successfully`;
+      return lastPrimaryKey;
     } catch (error: any) {
       throw new Error(`Error saving quotes: ${error.message}`);
     }
