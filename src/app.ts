@@ -12,7 +12,6 @@ import LoginController from "./api/v1/login/LoginController";
 
 require("dotenv").config();
 
-
 const app = express();
 
 app.use(morgan("dev"));
