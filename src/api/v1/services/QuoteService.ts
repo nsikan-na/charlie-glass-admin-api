@@ -1,4 +1,4 @@
-import { useQuoteRepo } from "../infra/QuotesRepo";
+import { useQuoteRepo } from "../infra/QuoteRepo";
 import _ from "lodash";
 
 export const useQuoteService = ({ user_id }: { user_id: string }) => {
@@ -27,7 +27,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         services: quote?.services?.split(","),
       }));
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getAllQuotes Service: ${error.message}`);
     }
   };
 
@@ -49,7 +49,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
       output["services"] = quoteServices;
       return output;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getQuoteById Service: ${error.message}`);
     }
   };
 
@@ -81,7 +81,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         services,
       });
     } catch (error: any) {
-      throw new Error(`Error saving quotes: ${error.message}`);
+      throw new Error(`Error in saveQuote Service: ${error.message}`);
     }
   };
 
@@ -90,7 +90,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       return await getAllServices();
     } catch (error: any) {
-      throw new Error(`Error saving quotes: ${error.message}`);
+      throw new Error(`Error in getAllServices Service: ${error.message}`);
     }
   };
 
@@ -99,7 +99,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       return await signQuote({ id, expense, signature_date });
     } catch (error: any) {
-      throw new Error(`Error saving quotes: ${error.message}`);
+      throw new Error(`Error signQuote Service: ${error.message}`);
     }
   };
 

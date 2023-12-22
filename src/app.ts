@@ -4,8 +4,9 @@ import helmet from "helmet";
 import cors from "cors";
 
 import * as middlewares from "./api/v1/middlewares/middlewares";
-import QuoteController from "./api/v1/controller/QuotesController";
+import QuoteController from "./api/v1/controller/QuoteController";
 import MessageResponse from "./api/v1/interfaces/MessageResponse";
+import ReportController from "./api/v1/controller/ReportController";
 
 require("dotenv").config();
 
@@ -23,6 +24,7 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 });
 
 app.use("/api/v1/quotes", QuoteController);
+app.use("/api/v1/reports", ReportController);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
