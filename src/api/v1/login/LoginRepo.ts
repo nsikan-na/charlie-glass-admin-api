@@ -15,16 +15,20 @@ export const useLoginRepo = () => {
 
       logger.log(query);
 
-      const [rows, fields] = await connection.execute(query, [
+      const [rows, fields]: any = await connection.execute(query, [
         username,
         password,
       ]);
 
       connection.end();
-      console.log(rows);
-      return rows;
+
+      if (rows.length === 0) {
+        return "Invalid username or password";
+      }
+
+      return rows[0];
     } catch (error: any) {
-      throw new Error(`Error in getProfitData Repo: ${error.message}`);
+      throw new Error(`Error in login Repo: ${error.message}`);
     }
   };
 
