@@ -1,238 +1,220 @@
 {
-	"info": {
-		"_postman_id": "d200cbfe-79fd-44c2-b80d-c95dd4fdeb37",
-		"name": "cgi-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
-		"_exporter_id": "19570875"
-	},
-	"item": [
-		{
-			"name": "prod",
-			"item": [
-				{
-					"name": "getAllInvoices",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{CGI_BASE_URL}}/api/v1/quote/1",
-							"host": [
-								"{{CGI_BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"quote",
-								"1"
-							],
-							"query": [
-								{
-									"key": "quote_id",
-									"value": "3",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "Bob",
-									"disabled": true
-								},
-								{
-									"key": "fromDate",
-									"value": "2023-12-01",
-									"disabled": true
-								},
-								{
-									"key": "toDate",
-									"value": "2023-12-31",
-									"disabled": true
-								},
-								{
-									"key": "pageSize",
-									"value": "10",
-									"disabled": true
-								},
-								{
-									"key": "page",
-									"value": "1",
-									"disabled": true
-								},
-								{
-									"key": "isSigned",
-									"value": "true",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getInvoiceById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{CGI_BASE_URL}}/api/v1/quote/1/1"
-					},
-					"response": []
-				},
-				{
-					"name": "getInvoiceById Copy",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"receiver_name\": \"Jon\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"cart\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{CGI_BASE_URL}}/api/v1/quote/1/add"
-					},
-					"response": []
-				},
-				{
-					"name": "getAllServices",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{CGI_BASE_URL}}/api/v1/quote/1/services"
-					},
-					"response": []
-				}
-			]
-		},
-		{
-			"name": "localhost",
-			"item": [
-				{
-					"name": "getAllInvoices",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1",
-							"host": [
-								"{{LOCALHOST_BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"quotes",
-								"1"
-							],
-							"query": [
-								{
-									"key": "quote_id",
-									"value": "3",
-									"disabled": true
-								},
-								{
-									"key": "name",
-									"value": "Bob",
-									"disabled": true
-								},
-								{
-									"key": "fromDate",
-									"value": "2023-12-01",
-									"disabled": true
-								},
-								{
-									"key": "toDate",
-									"value": "2023-12-31",
-									"disabled": true
-								},
-								{
-									"key": "pageSize",
-									"value": "10",
-									"disabled": true
-								},
-								{
-									"key": "page",
-									"value": "1",
-									"disabled": true
-								},
-								{
-									"key": "isSigned",
-									"value": "true",
-									"disabled": true
-								}
-							]
-						}
-					},
-					"response": []
-				},
-				{
-					"name": "getInvoiceById",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/1"
-					},
-					"response": []
-				},
-				{
-					"name": "getInvoiceById Copy",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"body": {
-							"mode": "raw",
-							"raw": "{\n    \"receiver_name\": \"Jon\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"cart\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
-							"options": {
-								"raw": {
-									"language": "json"
-								}
-							}
-						},
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/add"
-					},
-					"response": []
-				},
-				{
-					"name": "getAllServices",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/services"
-					},
-					"response": []
-				}
-			]
-		}
-	],
-	"event": [
-		{
-			"listen": "prerequest",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		},
-		{
-			"listen": "test",
-			"script": {
-				"type": "text/javascript",
-				"exec": [
-					""
-				]
-			}
-		}
-	],
-	"variable": [
-		{
-			"key": "CGI_BASE_URL",
-			"value": "https://charlie-glass-admin-api.vercel.app",
-			"type": "string"
-		},
-		{
-			"key": "LOCALHOST_BASE_URL",
-			"value": "http://127.0.0.1:8080",
-			"type": "string"
-		}
-	]
+  "info": {
+    "_postman_id": "d200cbfe-79fd-44c2-b80d-c95dd4fdeb37",
+    "name": "cgi-api",
+    "schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+    "_exporter_id": "19570875"
+  },
+  "item": [
+    {
+      "name": "prod",
+      "item": [
+        {
+          "name": "getAllInvoices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{CGI_BASE_URL}}/api/v1/quote/1",
+              "host": ["{{CGI_BASE_URL}}"],
+              "path": ["api", "v1", "quote", "1"],
+              "query": [
+                {
+                  "key": "quote_id",
+                  "value": "3",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "Bob",
+                  "disabled": true
+                },
+                {
+                  "key": "fromDate",
+                  "value": "2023-12-01",
+                  "disabled": true
+                },
+                {
+                  "key": "toDate",
+                  "value": "2023-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "isSigned",
+                  "value": "true",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getInvoiceById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{CGI_BASE_URL}}/api/v1/quote/1/1"
+          },
+          "response": []
+        },
+        {
+          "name": "getInvoiceById Copy",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"receiver_name\": \"Jon\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{CGI_BASE_URL}}/api/v1/quote/1/add"
+          },
+          "response": []
+        },
+        {
+          "name": "getAllServices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{CGI_BASE_URL}}/api/v1/quote/1/services"
+          },
+          "response": []
+        }
+      ]
+    },
+    {
+      "name": "localhost",
+      "item": [
+        {
+          "name": "getAllInvoices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": {
+              "raw": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1",
+              "host": ["{{LOCALHOST_BASE_URL}}"],
+              "path": ["api", "v1", "quotes", "1"],
+              "query": [
+                {
+                  "key": "quote_id",
+                  "value": "3",
+                  "disabled": true
+                },
+                {
+                  "key": "name",
+                  "value": "Bob",
+                  "disabled": true
+                },
+                {
+                  "key": "fromDate",
+                  "value": "2023-12-01",
+                  "disabled": true
+                },
+                {
+                  "key": "toDate",
+                  "value": "2023-12-31",
+                  "disabled": true
+                },
+                {
+                  "key": "pageSize",
+                  "value": "10",
+                  "disabled": true
+                },
+                {
+                  "key": "page",
+                  "value": "1",
+                  "disabled": true
+                },
+                {
+                  "key": "isSigned",
+                  "value": "true",
+                  "disabled": true
+                }
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "getInvoiceById",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/1"
+          },
+          "response": []
+        },
+        {
+          "name": "getInvoiceById Copy",
+          "request": {
+            "method": "POST",
+            "header": [],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n    \"receiver_name\": \"Jon\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/add"
+          },
+          "response": []
+        },
+        {
+          "name": "getAllServices",
+          "request": {
+            "method": "GET",
+            "header": [],
+            "url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/services"
+          },
+          "response": []
+        }
+      ]
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "CGI_BASE_URL",
+      "value": "https://charlie-glass-admin-api.vercel.app",
+      "type": "string"
+    },
+    {
+      "key": "LOCALHOST_BASE_URL",
+      "value": "http://127.0.0.1:8080",
+      "type": "string"
+    }
+  ]
 }

@@ -198,7 +198,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     city,
     state,
     zip,
-    cart,
+    items,
     services,
   }: any) => {
     try {
@@ -228,16 +228,16 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       ]);
       logger.log(receiverInfoQuery);
 
-      const cartQuery =
+      const itemsQuery =
         "INSERT INTO quote_item (quote_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
-      logger.log(cart);
+      logger.log(items);
       await Promise.all(
-        cart.map((cartItem: any) =>
-          connection.execute(cartQuery, [
+        items.map((itemsItem: any) =>
+          connection.execute(itemsQuery, [
             lastPrimaryKey,
-            cartItem.description,
-            cartItem.quantity,
-            cartItem.price,
+            itemsItem.description,
+            itemsItem.quantity,
+            itemsItem.price,
           ])
         )
       );

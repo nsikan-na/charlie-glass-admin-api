@@ -59,7 +59,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     city,
     state,
     zip,
-    cart,
+    items,
     services,
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
@@ -77,7 +77,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         city,
         state,
         zip,
-        cart,
+        items,
         services,
       });
       return getQuoteById({ id: newQuoteId });
