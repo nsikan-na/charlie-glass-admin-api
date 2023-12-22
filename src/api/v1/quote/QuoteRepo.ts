@@ -1,5 +1,5 @@
 import logger from "../../../util/logger";
-import dbConnection from "../../../config/db-connection";
+import dbConnection from "../../../config/db-config/db-connection";
 
 export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
   const getAllQuotes = async ({

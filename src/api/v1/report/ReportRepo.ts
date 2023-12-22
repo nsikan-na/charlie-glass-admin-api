@@ -1,4 +1,4 @@
-import dbConnection from "../../../config/db-connection";
+import dbConnection from "../../../config/db-config/db-connection";
 import logger from "../../../util/logger";
 
 export const useReportRepo = ({ user_id }: { user_id: string }) => {
