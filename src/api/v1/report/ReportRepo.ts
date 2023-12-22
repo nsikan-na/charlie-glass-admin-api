@@ -27,7 +27,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
 
       logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
-      connection.end();
+      connection.release();
       return rows;
     } catch (error: any) {
       throw new Error(`Error in getProfitData Repo: ${error.message}`);
@@ -57,7 +57,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
 
       logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
-      connection.end();
+      connection.release();
       return rows;
     } catch (error: any) {
       throw new Error(`Error in getServiceData Repo: ${error.message}`);

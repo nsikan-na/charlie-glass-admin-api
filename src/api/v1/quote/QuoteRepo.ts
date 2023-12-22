@@ -57,7 +57,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
-      connection.end();
+      connection.release();
       return rows;
     } catch (error: any) {
       throw new Error(`Error in getAllQuotes Repo: ${error.message}`);
@@ -74,7 +74,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       const [rows, fields] = await connection.execute(query, []);
 
-      connection.end();
+      connection.release();
       logger.log(query);
       return rows;
     } catch (error: any) {
@@ -93,7 +93,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 `;
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
-      connection.end();
+      connection.release();
       logger.log(query);
       return rows;
     } catch (error: any) {
@@ -117,7 +117,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
-      connection.end();
+      connection.release();
       logger.log(query);
       return rows;
     } catch (error: any) {
@@ -139,7 +139,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
-      connection.end();
+      connection.release();
       logger.log(query);
       return rows;
     } catch (error: any) {
@@ -163,7 +163,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       `;
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
-      connection.end();
+      connection.release();
       logger.log(query);
       return rows;
     } catch (error: any) {
@@ -233,7 +233,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.commit();
 
-      await connection.end();
+      await connection.release();
 
       return `Quote #${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
@@ -260,7 +260,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       ]);
       logger.log(quoteQuery);
       await connection.commit();
-      await connection.end();
+      await connection.release();
       return `Quote #${id} updated successfully`;
     } catch (error: any) {
       throw new Error(`Error in signQuote Repo: ${error.message}`);

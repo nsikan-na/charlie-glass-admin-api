@@ -6,7 +6,9 @@ export const useLoginRepo = () => {
     try {
       const connection = await dbConnection();
       let query = `
-        SELECT name
+        SELECT 
+        id as userId, 
+        name as userName
         FROM user
         WHERE username = ?
         and password = ?
@@ -20,13 +22,9 @@ export const useLoginRepo = () => {
         password,
       ]);
 
-      connection.end();
+      connection.release();
 
-      if (rows.length === 0) {
-        return "Invalid username or password";
-      }
-
-      return rows[0];
+      return rows;
     } catch (error: any) {
       throw new Error(`Error in login Repo: ${error.message}`);
     }
