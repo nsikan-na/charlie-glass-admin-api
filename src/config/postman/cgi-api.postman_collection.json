@@ -113,14 +113,14 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{LOCALHOST_BASE_URL}}/api/v1/quote/1",
+							"raw": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1",
 							"host": [
 								"{{LOCALHOST_BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"quote",
+								"quotes",
 								"1"
 							],
 							"query": [
@@ -169,7 +169,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quote/1/1"
+						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/1"
 					},
 					"response": []
 				},
@@ -187,7 +187,7 @@
 								}
 							}
 						},
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quote/1/add"
+						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/add"
 					},
 					"response": []
 				},
@@ -196,7 +196,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quote/1/services"
+						"url": "{{LOCALHOST_BASE_URL}}/api/v1/quotes/1/services"
 					},
 					"response": []
 				}

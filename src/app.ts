@@ -22,7 +22,7 @@ app.get<{}, MessageResponse>("/", (req, res) => {
   });
 });
 
-app.use("/api/v1/quote", QuoteController);
+app.use("/api/v1/quotes", QuoteController);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);
