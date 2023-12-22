@@ -73,7 +73,7 @@ router.post<{}, MessageResponse>(
   }
 );
 
-router.patch<{}, MessageResponse>(
+router.post<{}, MessageResponse>(
   "/:user_id/sign/:id",
   async (req: Request, res: Response) => {
     const { user_id, id } = req.params;
