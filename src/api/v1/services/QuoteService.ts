@@ -24,7 +24,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
       });
       return queryResult.map((quote: any) => ({
         ...quote,
-        quote_services: quote?.quote_services?.split(","),
+        services: quote?.services?.split(","),
       }));
     } catch (error: any) {
       throw new Error(`Error retrieving quotes: ${error.message}`);
