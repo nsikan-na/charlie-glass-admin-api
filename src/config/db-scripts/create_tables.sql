@@ -10,7 +10,7 @@ CREATE TABLE quote (
 );
 
 DROP TABLE IF EXISTS quote_receiver;
-CREATE TABLE quote_receiver (s
+CREATE TABLE quote_receiver (
     id INT AUTO_INCREMENT PRIMARY KEY,
     quote_id INT,
     name VARCHAR(255),
