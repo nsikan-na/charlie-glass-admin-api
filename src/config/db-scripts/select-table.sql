@@ -1,8 +1,0 @@
--- select * from invoice;
--- select * from invoice_cart;
--- select * from invoice_service;
--- select * from service;
--- select * from invoice_receiver_info;
--- select DISTINCT id,user_id 
--- from invoice_service_view
--- where user_id = '5'
