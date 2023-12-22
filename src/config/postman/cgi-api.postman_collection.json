@@ -71,7 +71,7 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{BASE_URL}}/api/v1/quotes/1/12"
+						"url": "{{BASE_URL}}/api/v1/quotes/1/1"
 					},
 					"response": []
 				},
@@ -91,7 +91,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"receiver_name\": \"Jon\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
+							"raw": "{\n    \"receiver_name\": \"Jon Jones\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -110,14 +110,14 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"expense\": 10,\n    \"signature_date\": \"2023-12-15\"\n}",
+							"raw": "{\n    \"expense\": 10,\n    \"signature_date\": \"2023-12-25\"\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{BASE_URL}}/api/v1/quotes/1/sign/12",
+						"url": "{{BASE_URL}}/api/v1/quotes/1/sign/1",
 						"description": "\n### Add Quote\nThis endpoint allows the user to add a new quote with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the quote.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the quote is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the quote is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the quote.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
 					},
 					"response": []
@@ -128,12 +128,12 @@
 			"name": "widgets",
 			"item": [
 				{
-					"name": "profit_widget",
+					"name": "profitWidget",
 					"request": {
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/reports/1/profit?fromDate=2023-12-20&toDate=2023-12-31",
+							"raw": "{{BASE_URL}}/api/v1/reports/1/profit",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -147,11 +147,46 @@
 							"query": [
 								{
 									"key": "fromDate",
-									"value": "2023-12-20"
+									"value": "2023-12-01",
+									"disabled": true
 								},
 								{
 									"key": "toDate",
-									"value": "2023-12-31"
+									"value": "2023-12-31",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "serviceWidget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/reports/1/services",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"1",
+								"services"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2023-12-01",
+									"disabled": true
+								},
+								{
+									"key": "toDate",
+									"value": "2023-12-31",
+									"disabled": true
 								}
 							]
 						}
