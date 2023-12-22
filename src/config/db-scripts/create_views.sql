@@ -79,8 +79,8 @@
 
 
 
--- DROP VIEW IF EXISTS profit_widget_view;
--- CREATE VIEW profit_widget_view AS
+-- DROP VIEW IF EXISTS profit_view;
+-- CREATE VIEW profit_view AS
 --     SELECT
 --     user_id,
 --     signature_date,
@@ -105,7 +105,7 @@
 -- ) AS test
 -- GROUP BY
 --     user_id, signature_date, expense;
--- SELECT * FROM profit_widget_view;
+-- SELECT * FROM profit_view;
 
 
 
