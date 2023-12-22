@@ -21,7 +21,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       revenue,
       expense,
       profit
-      FROM profit_view
+      FROM profit_report_view
       WHERE user_id = ?
     `;
 
