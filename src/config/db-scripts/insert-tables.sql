@@ -1,14 +1,14 @@
 TRUNCATE table quote;
 INSERT INTO quote (user_id, expense, creation_date, isSigned, signature_date, isActive) VALUES
-(1, NULL, '2024-11-05', 0, NULL, 1),
-(1, NULL, '2024-11-15', 0, NULL, 1),
-(1, NULL, '2024-12-02', 0, NULL, 1),
-(2, NULL, '2024-11-08', 0, NULL, 1),
-(2, NULL, '2024-11-25', 0, NULL, 1),
-(2, NULL, '2024-12-10', 0, NULL, 1),
-(3, NULL, '2024-11-20', 0, NULL, 1),
-(3, NULL, '2024-11-28', 0, NULL, 1),
-(3, NULL, '2024-12-15', 0, NULL, 1);
+(1, NULL, '2023-11-05', 0, NULL, 1),
+(1, NULL, '2023-11-15', 0, NULL, 1),
+(1, NULL, '2023-12-02', 0, NULL, 1),
+(2, NULL, '2023-11-08', 0, NULL, 1),
+(2, NULL, '2023-11-25', 0, NULL, 1),
+(2, NULL, '2023-12-10', 0, NULL, 1),
+(3, NULL, '2023-11-20', 0, NULL, 1),
+(3, NULL, '2023-11-28', 0, NULL, 1),
+(3, NULL, '2023-12-15', 0, NULL, 1);
 -- select * from quote;
 
 
