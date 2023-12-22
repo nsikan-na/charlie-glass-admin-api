@@ -1,11 +1,11 @@
-import express, { Request, Response } from "express";
+import express from "express";
 
 import MessageResponse from "../../../interfaces/MessageResponse";
 import { useLoginService } from "./LoginService";
 
 const router = express.Router();
 
-router.post<{}, MessageResponse>("/", async (req: Request, res: Response) => {
+router.post<{}, MessageResponse>("/", async (req: any, res: any) => {
   const { username, password } = req.body;
   const { login } = useLoginService();
   try {

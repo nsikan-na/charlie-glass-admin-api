@@ -26,8 +26,8 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 });
 
 app.use("/api/v1/login", LoginController);
-app.use("/api/v1/quotes", QuoteController);
-app.use("/api/v1/reports", ReportController);
+app.use("/api/v1/:user_id/quotes", verifyToken, QuoteController);
+app.use("/api/v1/:user_id/reports", verifyToken, ReportController);
 
 app.use(middlewares.notFound);
 app.use(middlewares.errorHandler);

@@ -1,7 +1,8 @@
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { useLoginRepo } from "./LoginRepo";
-import { EXPIRATION_TIME } from "../../../middlewares/verifyToken";
+
+export const EXPIRATION_TIME = "1hr";
 
 export const useLoginService = () => {
   const login = async ({ username, password }: any) => {
@@ -10,7 +11,7 @@ export const useLoginService = () => {
       const queryResult = await loginRepo({ username, password });
 
       if (queryResult.length === 0) {
-        return "Invalid username or password";
+        throw new Error("Invalid username or password");
       }
 
       const user = queryResult[0];
