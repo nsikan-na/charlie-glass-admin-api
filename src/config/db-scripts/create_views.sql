@@ -7,7 +7,7 @@ SELECT
     q.isSigned,
     q.signature_date,
     qr.name AS receiver_name,
-    GROUP_CONCAT(qs.service_label) AS service_array
+    GROUP_CONCAT(qs.service_label) AS services
 FROM quote q
 LEFT JOIN quote_receiver qr ON q.id = qr.quote_id
 LEFT JOIN (
