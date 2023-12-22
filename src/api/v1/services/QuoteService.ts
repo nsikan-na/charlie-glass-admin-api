@@ -35,17 +35,17 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       const {
         getQuoteById,
-        getQuoteCartById,
+        getQuoteItemsById,
         getQuoteServicesById,
         getQuoteReceiverInfoById,
       } = useQuoteRepo({ user_id });
       const quote: any = await getQuoteById({ id });
       if (quote.length === 0) return {};
-      const quoteCart = await getQuoteCartById({ id });
+      const quoteItems = await getQuoteItemsById({ id });
       const quoteServices = await getQuoteServicesById({ id });
       const quoteReceiverInfo: any = await getQuoteReceiverInfoById({ id });
       const output = { ...quote[0], ...quoteReceiverInfo[0] };
-      output["cart"] = quoteCart;
+      output["items"] = quoteItems;
       output["services"] = quoteServices;
       return output;
     } catch (error: any) {

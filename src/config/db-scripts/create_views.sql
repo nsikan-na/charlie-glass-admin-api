@@ -1,7 +1,7 @@
 CREATE OR REPLACE VIEW quote_summary_view AS
 SELECT
-    q.id AS quote_id,
     q.user_id,
+    q.id AS quote_id,
     q.creation_date,
     q.expense, 
     q.isSigned,
@@ -28,6 +28,7 @@ SELECT * FROM quote_summary_view;
 DROP VIEW IF EXISTS quote_item_view;
 CREATE VIEW quote_item_view AS
 SELECT
+    q.user_id,
     qi.quote_id,
     qi.id as item_id,
     qi.description as item_description,
@@ -45,6 +46,7 @@ SELECT * FROM quote_item_view;
 DROP VIEW IF EXISTS quote_service_view;
 CREATE VIEW quote_service_view AS
 SELECT
+    q.user_id,
     qs.quote_id,
     qs.service_id,
     s.label as service_label
@@ -62,6 +64,7 @@ SELECT * FROM quote_service_view;
 DROP VIEW IF EXISTS quote_receiver_view;
 CREATE VIEW quote_receiver_view AS
 SELECT
+    q.user_id,
     q.id as quote_id,
     qr.name as receiver_name,
     qr.street as receiver_street,

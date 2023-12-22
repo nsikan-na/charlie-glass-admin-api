@@ -40,7 +40,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         query += ` AND quote_id LIKE ?`;
         params.push(`%${quote_id}%`);
       }
-      
+
       if (isSigned === "true") {
         query += ` AND isSigned = '1'`;
       } else if (isSigned === "false") {
@@ -115,18 +115,18 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getQuoteCartById = async ({ id }: { id: string }) => {
+  const getQuoteItemsById = async ({ id }: { id: string }) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
       const query = `
       SELECT 
-      cart_item_id, 
-      description,
-      quantity,
-      price
-      FROM quote_cart_view
+      item_id, 
+      item_description,
+      item_quantity,
+      item_price
+      FROM quote_item_view
       where user_id = ?
       and quote_id = ?;
       `;
@@ -177,7 +177,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       receiver_city,
       receiver_state,
       receiver_zip
-      FROM quote_receiver_info_view
+      FROM quote_receiver_view
       where user_id = ? 
       and quote_id = ?;
       `;
@@ -265,7 +265,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     getAllQuotes,
     getQuoteById,
     getQuoteServicesById,
-    getQuoteCartById,
+    getQuoteItemsById,
     saveQuote,
     getQuoteReceiverInfoById,
     getAllServices,
