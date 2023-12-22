@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req: any, res: any, next: any) => {
   // remove when need auth
-  req.user = { user_id: "1" };
+  req.user = { user_id: req.params.user_id };
   next();
 
   // const token =
