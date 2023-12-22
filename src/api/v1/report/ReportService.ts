@@ -1,4 +1,4 @@
-import { useReportRepo } from "../infra/ReportRepo";
+import { useReportRepo } from "./ReportRepo";
 import _ from "lodash";
 
 export const useReportService = ({ user_id }: { user_id: string }) => {

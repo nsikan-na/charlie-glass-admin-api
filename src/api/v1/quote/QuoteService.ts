@@ -1,4 +1,4 @@
-import { useQuoteRepo } from "../infra/QuoteRepo";
+import { useQuoteRepo } from "./QuoteRepo";
 import _ from "lodash";
 
 export const useQuoteService = ({ user_id }: { user_id: string }) => {

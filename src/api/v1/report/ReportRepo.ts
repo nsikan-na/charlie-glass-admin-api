@@ -1,20 +1,10 @@
-import * as mysql from "mysql2/promise";
+import dbConnection from "../../../config/db-connection";
+import logger from "../../../util/logger";
 
 export const useReportRepo = ({ user_id }: { user_id: string }) => {
-  const logger = console;
-  // const pool = mysql.createPool({
-  //   connectionLimit: 10, // Adjust as needed
-  //   host: process.env.DB_HOST,
-  //   user: process.env.DB_USER,
-  //   password: process.env.DB_PASSWORD,
-  //   database: process.env.DB_DATABASE,
-  // });
-
   const getProfitData = async ({ toDate, fromDate }: any) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       let query = `
       SELECT 
       signature_date,
@@ -45,9 +35,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
   };
   const getServiceData = async ({ toDate, fromDate }: any) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       let query = `
       SELECT 
       service_id, 

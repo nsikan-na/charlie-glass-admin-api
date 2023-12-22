@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
-import MessageResponse from "../interfaces/MessageResponse";
-import { useReportService } from "../services/ReportService";
+import MessageResponse from "../../../interfaces/MessageResponse";
+import { useReportService } from "./ReportService";
 
 const router = express.Router();
 

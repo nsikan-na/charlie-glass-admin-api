@@ -1,15 +1,7 @@
-import * as mysql from "mysql2/promise";
+import logger from "../../../util/logger";
+import dbConnection from "../../../config/db-connection";
 
 export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
-  const logger = console;
-  // const pool = mysql.createPool({
-  //   connectionLimit: 10, // Adjust as needed
-  //   host: process.env.DB_HOST,
-  //   user: process.env.DB_USER,
-  //   password: process.env.DB_PASSWORD,
-  //   database: process.env.DB_DATABASE,
-  // });
-
   const getAllQuotes = async ({
     name,
     quote_id,
@@ -20,9 +12,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     isSigned,
   }: any) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       let query = `
       SELECT *
       FROM quote_summary_view
@@ -76,9 +66,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
   const getAllServices = async () => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       const query = `
       SELECT distinct id, label
       FROM service
@@ -96,9 +84,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
   const getQuoteById = async ({ id }: { id: string }) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       const query = `
   SELECT *
   FROM quote
@@ -117,9 +103,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
   const getQuoteItemsById = async ({ id }: { id: string }) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       const query = `
       SELECT 
       item_id, 
@@ -143,9 +127,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
   const getQuoteServicesById = async ({ id }: { id: string }) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       const query = `
       SELECT 
       service_id,
@@ -166,9 +148,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
   };
   const getQuoteReceiverInfoById = async ({ id }: { id: string }) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
 
       const query = `
       SELECT 
@@ -187,7 +167,9 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getQuoteReceiverInfoById Repo: ${error.message}`);
+      throw new Error(
+        `Error in getQuoteReceiverInfoById Repo: ${error.message}`
+      );
     }
   };
 
@@ -202,9 +184,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     services,
   }: any) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       await connection.beginTransaction();
       const quoteQuery = `INSERT INTO quote (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)`;
 
@@ -263,9 +243,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
   const signQuote = async ({ id, expense, signature_date }: any) => {
     try {
-      const connection = await mysql.createConnection(
-        process.env.DATABASE_URL || ""
-      );
+      const connection = await dbConnection();
       await connection.beginTransaction();
 
       const quoteQuery = `

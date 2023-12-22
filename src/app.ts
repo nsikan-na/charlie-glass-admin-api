@@ -3,10 +3,10 @@ import morgan from "morgan";
 import helmet from "helmet";
 import cors from "cors";
 
-import * as middlewares from "./api/v1/middlewares/middlewares";
-import QuoteController from "./api/v1/controller/QuoteController";
-import MessageResponse from "./api/v1/interfaces/MessageResponse";
-import ReportController from "./api/v1/controller/ReportController";
+import * as middlewares from "./middlewares/middlewares";
+import QuoteController from "./api/v1/quote/QuoteController";
+import MessageResponse from "./interfaces/MessageResponse";
+import ReportController from "./api/v1/report/ReportController";
 
 require("dotenv").config();
 
