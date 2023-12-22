@@ -40,7 +40,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       connection.end();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getAllQuotes Repo: ${error.message}`);
+      throw new Error(`Error in getProfitData Repo: ${error.message}`);
     }
   };
   const getServiceData = async ({ toDate, fromDate }: any) => {
@@ -49,27 +49,30 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
         process.env.DATABASE_URL || ""
       );
       let query = `
-      SELECT *
-      FROM quote_service_view
-      WHERE user_id = ?
+      SELECT 
+      service_id, 
+      service_label,
+      sum(service_count) as service_count
+      FROM service_count_report_view
+      where user_id = ?
     `;
 
       const params: (string | number)[] = [user_id];
 
-      // if (toDate && fromDate) {
-      //   query += ` AND signature_date between ? and ?`;
-      //   params.push(`${fromDate}`);
-      //   params.push(`${toDate}`);
-      // }
+      if (toDate && fromDate) {
+        query += ` AND signature_date between ? and ?`;
+        params.push(`${fromDate}`);
+        params.push(`${toDate}`);
+      }
 
-      // query += ` ORDER BY signature_date DESC`;
+      query += ` group by service_id, service_label`;
 
       logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
       connection.end();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getAllQuotes Repo: ${error.message}`);
+      throw new Error(`Error in getServiceData Repo: ${error.message}`);
     }
   };
 
