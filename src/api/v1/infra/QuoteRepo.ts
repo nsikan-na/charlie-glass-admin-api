@@ -1,6 +1,6 @@
 import * as mysql from "mysql2/promise";
 
-export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
+export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
   const logger = console;
   // const pool = mysql.createPool({
   //   connectionLimit: 10, // Adjust as needed
@@ -10,13 +10,14 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   //   database: process.env.DB_DATABASE,
   // });
 
-  const getAllInvoices = async ({
+  const getAllQuotes = async ({
     name,
-    invoice_id,
+    quote_id,
     toDate,
     fromDate,
     page,
     pageSize,
+    isSigned,
   }: any) => {
     try {
       const connection = await mysql.createConnection(
@@ -24,7 +25,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       );
       let query = `
       SELECT *
-      FROM invoice_view
+      FROM quote_summary_view
       WHERE user_id = ?
     `;
 
@@ -35,17 +36,25 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         params.push(`%${name}%`);
       }
 
-      if (invoice_id) {
-        query += ` AND invoice_id LIKE ?`;
-        params.push(`%${invoice_id}%`);
+      if (quote_id) {
+        query += ` AND quote_id LIKE ?`;
+        params.push(`%${quote_id}%`);
       }
+      
+      if (isSigned === "true") {
+        query += ` AND isSigned = '1'`;
+      } else if (isSigned === "false") {
+        query += ` AND isSigned = '0'`;
+      } else {
+      }
+
       if (toDate && fromDate) {
-        query += ` AND invoice_creation_date between ? and ?`;
+        query += ` AND creation_date between ? and ?`;
         params.push(`${fromDate}`);
         params.push(`${toDate}`);
       }
 
-      query += ` ORDER BY invoice_id DESC`;
+      query += ` ORDER BY quote_id DESC`;
 
       if (page && pageSize) {
         if (+page <= 0) {
@@ -61,7 +70,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       connection.end();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
 
@@ -81,18 +90,18 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
 
-  const getInvoiceById = async ({ id }: { id: string }) => {
+  const getQuoteById = async ({ id }: { id: string }) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
       );
       const query = `
   SELECT *
-  FROM invoice
+  FROM quote
   where user_id = ?
   and id = ?
 `;
@@ -102,11 +111,11 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
 
-  const getInvoiceCartById = async ({ id }: { id: string }) => {
+  const getQuoteCartById = async ({ id }: { id: string }) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
@@ -117,9 +126,9 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       description,
       quantity,
       price
-      FROM invoice_cart_view
+      FROM quote_cart_view
       where user_id = ?
-      and invoice_id = ?;
+      and quote_id = ?;
       `;
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
@@ -128,11 +137,11 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
 
-  const getInvoiceServicesById = async ({ id }: { id: string }) => {
+  const getQuoteServicesById = async ({ id }: { id: string }) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
@@ -141,9 +150,9 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       SELECT 
       service_id,
       service_label
-      FROM invoice_service_view
+      FROM quote_service_view
       where user_id = ? 
-      and invoice_id = ?;
+      and quote_id = ?;
       `;
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
@@ -152,10 +161,10 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
-  const getInvoiceReceiverInfoById = async ({ id }: { id: string }) => {
+  const getQuoteReceiverInfoById = async ({ id }: { id: string }) => {
     try {
       const connection = await mysql.createConnection(
         process.env.DATABASE_URL || ""
@@ -168,9 +177,9 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       receiver_city,
       receiver_state,
       receiver_zip
-      FROM invoice_receiver_info_view
+      FROM quote_receiver_info_view
       where user_id = ? 
-      and invoice_id = ?;
+      and quote_id = ?;
       `;
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
@@ -178,11 +187,11 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving invoices: ${error.message}`);
+      throw new Error(`Error retrieving quotes: ${error.message}`);
     }
   };
 
-  const saveInvoice = async ({
+  const saveQuote = async ({
     receiver_name,
     creation_date,
     street,
@@ -197,17 +206,17 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         process.env.DATABASE_URL || ""
       );
       await connection.beginTransaction();
-      const invoiceQuery = `INSERT INTO invoice (user_id, creation_date) VALUES (?, ?)`;
+      const quoteQuery = `INSERT INTO quote (user_id, creation_date) VALUES (?, ?)`;
 
-      const [insertTable1]: any = await connection.execute(invoiceQuery, [
+      const [insertTable1]: any = await connection.execute(quoteQuery, [
         user_id,
         creation_date,
       ]);
-      logger.log(invoiceQuery);
+      logger.log(quoteQuery);
       const lastPrimaryKey = insertTable1.insertId;
 
       const receiverInfoQuery =
-        "INSERT INTO invoice_receiver_info (invoice_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
+        "INSERT INTO quote_receiver_info (quote_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
 
       await connection.execute(receiverInfoQuery, [
         lastPrimaryKey,
@@ -220,7 +229,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       logger.log(receiverInfoQuery);
 
       const cartQuery =
-        "INSERT INTO invoice_cart (invoice_id, description, quantity, price) VALUES (?, ?, ?, ?);";
+        "INSERT INTO quote_cart (quote_id, description, quantity, price) VALUES (?, ?, ?, ?);";
       logger.log(cart);
       await Promise.all(
         cart.map((cartItem: any) =>
@@ -234,7 +243,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       );
 
       const serviceQuery =
-        "INSERT INTO invoice_service (invoice_id, service_id) VALUES (?, ?);";
+        "INSERT INTO quote_service (quote_id, service_id) VALUES (?, ?);";
       logger.log(serviceQuery);
       await Promise.all(
         services.map((service_id: any) =>
@@ -246,19 +255,19 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.end();
 
-      return `Invoice ${lastPrimaryKey} saved successfully`;
+      return `Quote ${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
-      throw new Error(`Error saving invoices: ${error.message}`);
+      throw new Error(`Error saving quotes: ${error.message}`);
     }
   };
 
   return {
-    getAllInvoices,
-    getInvoiceById,
-    getInvoiceServicesById,
-    getInvoiceCartById,
-    saveInvoice,
-    getInvoiceReceiverInfoById,
+    getAllQuotes,
+    getQuoteById,
+    getQuoteServicesById,
+    getQuoteCartById,
+    saveQuote,
+    getQuoteReceiverInfoById,
     getAllServices,
   };
 };

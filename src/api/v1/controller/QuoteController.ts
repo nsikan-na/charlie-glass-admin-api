@@ -1,7 +1,7 @@
 import express, { Request, Response } from "express";
 
 import MessageResponse from "../interfaces/MessageResponse";
-import { useInvoiceService } from "../services/InvoiceServices";
+import { useQuoteService } from "../services/QuoteService";
 
 const router = express.Router();
 
@@ -9,7 +9,7 @@ router.get<{}, MessageResponse>(
   "/:user_id/services",
   async (req: Request, res: Response) => {
     const { user_id } = req.params;
-    const { getAllServices } = useInvoiceService({ user_id });
+    const { getAllServices } = useQuoteService({ user_id });
     try {
       return res.send(await getAllServices());
     } catch (error) {
@@ -23,9 +23,9 @@ router.get<{}, MessageResponse>(
   "/:user_id/:id",
   async (req: Request, res: Response) => {
     const { user_id, id } = req.params;
-    const { getInvoiceById } = useInvoiceService({ user_id });
+    const { getQuoteById } = useQuoteService({ user_id });
     try {
-      return res.send(await getInvoiceById({ id }));
+      return res.send(await getQuoteById({ id }));
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
@@ -37,17 +37,19 @@ router.get<{}, MessageResponse>(
   "/:user_id",
   async (req: Request, res: Response) => {
     const { user_id } = req.params;
-    const { name, invoice_id, fromDate, toDate, page, pageSize } = req.query;
-    const { getAllInvoices } = useInvoiceService({ user_id });
+    const { name, quote_id, fromDate, toDate, page, pageSize, isSigned } =
+      req.query;
+    const { getAllQuotes } = useQuoteService({ user_id });
     try {
       return res.send(
-        await getAllInvoices({
+        await getAllQuotes({
           name,
-          invoice_id,
+          quote_id,
           fromDate,
           toDate,
           page,
           pageSize,
+          isSigned,
         })
       );
     } catch (error) {
@@ -61,9 +63,9 @@ router.post<{}, MessageResponse>(
   "/:user_id/add",
   async (req: Request, res: Response) => {
     const { user_id } = req.params;
-    const { saveInvoice } = useInvoiceService({ user_id });
+    const { saveQuote } = useQuoteService({ user_id });
     try {
-      return res.send(await saveInvoice(req.body));
+      return res.send(await saveQuote(req.body));
     } catch (error) {
       console.error(error);
       res.status(500).json({ message: "Internal Server Error" });
