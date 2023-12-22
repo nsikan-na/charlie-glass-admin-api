@@ -77,33 +77,35 @@
 -- SELECT *  FROM quote_receiver_view;
 
 
-DROP VIEW IF EXISTS profit_widget_view;
-CREATE VIEW profit_widget_view AS
-    SELECT
-    user_id,
-    signature_date,
-    SUM(revenue) as revenue,
-    sum(expense) as expense,
-    SUM(revenue) - sum(expense) as profit
-FROM (
-    SELECT
-        q.user_id,
-        q.signature_date,
-        expense,
-        SUM(qi.price) as revenue
-    FROM
-        quote q
-    LEFT JOIN quote_item qi ON q.id = qi.quote_id
-    WHERE
-        q.isActive = '1'
-        AND qi.isActive = '1'
-        AND q.isSigned = '1'
-    GROUP BY
-        q.user_id, q.signature_date, q.expense, q.id
-) AS test
-GROUP BY
-    user_id, signature_date, expense;
-SELECT * FROM profit_widget_view;
+
+
+-- DROP VIEW IF EXISTS profit_widget_view;
+-- CREATE VIEW profit_widget_view AS
+--     SELECT
+--     user_id,
+--     signature_date,
+--     SUM(revenue) as revenue,
+--     sum(expense) as expense,
+--     SUM(revenue) - sum(expense) as profit
+-- FROM (
+--     SELECT
+--         q.user_id,
+--         q.signature_date,
+--         expense,
+--         SUM(qi.price) as revenue
+--     FROM
+--         quote q
+--     LEFT JOIN quote_item qi ON q.id = qi.quote_id
+--     WHERE
+--         q.isActive = '1'
+--         AND qi.isActive = '1'
+--         AND q.isSigned = '1'
+--     GROUP BY
+--         q.user_id, q.signature_date, q.expense, q.id
+-- ) AS test
+-- GROUP BY
+--     user_id, signature_date, expense;
+-- SELECT * FROM profit_widget_view;
 
 
 
