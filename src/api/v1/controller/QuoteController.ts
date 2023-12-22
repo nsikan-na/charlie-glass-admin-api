@@ -73,4 +73,18 @@ router.post<{}, MessageResponse>(
   }
 );
 
+router.patch<{}, MessageResponse>(
+  "/:user_id/sign/:id",
+  async (req: Request, res: Response) => {
+    const { user_id, id } = req.params;
+    const { signQuote } = useQuoteService({ user_id });
+    try {
+      return res.send(await signQuote({ id, ...req.body }));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
+
 export default router;

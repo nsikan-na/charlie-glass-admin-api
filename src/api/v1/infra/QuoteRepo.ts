@@ -70,7 +70,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       connection.end();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getAllQuotes: ${error.message}`);
     }
   };
 
@@ -90,7 +90,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getAllServices: ${error.message}`);
     }
   };
 
@@ -111,7 +111,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getQuoteById: ${error.message}`);
     }
   };
 
@@ -137,7 +137,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getQuoteItemsById: ${error.message}`);
     }
   };
 
@@ -161,7 +161,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getQuoteServicesById: ${error.message}`);
     }
   };
   const getQuoteReceiverInfoById = async ({ id }: { id: string }) => {
@@ -187,7 +187,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error retrieving quotes: ${error.message}`);
+      throw new Error(`Error in getQuoteReceiverInfoById: ${error.message}`);
     }
   };
 
@@ -255,9 +255,37 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.end();
 
-      return lastPrimaryKey;
+      return `Quote #${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
-      throw new Error(`Error saving quotes: ${error.message}`);
+      throw new Error(`Error in saveQuote: ${error.message}`);
+    }
+  };
+
+  const signQuote = async ({ id, expense, signature_date }: any) => {
+    try {
+      const connection = await mysql.createConnection(
+        process.env.DATABASE_URL || ""
+      );
+      await connection.beginTransaction();
+
+      const quoteQuery = `
+      Update quote
+      set isSigned = 1, expense = ?, signature_date = ?
+      where user_id = ? and id = ?;
+      `;
+
+      await connection.execute(quoteQuery, [
+        expense,
+        signature_date,
+        user_id,
+        id,
+      ]);
+      logger.log(quoteQuery);
+      await connection.commit();
+      await connection.end();
+      return `Quote #${id} updated successfully`;
+    } catch (error: any) {
+      throw new Error(`Error in signQuote: ${error.message}`);
     }
   };
 
@@ -269,5 +297,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     saveQuote,
     getQuoteReceiverInfoById,
     getAllServices,
+    signQuote,
   };
 };

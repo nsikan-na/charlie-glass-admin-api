@@ -64,7 +64,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
     try {
-      const newQuoteId = await saveQuote({
+      return await saveQuote({
         receiver_name,
         creation_date: new Date(
           new Date().toLocaleDateString("en-US", {
@@ -80,11 +80,11 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         items,
         services,
       });
-      return getQuoteById({ id: newQuoteId });
     } catch (error: any) {
       throw new Error(`Error saving quotes: ${error.message}`);
     }
   };
+
   const getAllServices: any = async () => {
     const { getAllServices } = useQuoteRepo({ user_id });
     try {
@@ -94,5 +94,14 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  return { getAllQuotes, saveQuote, getQuoteById, getAllServices };
+  const signQuote: any = async ({ id, expense, signature_date }: any) => {
+    const { signQuote } = useQuoteRepo({ user_id });
+    try {
+      return await signQuote({ id, expense, signature_date });
+    } catch (error: any) {
+      throw new Error(`Error saving quotes: ${error.message}`);
+    }
+  };
+
+  return { getAllQuotes, saveQuote, getQuoteById, getAllServices, signQuote };
 };
