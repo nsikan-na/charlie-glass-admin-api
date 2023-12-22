@@ -79,7 +79,7 @@
 
 
 
--- DROP VIEW IF EXISTS profit_view;
+-- DROP VIEW IF EXISTS profit_report_view;
 -- CREATE VIEW profit_view AS
 --     SELECT
 --     user_id,
@@ -106,6 +106,25 @@
 -- GROUP BY
 --     user_id, signature_date, expense;
 -- SELECT * FROM profit_view;
+
+
+
+DROP VIEW IF EXISTS service_report_view;
+CREATE VIEW service_report_view AS
+SELECT
+    q.user_id,
+    q.signature_date,
+    qs.quote_id,
+    qs.service_id,
+    s.label as service_label
+FROM
+    quote_service qs
+LEFT JOIN quote q ON q.id = qs.quote_id
+LEFT JOIN service s ON qs.service_id = s.id
+where q.isActive = '1'
+and qs.isActive = '1'
+AND q.isSigned = '1';
+SELECT * FROM service_report_view;
 
 
 

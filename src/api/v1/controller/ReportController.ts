@@ -20,4 +20,19 @@ router.get<{}, MessageResponse>(
   }
 );
 
+router.get<{}, MessageResponse>(
+  "/:user_id/services",
+  async (req: Request, res: Response) => {
+    const { user_id } = req.params;
+    const { fromDate, toDate } = req.query;
+    const { getServiceData } = useReportService({ user_id });
+    try {
+      return res.send(await getServiceData({ fromDate, toDate }));
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
+
 export default router;

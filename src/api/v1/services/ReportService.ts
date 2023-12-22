@@ -27,6 +27,19 @@ export const useReportService = ({ user_id }: { user_id: string }) => {
       throw new Error(`Error in getProfitData Service: ${error.message}`);
     }
   };
+  const getServiceData = async ({ fromDate, toDate }: any) => {
+    try {
+      const { getServiceData } = useReportRepo({ user_id });
+      const queryResult: any = await getServiceData({
+        fromDate,
+        toDate,
+      });
 
-  return { getProfitData };
+      return queryResult;
+    } catch (error: any) {
+      throw new Error(`Error in getProfitData Service: ${error.message}`);
+    }
+  };
+
+  return { getProfitData, getServiceData };
 };
