@@ -2,7 +2,7 @@ import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { useLoginRepo } from "./LoginRepo";
 
-export const EXPIRATION_TIME = "24hr";
+export const EXPIRATION_TIME = "3hr";
 
 export const useLoginService = () => {
   const login = async ({ username, password }: any) => {
