@@ -1,6 +1,10 @@
 const jwt = require("jsonwebtoken");
 
 const verifyToken = async (req: any, res: any, next: any) => {
+  // turn off auth
+  // req.user = { user_id: req.params.user_id };
+  // next();
+
   const token =
     req.headers.authorization && req.headers.authorization.split(" ")[1];
 
