@@ -352,13 +352,13 @@
 		{
 			"key": "BASE_URL",
 			"value": "https://charlie-glass-admin-api.vercel.app",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "BASE_URL",
 			"value": "http://127.0.0.1:8080",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
 			"key": "ACCESS_TOKEN",
