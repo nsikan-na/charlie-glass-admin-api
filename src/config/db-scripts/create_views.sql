@@ -84,6 +84,7 @@ DROP VIEW IF EXISTS profit_report_view;
 CREATE VIEW profit_report_view AS(
 
 Select 
+user_id,
 signature_date,
 sum(revenue) as revenue, 
 sum(expense) as expense, 
