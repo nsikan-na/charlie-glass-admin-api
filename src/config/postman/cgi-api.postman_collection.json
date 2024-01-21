@@ -197,7 +197,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/reports/profit?fromDate=2023-12-01&toDate=2023-12-31",
+							"raw": "{{BASE_URL}}/api/v1/reports/profit",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -210,11 +210,13 @@
 							"query": [
 								{
 									"key": "fromDate",
-									"value": "2023-12-01"
+									"value": "2023-12-01",
+									"disabled": true
 								},
 								{
 									"key": "toDate",
-									"value": "2023-12-31"
+									"value": "2023-12-31",
+									"disabled": true
 								}
 							]
 						}

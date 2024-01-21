@@ -1,28 +1,28 @@
-CREATE OR REPLACE VIEW quote_summary_view AS
-SELECT
-    q.user_id,
-    q.id AS quote_id,
-    q.creation_date,
-    sum(qi.price) as revenue,
-    q.expense, 
-    sum(qi.price) - q.expense as profit,
-    q.isSigned,
-    q.signature_date,
-    qr.name AS receiver_name
-FROM quote q
-LEFT JOIN quote_receiver qr ON q.id = qr.quote_id
-LEFT JOIN(
-    select 
-    qi.quote_id,
-    sum(qi.price) as price
-    from quote_item qi
-    where qi.isActive = '1'
-    group by qi.quote_id
-) as qi on q.id = qi.quote_id
-WHERE q.isActive = '1'
-GROUP BY
-    q.id, q.user_id, q.creation_date, q.expense, q.isSigned, q.signature_date, qr.name, qi.quote_id;
-SELECT * FROM quote_summary_view;
+-- CREATE OR REPLACE VIEW quote_summary_view AS
+-- SELECT
+--     q.user_id,
+--     q.id AS quote_id,
+--     q.creation_date,
+--     sum(qi.price) as revenue,
+--     q.expense, 
+--     sum(qi.price) - q.expense as profit,
+--     q.isSigned,
+--     q.signature_date,
+--     qr.name AS receiver_name
+-- FROM quote q
+-- LEFT JOIN quote_receiver qr ON q.id = qr.quote_id
+-- LEFT JOIN(
+--     select 
+--     qi.quote_id,
+--     sum(qi.price) as price
+--     from quote_item qi
+--     where qi.isActive = '1'
+--     group by qi.quote_id
+-- ) as qi on q.id = qi.quote_id
+-- WHERE q.isActive = '1'
+-- GROUP BY
+--     q.id, q.user_id, q.creation_date, q.expense, q.isSigned, q.signature_date, qr.name, qi.quote_id;
+-- SELECT * FROM quote_summary_view;
 
 
 
@@ -80,33 +80,43 @@ SELECT * FROM quote_summary_view;
 
 
 
--- DROP VIEW IF EXISTS profit_report_view;
--- CREATE VIEW profit_report_view AS
---     SELECT
---     user_id,
---     signature_date,
---     SUM(revenue) as revenue,
---     sum(expense) as expense,
---     SUM(revenue) - sum(expense) as profit
--- FROM (
---     SELECT
---         q.user_id,
---         q.signature_date,
---         expense,
---         SUM(qi.price) as revenue
---     FROM
---         quote q
---     LEFT JOIN quote_item qi ON q.id = qi.quote_id
---     WHERE
---         q.isActive = '1'
---         AND qi.isActive = '1'
---         AND q.isSigned = '1'
---     GROUP BY
---         q.user_id, q.signature_date, q.expense, q.id
--- ) AS test
--- GROUP BY
---     user_id, signature_date, expense;
--- SELECT * FROM profit_report_view;
+DROP VIEW IF EXISTS profit_report_view;
+CREATE VIEW profit_report_view AS(
+
+Select 
+signature_date,
+sum(revenue) as revenue, 
+sum(expense) as expense, 
+sum(revenue) - sum(expense) as profit
+from (
+    SELECT
+    q.user_id,
+    q.id AS quote_id,
+    q.creation_date,
+    sum(qi.price) as revenue,
+    q.expense, 
+    sum(qi.price) - q.expense as profit,
+    q.isSigned,
+    q.signature_date,
+    qr.name AS receiver_name
+FROM quote q
+LEFT JOIN quote_receiver qr ON q.id = qr.quote_id
+LEFT JOIN(
+    select 
+    qi.quote_id,
+    sum(qi.price) as price
+    from quote_item qi
+    where qi.isActive = '1'
+    group by qi.quote_id
+) as qi on q.id = qi.quote_id
+WHERE q.isActive = '1'
+GROUP BY
+    q.id, q.user_id, q.creation_date, q.expense, q.isSigned, q.signature_date, qr.name, qi.quote_id
+    ) as my_view
+where isSigned = '1'
+group by user_id, signature_date
+);
+SELECT * FROM profit_report_view;
 
 
 
