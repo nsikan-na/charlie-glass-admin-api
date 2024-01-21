@@ -74,4 +74,15 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   }
 });
 
+router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
+  const { user_id } = req.user;
+  const { resetQuotes } = useQuoteService({ user_id });
+  try {
+    return res.send(await resetQuotes());
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+});
+
 export default router;

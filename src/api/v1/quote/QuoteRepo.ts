@@ -267,6 +267,44 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
+  const resetQuotes = async () => {
+    try {
+      const connection = await dbConnection();
+
+      const deleteQuery = `
+      DELETE FROM quote where user_id = '1';
+      `;
+      const [deleteQueryRows, deleteQueryFields] = await connection.execute(
+        deleteQuery,
+        []
+      );
+
+      const insertQuery = `
+      INSERT INTO quote (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+      (1, 1, NULL, '2023-11-05', 0, NULL, 1),
+      (1, 2, NULL, '2023-11-15', 0, NULL, 1),
+      (1, 3, NULL, '2023-12-02', 0, NULL, 1),
+      (1, 4, NULL, '2023-11-08', 0, NULL, 1),
+      (1, 5, NULL, '2023-11-25', 0, NULL, 1),
+      (1, 6, NULL, '2023-12-10', 0, NULL, 1),
+      (1, 7, 27, '2023-11-20', 1, '2023-12-25', 1),
+      (1, 8, 50, '2023-11-28', 1, '2023-12-20', 1),
+      (1, 9, 35, '2023-12-15', 1, '2023-12-17', 1);
+      `;
+      const [insertRows, insertFields] = await connection.execute(
+        insertQuery,
+        []
+      );
+
+      connection.release();
+      logger.log(deleteQuery);
+      logger.log(insertQuery);
+      return `User 1 Quotes Reset`;
+    } catch (error: any) {
+      throw new Error(`Error in resetQuotes Repo: ${error.message}`);
+    }
+  };
+
   return {
     getAllQuotes,
     getQuoteById,
@@ -276,5 +314,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     getQuoteReceiverInfoById,
     getAllServices,
     signQuote,
+    resetQuotes,
   };
 };

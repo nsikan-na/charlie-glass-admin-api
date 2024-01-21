@@ -23,10 +23,6 @@ const verifyToken = async (req: any, res: any, next: any) => {
         .json({ message: "Unauthorized: Token has expired" });
     }
 
-    if (req.params.user_id !== decoded.userId.toString()) {
-      return res.status(401).json({ message: "Unauthorized: Invalid user id" });
-    }
-
     req.user = { ...decoded, user_id: decoded.userId.toString() };
     next();
   } catch (err) {

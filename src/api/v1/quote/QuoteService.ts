@@ -103,5 +103,21 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  return { getAllQuotes, saveQuote, getQuoteById, getAllServices, signQuote };
+  const resetQuotes: any = async () => {
+    const { resetQuotes } = useQuoteRepo({ user_id });
+    try {
+      return await resetQuotes();
+    } catch (error: any) {
+      throw new Error(`Error resetQuotes Service: ${error.message}`);
+    }
+  };
+
+  return {
+    getAllQuotes,
+    saveQuote,
+    getQuoteById,
+    getAllServices,
+    signQuote,
+    resetQuotes,
+  };
 };

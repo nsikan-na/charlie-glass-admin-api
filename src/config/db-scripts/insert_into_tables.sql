@@ -1,20 +1,19 @@
 -- TRUNCATE table user;
 -- INSERT INTO user (username, password, name, isActive) VALUES (NULL, NULL, 'Admin', 1);
--- INSERT INTO user (username, password, name, isActive) VALUES (NULL, NULL, 'DemoAdmin', 1);
 -- select * from user;
 
 
 TRUNCATE table quote;
-INSERT INTO quote (user_id, expense, creation_date, isSigned, signature_date, isActive) VALUES
-(1, NULL, '2023-11-05', 0, NULL, 1),
-(1, NULL, '2023-11-15', 0, NULL, 1),
-(1, NULL, '2023-12-02', 0, NULL, 1),
-(1, NULL, '2023-11-08', 0, NULL, 1),
-(1, NULL, '2023-11-25', 0, NULL, 1),
-(1, NULL, '2023-12-10', 0, NULL, 1),
-(1, NULL, '2023-11-20', 0, NULL, 1),
-(1, NULL, '2023-11-28', 0, NULL, 1),
-(1, NULL, '2023-12-15', 0, NULL, 1);
+ INSERT INTO quote (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+      (1, 1, NULL, '2023-11-05', 0, NULL, 1),
+      (1, 2, NULL, '2023-11-15', 0, NULL, 1),
+      (1, 3, NULL, '2023-12-02', 0, NULL, 1),
+      (1, 4, NULL, '2023-11-08', 0, NULL, 1),
+      (1, 5, NULL, '2023-11-25', 0, NULL, 1),
+      (1, 6, NULL, '2023-12-10', 0, NULL, 1),
+      (1, 7, 27, '2023-11-20', 1, '2023-12-25', 1),
+      (1, 8, 50, '2023-11-28', 1, '2023-12-20', 1),
+      (1, 9, 35, '2023-12-15', 1, '2023-12-17', 1);
 -- select * from quote;
 
 

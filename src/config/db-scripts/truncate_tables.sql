@@ -1,0 +1,6 @@
+-- TRUNCATE table user;
+-- TRUNCATE table quote;
+-- TRUNCATE table quote_item;
+-- TRUNCATE table quote_service;
+-- TRUNCATE table service;
+-- TRUNCATE table quote_receiver;
