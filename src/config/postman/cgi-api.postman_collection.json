@@ -2,7 +2,7 @@
 	"info": {
 		"_postman_id": "6097fdee-5fd4-409a-b1ab-c6d4ee38fe92",
 		"name": "cgi-api",
-		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "19570875"
 	},
 	"item": [
@@ -15,14 +15,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/1/quotes",
+							"raw": "{{BASE_URL}}/api/v1/quotes",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"1",
 								"quotes"
 							],
 							"query": [
@@ -71,7 +70,18 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{BASE_URL}}/api/v1/1/quotes/1"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/quotes/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quotes",
+								"1"
+							]
+						}
 					},
 					"response": []
 				},
@@ -80,7 +90,18 @@
 					"request": {
 						"method": "GET",
 						"header": [],
-						"url": "{{BASE_URL}}/api/v1/1/quotes/services"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/quotes/services",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quotes",
+								"services"
+							]
+						}
 					},
 					"response": []
 				},
@@ -98,7 +119,18 @@
 								}
 							}
 						},
-						"url": "{{BASE_URL}}/api/v1/1/quotes/add",
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/quotes/add",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quotes",
+								"add"
+							]
+						},
 						"description": "\n### Add Quote\nThis endpoint allows the user to add a new quote with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the quote.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the quote is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the quote is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the quote.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
 					},
 					"response": []
@@ -117,7 +149,39 @@
 								}
 							}
 						},
-						"url": "{{BASE_URL}}/api/v1/1/quotes/1/sign",
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/quotes/sign",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quotes",
+								"sign"
+							]
+						},
+						"description": "\n### Add Quote\nThis endpoint allows the user to add a new quote with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the quote.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the quote is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the quote is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the quote.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+					},
+					"response": []
+				},
+				{
+					"name": "resetQuotes",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/quotes/reset",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"quotes",
+								"reset"
+							]
+						},
 						"description": "\n### Add Quote\nThis endpoint allows the user to add a new quote with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the quote.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the quote is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the quote is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the quote.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
 					},
 					"response": []
@@ -133,27 +197,24 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/1/reports/profit",
+							"raw": "{{BASE_URL}}/api/v1/reports/profit?fromDate=2023-12-01&toDate=2023-12-31",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"1",
 								"reports",
 								"profit"
 							],
 							"query": [
 								{
 									"key": "fromDate",
-									"value": "2023-12-01",
-									"disabled": true
+									"value": "2023-12-01"
 								},
 								{
 									"key": "toDate",
-									"value": "2023-12-31",
-									"disabled": true
+									"value": "2023-12-31"
 								}
 							]
 						}
@@ -166,14 +227,13 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/1/reports/services",
+							"raw": "{{BASE_URL}}/api/v1/reports/services",
 							"host": [
 								"{{BASE_URL}}"
 							],
 							"path": [
 								"api",
 								"v1",
-								"1",
 								"reports",
 								"services"
 							],
@@ -202,23 +262,30 @@
 					"name": "login",
 					"request": {
 						"auth": {
-							"type": "bearer",
-							"bearer": {
-								"token": "{{ACCESS_TOKEN}}"
-							}
+							"type": "noauth"
 						},
 						"method": "POST",
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\r\n    \"username\": \"cgiadmin\",\r\n    \"password\": \"cgiadmin\"\r\n}",
+							"raw": "{\r\n    \"username\": \"cgiadmin\",\r\n    \"password\": \"cgiadminpass\"\r\n}",
 							"options": {
 								"raw": {
 									"language": "json"
 								}
 							}
 						},
-						"url": "{{BASE_URL}}/api/v1/login"
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
 					},
 					"response": []
 				}
@@ -227,9 +294,13 @@
 	],
 	"auth": {
 		"type": "bearer",
-		"bearer": {
-			"token": "{{ACCESS_TOKEN}}"
-		}
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ACCESS_TOKEN}}",
+				"type": "string"
+			}
+		]
 	},
 	"event": [
 		{
