@@ -1,4 +1,3 @@
-import logger from "../../../util/logger";
 import dbConnection from "../../../config/db-config/db-connection";
 
 export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
@@ -55,7 +54,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         params.push(+pageSize, +offset);
       }
 
-      logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
       connection.release();
       return rows;
@@ -75,7 +73,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(query, []);
 
       connection.release();
-      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`${error.message}`);
@@ -94,7 +91,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.release();
-      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`${error.message}`);
@@ -118,7 +114,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.release();
-      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`${error.message}`);
@@ -140,7 +135,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.release();
-      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(`${error.message}`);
@@ -164,7 +158,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
       connection.release();
-      logger.log(query);
       return rows;
     } catch (error: any) {
       throw new Error(
@@ -192,7 +185,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         user_id,
         creation_date,
       ]);
-      logger.log(quoteQuery);
       const lastPrimaryKey = insertTable1.insertId;
 
       const receiverInfoQuery =
@@ -206,11 +198,9 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         state,
         zip,
       ]);
-      logger.log(receiverInfoQuery);
 
       const itemsQuery =
         "INSERT INTO quote_item (quote_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
-      logger.log(items);
       await Promise.all(
         items.map((itemsItem: any) =>
           connection.execute(itemsQuery, [
@@ -224,7 +214,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       const serviceQuery =
         "INSERT INTO quote_service (quote_id, service_id, isActive) VALUES (?, ?, 1);";
-      logger.log(serviceQuery);
       await Promise.all(
         services.map((service_id: any) =>
           connection.execute(serviceQuery, [lastPrimaryKey, service_id])
@@ -258,7 +247,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         user_id,
         id,
       ]);
-      logger.log(quoteQuery);
       await connection.commit();
       await connection.release();
       return `Quote #${id} updated successfully`;
@@ -297,8 +285,6 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       connection.release();
-      logger.log(deleteQuery);
-      logger.log(insertQuery);
       return `User 1 Quotes Reset`;
     } catch (error: any) {
       throw new Error(`${error.message}`);

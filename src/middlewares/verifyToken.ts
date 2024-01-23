@@ -16,7 +16,7 @@ const verifyToken = async (req: any, res: any, next: any) => {
 
   try {
     const decoded = await jwt.verify(token, process.env.JWT_SECRET);
-    // logger.log("Decoded Token:", decoded);
+    logger.log(decoded);
 
     const currentTimestamp = Math.floor(Date.now() / 1000);
     if (decoded.exp < currentTimestamp) {

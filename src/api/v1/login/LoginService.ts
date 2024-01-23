@@ -1,11 +1,18 @@
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { useLoginRepo } from "./LoginRepo";
+import ValidationError from "../../../interfaces/ValidationError";
 
 export const EXPIRATION_TIME = "3hr";
 
 export const useLoginService = () => {
   const login = async ({ username, password }: any) => {
+    if (!username) {
+      throw new ValidationError("Please enter username.");
+    }
+    if (!username) {
+      throw new ValidationError("Please enter password.");
+    }
     try {
       const { login: loginRepo } = useLoginRepo();
       const queryResult = await loginRepo({ username, password });

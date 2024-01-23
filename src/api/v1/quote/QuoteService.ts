@@ -123,6 +123,14 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
 
   const signQuote: any = async ({ id, expense, signature_date }: any) => {
     const { signQuote } = useQuoteRepo({ user_id });
+
+    if (!expense) {
+      throw new ValidationError("Please enter an expense.");
+    }
+    if (!signature_date) {
+      throw new ValidationError("Please enter a signature date.");
+    }
+
     try {
       return await signQuote({ id, expense, signature_date });
     } catch (error: any) {

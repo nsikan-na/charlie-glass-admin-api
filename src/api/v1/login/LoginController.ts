@@ -8,6 +8,7 @@ const router = express.Router();
 
 router.post<{}, MessageResponse>("/", async (req: any, res: any) => {
   const { username, password } = req.body;
+  logger.log(req.body);
   const { login } = useLoginService();
   try {
     return res.send(await login({ username, password }));

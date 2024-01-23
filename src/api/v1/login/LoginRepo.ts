@@ -1,5 +1,4 @@
 import dbConnection from "../../../config/db-config/db-connection";
-import logger from "../../../util/logger";
 
 export const useLoginRepo = () => {
   const login = async ({ username, password }: any) => {
@@ -14,8 +13,6 @@ export const useLoginRepo = () => {
         and password = ?
         and isActive = '1'
       `;
-
-      logger.log(query);
 
       const [rows, fields]: any = await connection.execute(query, [
         username,

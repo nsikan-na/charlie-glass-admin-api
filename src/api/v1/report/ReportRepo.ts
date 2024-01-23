@@ -1,5 +1,4 @@
 import dbConnection from "../../../config/db-config/db-connection";
-import logger from "../../../util/logger";
 
 export const useReportRepo = ({ user_id }: { user_id: string }) => {
   const getProfitData = async ({ toDate, fromDate }: any) => {
@@ -25,7 +24,6 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
 
       query += ` ORDER BY signature_date DESC`;
 
-      logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
       connection.release();
       return rows;
@@ -55,7 +53,6 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
 
       query += ` group by service_id, service_label`;
 
-      logger.log(query);
       const [rows, fields] = await connection.execute(query, params);
       connection.release();
       return rows;

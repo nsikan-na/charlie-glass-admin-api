@@ -21,6 +21,7 @@ router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
 router.get<{}, MessageResponse>("/:id", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { id } = req.params;
+  logger.log(req.params);
   const { getQuoteById } = useQuoteService({ user_id });
   try {
     return res.send(await getQuoteById({ id }));
@@ -34,6 +35,7 @@ router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { name, quote_id, fromDate, toDate, page, pageSize, isSigned } =
     req.query;
+  logger.log(req.query);
   const { getAllQuotes } = useQuoteService({ user_id });
   try {
     return res.send(
@@ -70,6 +72,7 @@ router.post<{}, MessageResponse>("/add", async (req: any, res: any) => {
 router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { id } = req.params;
+  logger.log(req.params);
   const { signQuote } = useQuoteService({ user_id });
   try {
     return res.send(await signQuote({ id, ...req.body }));

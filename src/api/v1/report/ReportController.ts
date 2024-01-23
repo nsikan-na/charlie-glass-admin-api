@@ -9,6 +9,7 @@ const router = express.Router();
 router.get<{}, MessageResponse>("/profit", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { fromDate, toDate } = req.query;
+  logger.log(req.query);
   const { getProfitData } = useReportService({ user_id });
   try {
     return res.send(await getProfitData({ fromDate, toDate }));
@@ -21,6 +22,7 @@ router.get<{}, MessageResponse>("/profit", async (req: any, res: any) => {
 router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { fromDate, toDate } = req.query;
+  logger.log(req.query);
   const { getServiceData } = useReportService({ user_id });
   try {
     return res.send(await getServiceData({ fromDate, toDate }));
