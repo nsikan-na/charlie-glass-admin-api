@@ -1,24 +1,25 @@
 import jwt from "jsonwebtoken";
 import _ from "lodash";
 import { useLoginRepo } from "./LoginRepo";
-import ValidationError from "../../../interfaces/ValidationError";
+import ValidationError from "../../../interfaces/errors/ValidationError";
+import UnAuthError from "../../../interfaces/errors/UnAuthErrorr";
 
 export const EXPIRATION_TIME = "3hr";
 
 export const useLoginService = () => {
   const login = async ({ username, password }: any) => {
     if (!username) {
-      throw new ValidationError("Please enter username.");
+      throw new ValidationError("Please enter valid username.");
     }
-    if (!username) {
-      throw new ValidationError("Please enter password.");
+    if (!password) {
+      throw new ValidationError("Please enter valid password.");
     }
     try {
       const { login: loginRepo } = useLoginRepo();
       const queryResult = await loginRepo({ username, password });
 
       if (queryResult.length === 0) {
-        throw new Error("Invalid username or password");
+        throw new UnAuthError();
       }
 
       const user = queryResult[0];
@@ -33,6 +34,9 @@ export const useLoginService = () => {
 
       return { ...user, accessToken, expirationMs: EXPIRATION_TIME };
     } catch (error: any) {
+      if (error instanceof UnAuthError) {
+        throw new UnAuthError();
+      }
       throw new Error(`${error.message}`);
     }
   };

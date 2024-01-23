@@ -1,4 +1,4 @@
-import ValidationError from "../../../interfaces/ValidationError";
+import ValidationError from "../../../interfaces/errors/ValidationError";
 import { useQuoteRepo } from "./QuoteRepo";
 import _ from "lodash";
 

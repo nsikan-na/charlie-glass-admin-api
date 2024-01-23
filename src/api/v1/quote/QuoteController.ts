@@ -2,7 +2,7 @@ import express from "express";
 
 import MessageResponse from "../../../interfaces/MessageResponse";
 import { useQuoteService } from "./QuoteService";
-import ValidationError from "../../../interfaces/ValidationError";
+import ValidationError from "../../../interfaces/errors/ValidationError";
 import logger from "../../../util/logger";
 
 const router = express.Router();
@@ -78,6 +78,9 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
     return res.send(await signQuote({ id, ...req.body }));
   } catch (error) {
     logger.log(error);
+    if (error instanceof ValidationError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
