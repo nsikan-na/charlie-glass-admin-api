@@ -2,6 +2,7 @@ import express from "express";
 
 import MessageResponse from "../../../interfaces/MessageResponse";
 import { useReportService } from "./ReportService";
+import logger from "../../../util/logger";
 
 const router = express.Router();
 
@@ -12,7 +13,7 @@ router.get<{}, MessageResponse>("/profit", async (req: any, res: any) => {
   try {
     return res.send(await getProfitData({ fromDate, toDate }));
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -24,7 +25,7 @@ router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   try {
     return res.send(await getServiceData({ fromDate, toDate }));
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

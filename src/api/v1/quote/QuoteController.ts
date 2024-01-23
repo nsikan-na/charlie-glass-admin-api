@@ -2,6 +2,8 @@ import express from "express";
 
 import MessageResponse from "../../../interfaces/MessageResponse";
 import { useQuoteService } from "./QuoteService";
+import ValidationError from "../../../interfaces/ValidationError";
+import logger from "../../../util/logger";
 
 const router = express.Router();
 
@@ -11,7 +13,7 @@ router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   try {
     return res.send(await getAllServices());
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -23,7 +25,7 @@ router.get<{}, MessageResponse>("/:id", async (req: any, res: any) => {
   try {
     return res.send(await getQuoteById({ id }));
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -46,7 +48,7 @@ router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
       })
     );
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -57,8 +59,11 @@ router.post<{}, MessageResponse>("/add", async (req: any, res: any) => {
   try {
     return res.send(await saveQuote(req.body));
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Internal Server Error" });
+    logger.log(error);
+    if (error instanceof ValidationError) {
+      return res.status(error.statusCode).json({ message: error.message });
+    }
+    return res.status(500).json({ message: "Internal Server Error" });
   }
 });
 
@@ -69,7 +74,7 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   try {
     return res.send(await signQuote({ id, ...req.body }));
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });
@@ -80,7 +85,7 @@ router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
   try {
     return res.send(await resetQuotes());
   } catch (error) {
-    console.error(error);
+    logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
   }
 });

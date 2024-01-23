@@ -60,7 +60,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       connection.release();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getAllQuotes Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -78,7 +78,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getAllServices Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -97,7 +97,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getQuoteById Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -121,7 +121,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getQuoteItemsById Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -143,7 +143,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(query);
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getQuoteServicesById Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
   const getQuoteReceiverInfoById = async ({ id }: { id: string }) => {
@@ -237,7 +237,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       return `Quote #${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
-      throw new Error(`Error in saveQuote Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -263,7 +263,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       await connection.release();
       return `Quote #${id} updated successfully`;
     } catch (error: any) {
-      throw new Error(`Error in signQuote Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -301,7 +301,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       logger.log(insertQuery);
       return `User 1 Quotes Reset`;
     } catch (error: any) {
-      throw new Error(`Error in resetQuotes Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 

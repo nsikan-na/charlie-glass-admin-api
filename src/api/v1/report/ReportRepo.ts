@@ -30,7 +30,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       connection.release();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getProfitData Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
   const getServiceData = async ({ toDate, fromDate }: any) => {
@@ -60,7 +60,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       connection.release();
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in getServiceData Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 

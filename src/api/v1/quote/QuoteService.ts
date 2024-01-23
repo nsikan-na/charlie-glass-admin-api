@@ -1,3 +1,4 @@
+import ValidationError from "../../../interfaces/ValidationError";
 import { useQuoteRepo } from "./QuoteRepo";
 import _ from "lodash";
 
@@ -27,7 +28,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         services: quote?.services?.split(","),
       }));
     } catch (error: any) {
-      throw new Error(`Error in getAllQuotes Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -49,7 +50,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
       output["services"] = quoteServices;
       return output;
     } catch (error: any) {
-      throw new Error(`Error in getQuoteById Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -63,6 +64,32 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     services,
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
+    if (!receiver_name) {
+      throw new ValidationError("Please enter receiver name.");
+    }
+    if (!street) {
+      throw new ValidationError("Please enter street.");
+    }
+
+    if (!city) {
+      throw new ValidationError("Please enter city.");
+    }
+
+    if (!state) {
+      throw new ValidationError("Please enter state.");
+    }
+
+    if (!zip) {
+      throw new ValidationError("Please enter zip.");
+    }
+
+    if (!items || items?.length === 0) {
+      throw new ValidationError("Please enter items.");
+    }
+
+    if (!services || services?.length === 0) {
+      throw new ValidationError("Please enter services.");
+    }
     try {
       return await saveQuote({
         receiver_name,
@@ -81,7 +108,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
         services,
       });
     } catch (error: any) {
-      throw new Error(`Error in saveQuote Service: ${error.message}`);
+      throw new Error(error.message);
     }
   };
 
@@ -90,7 +117,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       return await getAllServices();
     } catch (error: any) {
-      throw new Error(`Error in getAllServices Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -99,7 +126,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       return await signQuote({ id, expense, signature_date });
     } catch (error: any) {
-      throw new Error(`Error signQuote Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
@@ -108,7 +135,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     try {
       return await resetQuotes();
     } catch (error: any) {
-      throw new Error(`Error resetQuotes Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 

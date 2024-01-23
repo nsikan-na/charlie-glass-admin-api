@@ -26,7 +26,7 @@ export const useLoginService = () => {
 
       return { ...user, accessToken, expirationMs: EXPIRATION_TIME };
     } catch (error: any) {
-      throw new Error(`Error in login Service: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 

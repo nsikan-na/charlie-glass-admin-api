@@ -112,7 +112,7 @@
 						"header": [],
 						"body": {
 							"mode": "raw",
-							"raw": "{\n    \"receiver_name\": \"Jon Jones\",\n    \"street\": \"456 Oak St\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
+							"raw": "{\n    \"receiver_name\": \"John Jones\",\n    \"street\": \"123 Elm Street\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
 							"options": {
 								"raw": {
 									"language": "json"
@@ -150,7 +150,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/quotes/sign",
+							"raw": "{{BASE_URL}}/api/v1/quotes/1/sign",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -158,6 +158,7 @@
 								"api",
 								"v1",
 								"quotes",
+								"1",
 								"sign"
 							]
 						},

@@ -26,7 +26,7 @@ export const useLoginRepo = () => {
 
       return rows;
     } catch (error: any) {
-      throw new Error(`Error in login Repo: ${error.message}`);
+      throw new Error(`${error.message}`);
     }
   };
 
