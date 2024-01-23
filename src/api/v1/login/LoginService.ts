@@ -9,10 +9,10 @@ export const EXPIRATION_TIME = "3hr";
 export const useLoginService = () => {
   const login = async ({ username, password }: any) => {
     if (!username) {
-      throw new ValidationError("Please enter valid username.");
+      throw new ValidationError("Please enter a valid username.");
     }
     if (!password) {
-      throw new ValidationError("Please enter valid password.");
+      throw new ValidationError("Please enter a valid password.");
     }
     try {
       const { login: loginRepo } = useLoginRepo();

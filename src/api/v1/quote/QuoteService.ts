@@ -65,30 +65,30 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
     if (!receiver_name) {
-      throw new ValidationError("Please enter receiver name.");
+      throw new ValidationError("Please enter a valid receiver name.");
     }
     if (!street) {
-      throw new ValidationError("Please enter street.");
+      throw new ValidationError("Please enter a valid street.");
     }
 
     if (!city) {
-      throw new ValidationError("Please enter city.");
+      throw new ValidationError("Please enter a valid city.");
     }
 
     if (!state) {
-      throw new ValidationError("Please enter state.");
+      throw new ValidationError("Please enter a valid state.");
     }
 
     if (!zip) {
-      throw new ValidationError("Please enter zip.");
+      throw new ValidationError("Please enter a valid zip.");
     }
 
     if (!items || items?.length === 0) {
-      throw new ValidationError("Please enter items.");
+      throw new ValidationError("Please select at least one valid item.");
     }
 
     if (!services || services?.length === 0) {
-      throw new ValidationError("Please enter services.");
+      throw new ValidationError("Please select at least one service.");
     }
     try {
       return await saveQuote({
@@ -125,10 +125,10 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     const { signQuote } = useQuoteRepo({ user_id });
 
     if (!expense) {
-      throw new ValidationError("Please enter an expense.");
+      throw new ValidationError("Please enter a valid expense.");
     }
     if (!signature_date) {
-      throw new ValidationError("Please enter a signature date.");
+      throw new ValidationError("Please enter a valid signature date.");
     }
 
     try {
