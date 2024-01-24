@@ -21,36 +21,36 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const params: (string | number)[] = [user_id];
 
       if (name) {
-        query += ` AND receiver_name LIKE ?`;
+        query += " AND receiver_name LIKE ?";
         params.push(`%${name}%`);
       }
 
       if (quote_id) {
-        query += ` AND quote_id LIKE ?`;
+        query += " AND quote_id LIKE ?";
         params.push(`%${quote_id}%`);
       }
 
       if (isSigned === "true") {
-        query += ` AND isSigned = '1'`;
+        query += " AND isSigned = '1'";
       } else if (isSigned === "false") {
-        query += ` AND isSigned = '0'`;
+        query += " AND isSigned = '0'";
       } else {
       }
 
       if (toDate && fromDate) {
-        query += ` AND creation_date between ? and ?`;
+        query += " AND creation_date between ? and ?";
         params.push(`${fromDate}`);
         params.push(`${toDate}`);
       }
 
-      query += ` ORDER BY quote_id DESC`;
+      query += " ORDER BY quote_id DESC";
 
       if (page && pageSize) {
         if (+page <= 0) {
           throw new Error("Invalid page number");
         }
         const offset: any = (page - 1) * pageSize;
-        query += ` LIMIT ? OFFSET ?`;
+        query += " LIMIT ? OFFSET ?";
         params.push(+pageSize, +offset);
       }
 
@@ -179,7 +179,8 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     try {
       const connection = await dbConnection();
       await connection.beginTransaction();
-      const quoteQuery = `INSERT INTO quote (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)`;
+      const quoteQuery =
+        "INSERT INTO quote (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)";
 
       const [insertTable1]: any = await connection.execute(quoteQuery, [
         user_id,
@@ -285,7 +286,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       connection.release();
-      return `User 1 Quotes Reset`;
+      return "User 1 Quotes Reset";
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }

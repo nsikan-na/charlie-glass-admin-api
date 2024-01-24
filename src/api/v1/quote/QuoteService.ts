@@ -46,8 +46,8 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
       const quoteServices = await getQuoteServicesById({ id });
       const quoteReceiverInfo: any = await getQuoteReceiverInfoById({ id });
       const output = { ...quote[0], ...quoteReceiverInfo[0] };
-      output["items"] = quoteItems;
-      output["services"] = quoteServices;
+      output.items = quoteItems;
+      output.services = quoteServices;
       return output;
     } catch (error: any) {
       throw new Error(`${error.message}`);

@@ -17,12 +17,12 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       const params: (string | number)[] = [user_id];
 
       if (toDate && fromDate) {
-        query += ` AND signature_date between ? and ?`;
+        query += " AND signature_date between ? and ?";
         params.push(`${fromDate}`);
         params.push(`${toDate}`);
       }
 
-      query += ` ORDER BY signature_date DESC`;
+      query += " ORDER BY signature_date DESC";
 
       const [rows, fields] = await connection.execute(query, params);
       connection.release();
@@ -46,12 +46,12 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
       const params: (string | number)[] = [user_id];
 
       if (toDate && fromDate) {
-        query += ` AND signature_date between ? and ?`;
+        query += " AND signature_date between ? and ?";
         params.push(`${fromDate}`);
         params.push(`${toDate}`);
       }
 
-      query += ` group by service_id, service_label`;
+      query += " group by service_id, service_label";
 
       const [rows, fields] = await connection.execute(query, params);
       connection.release();

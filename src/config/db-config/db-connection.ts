@@ -12,7 +12,7 @@ const dbConnection = async () => {
     },
   });
 
-  return await pool.getConnection();
+  return pool.getConnection();
 };
 
 export default dbConnection;
