@@ -65,7 +65,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   }: any) => {
     const { saveQuote } = useQuoteRepo({ user_id });
     if (!receiver_name) {
-      throw new ValidationError("Please enter a valid receiver name.");
+      throw new ValidationError("Please enter a valid name.");
     }
     if (!street) {
       throw new ValidationError("Please enter a valid street.");
@@ -124,11 +124,11 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   const signQuote: any = async ({ id, expense, signature_date }: any) => {
     const { signQuote } = useQuoteRepo({ user_id });
 
-    if (!expense) {
-      throw new ValidationError("Please enter a valid expense.");
-    }
     if (!signature_date) {
       throw new ValidationError("Please enter a valid signature date.");
+    }
+    if (!expense) {
+      throw new ValidationError("Please enter a valid expense.");
     }
 
     try {
