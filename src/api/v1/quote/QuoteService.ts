@@ -84,7 +84,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     }
 
     if (!items || items?.length === 0) {
-      throw new ValidationError("Please select at least one valid item.");
+      throw new ValidationError("Please enter at least one valid item.");
     }
 
     if (!services || services?.length === 0) {
