@@ -250,7 +250,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       ]);
       await connection.commit();
       await connection.release();
-      return `Quote #${id} updated successfully`;
+      return `Quote #${id} signed successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
