@@ -59,7 +59,7 @@ router.post<{}, MessageResponse>("/add", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { saveInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send({ content: await saveInvoice(req.body) });
+    return res.send({ message: await saveInvoice(req.body) });
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -75,7 +75,7 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   logger.log(req.params);
   const { signInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send({ content: await signInvoice({ id, ...req.body }) });
+    return res.send({ message: await signInvoice({ id, ...req.body }) });
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -89,7 +89,7 @@ router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { resetInvoices } = useInvoiceService({ user_id });
   try {
-    return res.send({ content: await resetInvoices() });
+    return res.send({ message: await resetInvoices() });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
