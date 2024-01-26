@@ -38,7 +38,10 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       }
 
       if (toDate && fromDate) {
-        query += " AND creation_date between ? and ?";
+        query +=
+          " AND ((creation_date between ? and ?) or (signature_date between ? and ?))";
+        params.push(`${fromDate}`);
+        params.push(`${toDate}`);
         params.push(`${fromDate}`);
         params.push(`${toDate}`);
       }
@@ -53,7 +56,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         query += " LIMIT ? OFFSET ?";
         params.push(+pageSize, +offset);
       }
-
+      console.log(query);
       const [rows, fields] = await connection.execute(query, params);
       connection.release();
       return rows;
