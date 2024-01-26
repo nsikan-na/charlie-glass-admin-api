@@ -7,8 +7,8 @@
 --     isActive int
 -- );
 
-DROP TABLE IF EXISTS quote;
-CREATE TABLE quote (
+DROP TABLE IF EXISTS invoice;
+CREATE TABLE invoice (
     id INT AUTO_INCREMENT PRIMARY KEY,
     user_id INT,
     expense decimal(10,2),
@@ -18,10 +18,10 @@ CREATE TABLE quote (
     isActive int
 );
 
-DROP TABLE IF EXISTS quote_receiver;
-CREATE TABLE quote_receiver (
+DROP TABLE IF EXISTS invoice_receiver;
+CREATE TABLE invoice_receiver (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    quote_id INT,
+    invoice_id INT,
     name VARCHAR(255),
     street VARCHAR(255),
     city VARCHAR(255),
@@ -29,10 +29,10 @@ CREATE TABLE quote_receiver (
     zip VARCHAR(255)
 );
 
-DROP TABLE IF EXISTS quote_item;
-CREATE TABLE  quote_item (
+DROP TABLE IF EXISTS invoice_item;
+CREATE TABLE  invoice_item (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    quote_id INT,
+    invoice_id INT,
     quantity INT,
     description VARCHAR(255),
     price DECIMAL(10, 2),
@@ -46,10 +46,10 @@ CREATE TABLE service (
     isActive int
 );
 
-DROP TABLE IF EXISTS quote_service;
-CREATE TABLE quote_service (
+DROP TABLE IF EXISTS invoice_service;
+CREATE TABLE invoice_service (
     id INT AUTO_INCREMENT PRIMARY KEY,
-    quote_id INT,
+    invoice_id INT,
     service_id INT,
     isActive int
 );

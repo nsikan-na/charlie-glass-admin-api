@@ -3,8 +3,8 @@
 -- select * from user;
 
 
-TRUNCATE table quote;
- INSERT INTO quote (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+TRUNCATE table invoice;
+ INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
       (1, 1, NULL, '2023-11-05', 0, NULL, 1),
       (1, 2, NULL, '2023-11-15', 0, NULL, 1),
       (1, 3, NULL, '2023-12-02', 0, NULL, 1),
@@ -14,11 +14,11 @@ TRUNCATE table quote;
       (1, 7, 27, '2023-11-20', 1, '2023-12-25', 1),
       (1, 8, 50, '2023-11-28', 1, '2023-12-20', 1),
       (1, 9, 35, '2023-12-15', 1, '2023-12-17', 1);
--- select * from quote;
+-- select * from invoice;
 
 
-TRUNCATE table quote_receiver;
-INSERT INTO quote_receiver (quote_id, name, street, city, state, zip) VALUES
+TRUNCATE table invoice_receiver;
+INSERT INTO invoice_receiver (invoice_id, name, street, city, state, zip) VALUES
 (1, 'John Doe', '123 Main St', 'New York City', 'NY', '10001'),
 (2, 'Jane Smith', '456 Oak St', 'Los Angeles', 'CA', '90001'),
 (3, 'Bob Johnson', '789 Pine St', 'Chicago', 'IL', '60601'),
@@ -28,12 +28,12 @@ INSERT INTO quote_receiver (quote_id, name, street, city, state, zip) VALUES
 (7, 'Frank Miller', '404 Cedar St', 'San Antonio', 'TX', '78201'),
 (8, 'Grace Taylor', '505 Walnut St', 'San Diego', 'CA', '92101'),
 (9, 'Henry White', '606 Cherry St', 'Dallas', 'TX', '75201');
--- select * from quote_receiver;
+-- select * from invoice_receiver;
 
 
 
-TRUNCATE table quote_item;
-INSERT INTO quote_item (quote_id, quantity, description, price, isActive) VALUES
+TRUNCATE table invoice_item;
+INSERT INTO invoice_item (invoice_id, quantity, description, price, isActive) VALUES
 (1, 2, 'Product A', 50.00, 1),
 (1, 3, 'Product B', 25.00, 1),
 (1, 1, 'Product C', 75.00, 1),
@@ -61,7 +61,7 @@ INSERT INTO quote_item (quote_id, quantity, description, price, isActive) VALUES
 (9, 2, 'Product P', 40.00, 1),
 (9, 1, 'Product Q', 30.00, 1),
 (9, 3, 'Product R', 25.00, 1);
--- select * from quote_item;
+-- select * from invoice_item;
 
 TRUNCATE table service;
 INSERT INTO service (label, isActive) VALUES
@@ -73,8 +73,8 @@ INSERT INTO service (label, isActive) VALUES
 ('Others', 1);
 -- select * from service;
 
-TRUNCATE table quote_service;
-INSERT INTO quote_service (quote_id, service_id, isActive) VALUES
+TRUNCATE table invoice_service;
+INSERT INTO invoice_service (invoice_id, service_id, isActive) VALUES
 (1, 1, 1),
 (1, 3, 1),
 (1, 5, 1),
@@ -102,4 +102,4 @@ INSERT INTO quote_service (quote_id, service_id, isActive) VALUES
 (9, 2, 1),
 (9, 4, 1),
 (9, 5, 1);
--- select * from quote_service;
+-- select * from invoice_service;
