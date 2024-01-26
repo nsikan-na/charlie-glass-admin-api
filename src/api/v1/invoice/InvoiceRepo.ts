@@ -228,7 +228,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.release();
 
-      return `Invoice #${lastPrimaryKey} saved successfully`;
+      return `Quote #${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
@@ -253,7 +253,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       ]);
       await connection.commit();
       await connection.release();
-      return `Invoice #${id} signed successfully`;
+      return `Quote #${id} signed successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
