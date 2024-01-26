@@ -13,7 +13,7 @@ router.post<{}, MessageResponse>("/", async (req: any, res: any) => {
   logger.log(req.body);
   const { login } = useLoginService();
   try {
-    return res.send(await login({ username, password }));
+    return res.send({ content: await login({ username, password }) });
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {

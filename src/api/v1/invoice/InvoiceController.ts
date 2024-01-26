@@ -11,7 +11,7 @@ router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { getAllServices } = useInvoiceService({ user_id });
   try {
-    return res.send(await getAllServices());
+    return res.send({ content: await getAllServices() });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -24,7 +24,7 @@ router.get<{}, MessageResponse>("/:id", async (req: any, res: any) => {
   logger.log(req.params);
   const { getInvoiceById } = useInvoiceService({ user_id });
   try {
-    return res.send(await getInvoiceById({ id }));
+    return res.send({ content: await getInvoiceById({ id }) });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -38,8 +38,8 @@ router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
   logger.log(req.query);
   const { getAllInvoices } = useInvoiceService({ user_id });
   try {
-    return res.send(
-      await getAllInvoices({
+    return res.send({
+      content: await getAllInvoices({
         name,
         invoice_id,
         fromDate,
@@ -47,8 +47,8 @@ router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
         page,
         pageSize,
         isSigned,
-      })
-    );
+      }),
+    });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -59,7 +59,7 @@ router.post<{}, MessageResponse>("/add", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { saveInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send(await saveInvoice(req.body));
+    return res.send({ content: await saveInvoice(req.body) });
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -75,7 +75,7 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   logger.log(req.params);
   const { signInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send(await signInvoice({ id, ...req.body }));
+    return res.send({ content: await signInvoice({ id, ...req.body }) });
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -89,7 +89,7 @@ router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { resetInvoices } = useInvoiceService({ user_id });
   try {
-    return res.send(await resetInvoices());
+    return res.send({ content: await resetInvoices() });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });

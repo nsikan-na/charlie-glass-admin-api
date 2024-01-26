@@ -12,7 +12,7 @@ router.get<{}, MessageResponse>("/profit", async (req: any, res: any) => {
   logger.log(req.query);
   const { getProfitData } = useReportService({ user_id });
   try {
-    return res.send(await getProfitData({ fromDate, toDate }));
+    return res.send({ content: await getProfitData({ fromDate, toDate }) });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -25,7 +25,7 @@ router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   logger.log(req.query);
   const { getServiceData } = useReportService({ user_id });
   try {
-    return res.send(await getServiceData({ fromDate, toDate }));
+    return res.send({ content: await getServiceData({ fromDate, toDate }) });
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
