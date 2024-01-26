@@ -1,9 +1,9 @@
 import dbConnection from "../../../config/db-config/db-connection";
 
-export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
-  const getAllQuotes = async ({
+export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
+  const getAllInvoices = async ({
     name,
-    quote_id,
+    invoice_id,
     toDate,
     fromDate,
     page,
@@ -14,7 +14,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       const connection = await dbConnection();
       let query = `
       SELECT *
-      FROM quote_summary_view
+      FROM invoice_summary_view
       WHERE user_id = ?
     `;
 
@@ -25,9 +25,9 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         params.push(`%${name}%`);
       }
 
-      if (quote_id) {
-        query += " AND quote_id LIKE ?";
-        params.push(`%${quote_id}%`);
+      if (invoice_id) {
+        query += " AND invoice_id LIKE ?";
+        params.push(`%${invoice_id}%`);
       }
 
       if (isSigned === "true") {
@@ -46,7 +46,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
         params.push(`${toDate}`);
       }
 
-      query += " ORDER BY quote_id DESC";
+      query += " ORDER BY invoice_id DESC";
 
       if (page && pageSize) {
         if (+page <= 0) {
@@ -82,12 +82,12 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getQuoteById = async ({ id }: { id: string }) => {
+  const getInvoiceById = async ({ id }: { id: string }) => {
     try {
       const connection = await dbConnection();
       const query = `
   SELECT *
-  FROM quote
+  FROM invoice
   where user_id = ?
   and id = ?
 `;
@@ -100,7 +100,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getQuoteItemsById = async ({ id }: { id: string }) => {
+  const getInvoiceItemsById = async ({ id }: { id: string }) => {
     try {
       const connection = await dbConnection();
       const query = `
@@ -109,9 +109,9 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       item_description,
       item_quantity,
       item_price
-      FROM quote_item_view
+      FROM invoice_item_view
       where user_id = ?
-      and quote_id = ?;
+      and invoice_id = ?;
       `;
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
@@ -123,16 +123,16 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getQuoteServicesById = async ({ id }: { id: string }) => {
+  const getInvoiceServicesById = async ({ id }: { id: string }) => {
     try {
       const connection = await dbConnection();
       const query = `
       SELECT 
       service_id,
       service_label
-      FROM quote_service_view
+      FROM invoice_service_view
       where user_id = ? 
-      and quote_id = ?;
+      and invoice_id = ?;
       `;
 
       const [rows, fields] = await connection.execute(query, [user_id, id]);
@@ -143,7 +143,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       throw new Error(`${error.message}`);
     }
   };
-  const getQuoteReceiverInfoById = async ({ id }: { id: string }) => {
+  const getInvoiceReceiverInfoById = async ({ id }: { id: string }) => {
     try {
       const connection = await dbConnection();
 
@@ -154,9 +154,9 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       receiver_city,
       receiver_state,
       receiver_zip
-      FROM quote_receiver_view
+      FROM invoice_receiver_view
       where user_id = ? 
-      and quote_id = ?;
+      and invoice_id = ?;
       `;
       const [rows, fields] = await connection.execute(query, [user_id, id]);
 
@@ -164,12 +164,12 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       return rows;
     } catch (error: any) {
       throw new Error(
-        `Error in getQuoteReceiverInfoById Repo: ${error.message}`
+        `Error in getInvoiceReceiverInfoById Repo: ${error.message}`
       );
     }
   };
 
-  const saveQuote = async ({
+  const saveInvoice = async ({
     receiver_name,
     creation_date,
     street,
@@ -182,17 +182,17 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
     try {
       const connection = await dbConnection();
       await connection.beginTransaction();
-      const quoteQuery =
-        "INSERT INTO quote (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)";
+      const invoiceQuery =
+        "INSERT INTO invoice (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)";
 
-      const [insertTable1]: any = await connection.execute(quoteQuery, [
+      const [insertTable1]: any = await connection.execute(invoiceQuery, [
         user_id,
         creation_date,
       ]);
       const lastPrimaryKey = insertTable1.insertId;
 
       const receiverInfoQuery =
-        "INSERT INTO quote_receiver (quote_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
+        "INSERT INTO invoice_receiver (invoice_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
 
       await connection.execute(receiverInfoQuery, [
         lastPrimaryKey,
@@ -204,7 +204,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       ]);
 
       const itemsQuery =
-        "INSERT INTO quote_item (quote_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
+        "INSERT INTO invoice_item (invoice_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
       await Promise.all(
         items.map((itemsItem: any) =>
           connection.execute(itemsQuery, [
@@ -217,7 +217,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       const serviceQuery =
-        "INSERT INTO quote_service (quote_id, service_id, isActive) VALUES (?, ?, 1);";
+        "INSERT INTO invoice_service (invoice_id, service_id, isActive) VALUES (?, ?, 1);";
       await Promise.all(
         services.map((service_id: any) =>
           connection.execute(serviceQuery, [lastPrimaryKey, service_id])
@@ -228,24 +228,24 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.release();
 
-      return `Quote #${lastPrimaryKey} saved successfully`;
+      return `Invoice #${lastPrimaryKey} saved successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
-  const signQuote = async ({ id, expense, signature_date }: any) => {
+  const signInvoice = async ({ id, expense, signature_date }: any) => {
     try {
       const connection = await dbConnection();
       await connection.beginTransaction();
 
-      const quoteQuery = `
-      Update quote
+      const invoiceQuery = `
+      Update invoice
       set isSigned = 1, expense = ?, signature_date = ?
       where user_id = ? and id = ?;
       `;
 
-      await connection.execute(quoteQuery, [
+      await connection.execute(invoiceQuery, [
         expense,
         signature_date,
         user_id,
@@ -253,18 +253,18 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       ]);
       await connection.commit();
       await connection.release();
-      return `Quote #${id} signed successfully`;
+      return `Invoice #${id} signed successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
-  const resetQuotes = async () => {
+  const resetInvoices = async () => {
     try {
       const connection = await dbConnection();
 
       const deleteQuery = `
-      DELETE FROM quote where user_id = '1';
+      DELETE FROM invoice where user_id = '1';
       `;
       const [deleteQueryRows, deleteQueryFields] = await connection.execute(
         deleteQuery,
@@ -272,7 +272,7 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       const insertQuery = `
-      INSERT INTO quote (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+      INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
       (1, 1, NULL, '2023-11-05', 0, NULL, 1),
       (1, 2, NULL, '2023-11-15', 0, NULL, 1),
       (1, 3, NULL, '2023-12-02', 0, NULL, 1),
@@ -289,21 +289,21 @@ export const useQuoteRepo = ({ user_id }: { user_id: string }) => {
       );
 
       connection.release();
-      return "User 1 Quotes Reset";
+      return "User 1 Invoices Reset";
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
   return {
-    getAllQuotes,
-    getQuoteById,
-    getQuoteServicesById,
-    getQuoteItemsById,
-    saveQuote,
-    getQuoteReceiverInfoById,
+    getAllInvoices,
+    getInvoiceById,
+    getInvoiceServicesById,
+    getInvoiceItemsById,
+    saveInvoice,
+    getInvoiceReceiverInfoById,
     getAllServices,
-    signQuote,
-    resetQuotes,
+    signInvoice,
+    resetInvoices,
   };
 };

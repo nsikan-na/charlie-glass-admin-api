@@ -1,7 +1,7 @@
 import express from "express";
 
 import MessageResponse from "../../../interfaces/MessageResponse";
-import { useQuoteService } from "./QuoteService";
+import { useInvoiceService } from "./InvoiceService";
 import ValidationError from "../../../interfaces/errors/ValidationError";
 import logger from "../../../util/logger";
 
@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get<{}, MessageResponse>("/services", async (req: any, res: any) => {
   const { user_id } = req.user;
-  const { getAllServices } = useQuoteService({ user_id });
+  const { getAllServices } = useInvoiceService({ user_id });
   try {
     return res.send(await getAllServices());
   } catch (error) {
@@ -22,9 +22,9 @@ router.get<{}, MessageResponse>("/:id", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { id } = req.params;
   logger.log(req.params);
-  const { getQuoteById } = useQuoteService({ user_id });
+  const { getInvoiceById } = useInvoiceService({ user_id });
   try {
-    return res.send(await getQuoteById({ id }));
+    return res.send(await getInvoiceById({ id }));
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });
@@ -33,15 +33,15 @@ router.get<{}, MessageResponse>("/:id", async (req: any, res: any) => {
 
 router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
   const { user_id } = req.user;
-  const { name, quote_id, fromDate, toDate, page, pageSize, isSigned } =
+  const { name, invoice_id, fromDate, toDate, page, pageSize, isSigned } =
     req.query;
   logger.log(req.query);
-  const { getAllQuotes } = useQuoteService({ user_id });
+  const { getAllInvoices } = useInvoiceService({ user_id });
   try {
     return res.send(
-      await getAllQuotes({
+      await getAllInvoices({
         name,
-        quote_id,
+        invoice_id,
         fromDate,
         toDate,
         page,
@@ -57,9 +57,9 @@ router.get<{}, MessageResponse>("/", async (req: any, res: any) => {
 
 router.post<{}, MessageResponse>("/add", async (req: any, res: any) => {
   const { user_id } = req.user;
-  const { saveQuote } = useQuoteService({ user_id });
+  const { saveInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send(await saveQuote(req.body));
+    return res.send(await saveInvoice(req.body));
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -73,9 +73,9 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
   const { user_id } = req.user;
   const { id } = req.params;
   logger.log(req.params);
-  const { signQuote } = useQuoteService({ user_id });
+  const { signInvoice } = useInvoiceService({ user_id });
   try {
-    return res.send(await signQuote({ id, ...req.body }));
+    return res.send(await signInvoice({ id, ...req.body }));
   } catch (error) {
     logger.log(error);
     if (error instanceof ValidationError) {
@@ -87,9 +87,9 @@ router.post<{}, MessageResponse>("/:id/sign", async (req: any, res: any) => {
 
 router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
   const { user_id } = req.user;
-  const { resetQuotes } = useQuoteService({ user_id });
+  const { resetInvoices } = useInvoiceService({ user_id });
   try {
-    return res.send(await resetQuotes());
+    return res.send(await resetInvoices());
   } catch (error) {
     logger.log(error);
     res.status(500).json({ message: "Internal Server Error" });

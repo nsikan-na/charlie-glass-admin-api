@@ -1,11 +1,11 @@
 import ValidationError from "../../../interfaces/errors/ValidationError";
-import { useQuoteRepo } from "./QuoteRepo";
+import { useInvoiceRepo } from "./InvoiceRepo";
 import _ from "lodash";
 
-export const useQuoteService = ({ user_id }: { user_id: string }) => {
-  const getAllQuotes = async ({
+export const useInvoiceService = ({ user_id }: { user_id: string }) => {
+  const getAllInvoices = async ({
     name,
-    quote_id,
+    invoice_id,
     fromDate,
     toDate,
     page,
@@ -13,48 +13,48 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     isSigned,
   }: any) => {
     try {
-      const { getAllQuotes } = useQuoteRepo({ user_id });
-      const queryResult: any = await getAllQuotes({
+      const { getAllInvoices } = useInvoiceRepo({ user_id });
+      const queryResult: any = await getAllInvoices({
         name,
-        quote_id,
+        invoice_id,
         fromDate,
         toDate,
         page,
         pageSize,
         isSigned,
       });
-      return queryResult.map((quote: any) => ({
-        ...quote,
-        services: quote?.services?.split(","),
+      return queryResult.map((invoice: any) => ({
+        ...invoice,
+        services: invoice?.services?.split(","),
       }));
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
-  const getQuoteById = async ({ id }: { id: string }) => {
+  const getInvoiceById = async ({ id }: { id: string }) => {
     try {
       const {
-        getQuoteById,
-        getQuoteItemsById,
-        getQuoteServicesById,
-        getQuoteReceiverInfoById,
-      } = useQuoteRepo({ user_id });
-      const quote: any = await getQuoteById({ id });
-      if (quote.length === 0) return {};
-      const quoteItems = await getQuoteItemsById({ id });
-      const quoteServices = await getQuoteServicesById({ id });
-      const quoteReceiverInfo: any = await getQuoteReceiverInfoById({ id });
-      const output = { ...quote[0], ...quoteReceiverInfo[0] };
-      output.items = quoteItems;
-      output.services = quoteServices;
+        getInvoiceById,
+        getInvoiceItemsById,
+        getInvoiceServicesById,
+        getInvoiceReceiverInfoById,
+      } = useInvoiceRepo({ user_id });
+      const invoice: any = await getInvoiceById({ id });
+      if (invoice.length === 0) return {};
+      const invoiceItems = await getInvoiceItemsById({ id });
+      const invoiceServices = await getInvoiceServicesById({ id });
+      const invoiceReceiverInfo: any = await getInvoiceReceiverInfoById({ id });
+      const output = { ...invoice[0], ...invoiceReceiverInfo[0] };
+      output.items = invoiceItems;
+      output.services = invoiceServices;
       return output;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
-  const saveQuote: any = async ({
+  const saveInvoice: any = async ({
     receiver_name,
     street,
     city,
@@ -63,7 +63,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     items,
     services,
   }: any) => {
-    const { saveQuote } = useQuoteRepo({ user_id });
+    const { saveInvoice } = useInvoiceRepo({ user_id });
     if (!receiver_name) {
       throw new ValidationError("Please enter a valid name.");
     }
@@ -91,7 +91,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
       throw new ValidationError("Please select at least one service.");
     }
     try {
-      return await saveQuote({
+      return await saveInvoice({
         receiver_name,
         creation_date: new Date(
           new Date().toLocaleDateString("en-US", {
@@ -113,7 +113,7 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
   };
 
   const getAllServices: any = async () => {
-    const { getAllServices } = useQuoteRepo({ user_id });
+    const { getAllServices } = useInvoiceRepo({ user_id });
     try {
       return await getAllServices();
     } catch (error: any) {
@@ -121,8 +121,8 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const signQuote: any = async ({ id, expense, signature_date }: any) => {
-    const { signQuote } = useQuoteRepo({ user_id });
+  const signInvoice: any = async ({ id, expense, signature_date }: any) => {
+    const { signInvoice } = useInvoiceRepo({ user_id });
 
     if (!signature_date) {
       throw new ValidationError("Please enter a valid signature date.");
@@ -132,27 +132,27 @@ export const useQuoteService = ({ user_id }: { user_id: string }) => {
     }
 
     try {
-      return await signQuote({ id, expense, signature_date });
+      return await signInvoice({ id, expense, signature_date });
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
-  const resetQuotes: any = async () => {
-    const { resetQuotes } = useQuoteRepo({ user_id });
+  const resetInvoices: any = async () => {
+    const { resetInvoices } = useInvoiceRepo({ user_id });
     try {
-      return await resetQuotes();
+      return await resetInvoices();
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
   };
 
   return {
-    getAllQuotes,
-    saveQuote,
-    getQuoteById,
+    getAllInvoices,
+    saveInvoice,
+    getInvoiceById,
     getAllServices,
-    signQuote,
-    resetQuotes,
+    signInvoice,
+    resetInvoices,
   };
 };

@@ -4,7 +4,7 @@ import helmet from "helmet";
 import cors from "cors";
 
 import * as middlewares from "./middlewares/middlewares";
-import QuoteController from "./api/v1/quote/QuoteController";
+import InvoiceController from "./api/v1/invoice/InvoiceController";
 import MessageResponse from "./interfaces/MessageResponse";
 import ReportController from "./api/v1/report/ReportController";
 import verifyToken from "./middlewares/verifyToken";
@@ -26,7 +26,7 @@ app.get<{}, MessageResponse>("/", (req, res) => {
 });
 
 app.use("/api/v1/login", LoginController);
-app.use("/api/v1/quotes", verifyToken, QuoteController);
+app.use("/api/v1/invoices", verifyToken, InvoiceController);
 app.use("/api/v1/reports", verifyToken, ReportController);
 
 app.use(middlewares.notFound);
