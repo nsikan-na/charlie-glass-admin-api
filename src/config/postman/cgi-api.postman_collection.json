@@ -258,6 +258,59 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"cgiadmin\",\r\n    \"password\":\"cgiadminpass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
 		}
 	],
 	"auth": {
@@ -308,7 +361,7 @@
 					"        }",
 					"",
 					"        var jsonData = response.json();",
-					"        pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.accessToken);",
+					"        pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.content.accessToken);",
 					"    });",
 					"}",
 					""
@@ -335,12 +388,12 @@
 		},
 		{
 			"key": "username",
-			"value": "",
+			"value": "cgiadmin",
 			"type": "string"
 		},
 		{
 			"key": "password",
-			"value": "",
+			"value": "cgiadminpass",
 			"type": "string"
 		}
 	]
