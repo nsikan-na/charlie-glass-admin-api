@@ -130,6 +130,8 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     if (!expense) {
       throw new ValidationError("Please enter a valid expense.");
     }
+    const invoice = await getInvoiceById({ id });
+    if (invoice?.isSigned) throw new ValidationError("Invoice already signed.");
 
     try {
       return await signInvoice({ id, expense, signature_date });
