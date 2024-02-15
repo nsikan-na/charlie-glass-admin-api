@@ -1,0 +1,14 @@
+name: Send GET Request Every 5 Minutes
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+
+jobs:
+  send-request:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Send GET Request
+        run: |
+          curl -X GET 'https://charlie-glass-admin-api.vercel.app/'
