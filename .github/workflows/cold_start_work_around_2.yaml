@@ -2,7 +2,7 @@ name: Send GET Request Every 5 Minutes, Manually, and On Push
 
 on:
   schedule:
-    - cron: "*/5 * * * *"
+    - cron: "*/3 * * * *"
   workflow_dispatch:
   push:
 
