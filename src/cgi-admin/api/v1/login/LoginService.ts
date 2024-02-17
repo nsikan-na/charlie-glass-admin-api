@@ -26,7 +26,7 @@ export const useLoginService = () => {
 
       const accessToken = jwt.sign(
         { username: user.userName, userId: user.userId },
-        process.env.JWT_SECRET as string,
+        process.env.CGI_ADMIN_JWT_SECRET as string,
         {
           expiresIn: EXPIRATION_TIME,
         }
