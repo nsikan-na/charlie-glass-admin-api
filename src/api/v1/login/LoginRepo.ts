@@ -1,4 +1,5 @@
 import dbConnection from "../../../config/db-config/db-connection";
+import { encrypt } from "../../../util/encryption";
 
 export const useLoginRepo = () => {
   const login = async ({ username, password }: any) => {
@@ -16,7 +17,7 @@ export const useLoginRepo = () => {
 
       const [rows, fields]: any = await connection.execute(query, [
         username,
-        password,
+        encrypt(password),
       ]);
 
       connection.release();
