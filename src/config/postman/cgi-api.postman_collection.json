@@ -16,7 +16,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/invoices",
+							"raw": "{{BASE_URL}}/api/v1/invoices?isSigned=true",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -58,8 +58,7 @@
 								},
 								{
 									"key": "isSigned",
-									"value": "true",
-									"disabled": true
+									"value": "true"
 								}
 							]
 						}
@@ -373,6 +372,12 @@
 		{
 			"key": "BASE_URL",
 			"value": "https://charlie-glass-admin-api.vercel.app",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "BASE_URL",
+			"value": "https://no-cope-apis-04f7f012003b.herokuapp.com",
 			"type": "string"
 		},
 		{
