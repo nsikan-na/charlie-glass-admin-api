@@ -315,7 +315,7 @@
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "[{\"key\":\"BASE_URL\",\"value\":\"https://charlie-glass-admin-api.vercel.app/cgi-admin\",\"enabled\":false,\"type\":\"string\",\"sessionValue\":\"https://no-cope-apis.vercel.app/cgi-admin\",\"sessionIndex\":0}]",
+      "value": "https://no-cope-apis.vercel.app/cgi-admin",
       "type": "string",
       "disabled": true
     },
