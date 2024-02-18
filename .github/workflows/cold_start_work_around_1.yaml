@@ -1,4 +1,4 @@
-name: Send GET Request Every 5 Minutes, Manually, and On Push
+name: Send GET Request Every 20 Minutes, Manually, and On Push
 
 on:
   schedule:
