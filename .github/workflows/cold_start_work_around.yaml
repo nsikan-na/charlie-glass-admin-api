@@ -1,16 +1,16 @@
-name: Send GET Request Every 20 Minutes, Manually, and On Push
+# name: Send GET Request Every 20 Minutes, Manually, and On Push
 
-on:
-  schedule:
-    - cron: "*/20 * * * *"
-  workflow_dispatch:
-  push:
+# on:
+#   schedule:
+#     - cron: "*/20 * * * *"
+#   workflow_dispatch:
+#   push:
 
-jobs:
-  send-request:
-    runs-on: ubuntu-latest
+# jobs:
+#   send-request:
+#     runs-on: ubuntu-latest
 
-    steps:
-      - name: Send GET Request
-        run: |
-          curl -X GET 'https://no-cope-apis-04f7f012003b.herokuapp.com/'
+#     steps:
+#       - name: Send GET Request
+#         run: |
+#           curl -X GET 'https://no-cope-apis-04f7f012003b.herokuapp.com/'
