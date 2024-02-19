@@ -1,15 +1,35 @@
 import express from "express";
-import cgiAdminRouter from "./cgi-admin";
+import morgan from "morgan";
+import helmet from "helmet";
+import cors from "cors";
+
+import * as middlewares from "./middlewares/middlewares";
+import MessageResponse from "./interfaces/MessageResponse";
+import InvoiceController from "./api/v1/invoice/InvoiceController";
+import LoginController from "./api/v1/login/LoginController";
+import ReportController from "./api/v1/report/ReportController";
+import verifyToken from "./middlewares/verifyToken";
+
 require("dotenv").config();
 
 const app = express();
 
-app.get<{}, any>("/", (req, res) => {
+app.use(morgan("dev"));
+app.use(helmet());
+app.use(cors());
+app.use(express.json());
+
+app.get<{}, MessageResponse>("/", (req, res) => {
   res.json({
     message: "Hello World",
   });
 });
 
-app.use("/cgi-admin", cgiAdminRouter);
+app.use("/api/v1/login", LoginController);
+app.use("/api/v1/invoices", verifyToken, InvoiceController);
+app.use("/api/v1/reports", verifyToken, ReportController);
+
+app.use(middlewares.notFound);
+app.use(middlewares.errorHandler);
 
 export default app;
