@@ -1,6 +1,5 @@
-# No Cope Apis
+# Charlie Glass Admin
 
-[Visit Heroku Paid Live](https://no-cope-apis-04f7f012003b.herokuapp.com/)  
 [Visit Vercel Free Live](https://no-cope-apis.vercel.app/)
 
 Desc
