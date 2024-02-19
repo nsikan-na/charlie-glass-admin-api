@@ -303,7 +303,7 @@
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "https://chalie-glass-admin-api.vercel.app",
+      "value": "https://charlie-glass-admin-api.vercel.app",
       "type": "string"
     },
     {
