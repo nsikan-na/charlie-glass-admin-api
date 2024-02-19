@@ -244,18 +244,6 @@
           "response": []
         }
       ]
-    },
-    {
-      "name": "test",
-      "request": {
-        "method": "GET",
-        "header": [],
-        "url": {
-          "raw": "{{BASE_URL}}",
-          "host": ["{{BASE_URL}}"]
-        }
-      },
-      "response": []
     }
   ],
   "auth": {
@@ -315,20 +303,14 @@
   "variable": [
     {
       "key": "BASE_URL",
-      "value": "https://no-cope-apis.vercel.app/cgi-admin",
-      "type": "string",
-      "disabled": true
-    },
-    {
-      "key": "BASE_URL",
-      "value": "https://no-cope-apis-04f7f012003b.herokuapp.com/cgi-admin",
-      "type": "string",
-      "disabled": true
-    },
-    {
-      "key": "BASE_URL",
-      "value": "http://127.0.0.1:8080/cgi-admin",
+      "value": "https://chalie-glass-admin-api.vercel.app",
       "type": "string"
+    },
+    {
+      "key": "BASE_URL",
+      "value": "http://127.0.0.1:8080",
+      "type": "string",
+      "disabled": true
     },
     {
       "key": "ACCESS_TOKEN",
