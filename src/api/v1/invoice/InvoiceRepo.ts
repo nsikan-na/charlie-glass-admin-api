@@ -289,7 +289,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       );
 
       connection.release();
-      return "User 1 Invoices Reset";
+      return "User 0 Invoices Reset";
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
