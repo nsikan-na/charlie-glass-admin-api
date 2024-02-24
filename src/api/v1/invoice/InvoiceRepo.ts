@@ -264,7 +264,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const connection = await dbConnection();
 
       const deleteQuery = `
-      DELETE FROM invoice where user_id = '1';
+      DELETE FROM invoice where user_id = '0';
       `;
       const [deleteQueryRows, deleteQueryFields] = await connection.execute(
         deleteQuery,
@@ -273,15 +273,15 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       const insertQuery = `
       INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
-      (1, 1, NULL, '2023-11-05', 0, NULL, 1),
-      (1, 2, NULL, '2023-11-15', 0, NULL, 1),
-      (1, 3, NULL, '2023-12-02', 0, NULL, 1),
-      (1, 4, NULL, '2023-11-08', 0, NULL, 1),
-      (1, 5, NULL, '2023-11-25', 0, NULL, 1),
-      (1, 6, NULL, '2023-12-10', 0, NULL, 1),
-      (1, 7, 27, '2023-11-20', 1, '2024-01-25', 1),
-      (1, 8, 50, '2023-11-28', 1, '2024-01-20', 1),
-      (1, 9, 35, '2023-12-15', 1, '2024-01-17', 1);
+      (0, 1, NULL, '2023-11-05', 0, NULL, 1),
+      (0, 2, NULL, '2023-11-15', 0, NULL, 1),
+      (0, 3, NULL, '2023-12-02', 0, NULL, 1),
+      (0, 4, NULL, '2023-11-08', 0, NULL, 1),
+      (0, 5, NULL, '2023-11-25', 0, NULL, 1),
+      (0, 6, NULL, '2023-12-10', 0, NULL, 1),
+      (0, 7, 27, '2023-11-20', 1, '2024-01-25', 1),
+      (0, 8, 50, '2023-11-28', 1, '2024-01-20', 1),
+      (0, 9, 35, '2023-12-15', 1, '2024-01-17', 1);
       `;
       const [insertRows, insertFields] = await connection.execute(
         insertQuery,
