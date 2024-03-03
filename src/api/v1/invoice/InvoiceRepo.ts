@@ -228,7 +228,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       await connection.release();
 
-      return `Quote #${lastPrimaryKey} saved successfully`;
+      return `Quote #${lastPrimaryKey} created successfully`;
     } catch (error: any) {
       throw new Error(`${error.message}`);
     }
@@ -295,6 +295,26 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
+  const deleteInvoice = async ({ id }: any) => {
+    try {
+      const connection = await dbConnection();
+      await connection.beginTransaction();
+
+      const invoiceQuery = `
+      Update invoice
+      set isActive = 0
+      where user_id = ? and id = ?;
+      `;
+
+      await connection.execute(invoiceQuery, [user_id, id]);
+      await connection.commit();
+      await connection.release();
+      return `Quote #${id} deleted successfully`;
+    } catch (error: any) {
+      throw new Error(`${error.message}`);
+    }
+  };
+
   return {
     getAllInvoices,
     getInvoiceById,
@@ -305,5 +325,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     getAllServices,
     signInvoice,
     resetInvoices,
+    deleteInvoice,
   };
 };

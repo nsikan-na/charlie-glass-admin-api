@@ -96,4 +96,23 @@ router.post<{}, MessageResponse>("/reset", async (req: any, res: any) => {
   }
 });
 
+router.delete<{}, MessageResponse>(
+  "/:id/delete",
+  async (req: any, res: any) => {
+    const { user_id } = req.user;
+    const { id } = req.params;
+    logger.log(req.params);
+    const { deleteInvoice } = useInvoiceService({ user_id });
+    try {
+      return res.send({ message: await deleteInvoice({ id, ...req.body }) });
+    } catch (error) {
+      logger.log(error);
+      if (error instanceof ValidationError) {
+        return res.status(error.statusCode).json({ message: error.message });
+      }
+      res.status(500).json({ message: "Internal Server Error" });
+    }
+  }
+);
+
 export default router;

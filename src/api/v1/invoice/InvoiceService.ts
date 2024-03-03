@@ -149,6 +149,21 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     }
   };
 
+  const deleteInvoice: any = async ({ id }: any) => {
+    const { deleteInvoice } = useInvoiceRepo({ user_id });
+
+    const invoice = await getInvoiceById({ id });
+
+    if (Number(invoice?.isActive) === 0)
+      throw new ValidationError("Invoice already deleted.");
+
+    try {
+      return await deleteInvoice({ id });
+    } catch (error: any) {
+      throw new Error(`${error.message}`);
+    }
+  };
+
   return {
     getAllInvoices,
     saveInvoice,
@@ -156,5 +171,6 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     getAllServices,
     signInvoice,
     resetInvoices,
+    deleteInvoice,
   };
 };
