@@ -1,331 +1,430 @@
 {
-  "info": {
-    "_postman_id": "155da180-9827-4b18-8de3-93d62fd7b403",
-    "name": "cgi-api",
-    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
-    "_exporter_id": "19570875",
-    "_collection_link": "https://cgi-admin.postman.co/workspace/CGI-admin-Workspace~6bffd863-21d9-4292-8252-54a1cbfb3ff7/collection/19570875-155da180-9827-4b18-8de3-93d62fd7b403?action=share&source=collection_link&creator=19570875"
-  },
-  "item": [
-    {
-      "name": "invoices",
-      "item": [
-        {
-          "name": "getAllInvoices",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices?isSigned=true",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices"],
-              "query": [
-                {
-                  "key": "invoice_id",
-                  "value": "3",
-                  "disabled": true
-                },
-                {
-                  "key": "name",
-                  "value": "Bob",
-                  "disabled": true
-                },
-                {
-                  "key": "fromDate",
-                  "value": "2023-12-01",
-                  "disabled": true
-                },
-                {
-                  "key": "toDate",
-                  "value": "2023-12-31",
-                  "disabled": true
-                },
-                {
-                  "key": "pageSize",
-                  "value": "10",
-                  "disabled": true
-                },
-                {
-                  "key": "page",
-                  "value": "1",
-                  "disabled": true
-                },
-                {
-                  "key": "isSigned",
-                  "value": "true"
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getInvoiceById",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices/1",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices", "1"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "getAllServices",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices/services",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices", "services"]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "saveInvoice",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"receiver_name\": \"John Jones\",\n    \"street\": \"123 Elm Street\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices/add",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices", "add"]
-            },
-            "description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
-          },
-          "response": []
-        },
-        {
-          "name": "signInvoice",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\n    \"expense\": 10,\n    \"signature_date\": \"2023-12-25\"\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices/1/sign",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices", "1", "sign"]
-            },
-            "description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
-          },
-          "response": []
-        },
-        {
-          "name": "resetInvoices",
-          "request": {
-            "method": "POST",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/invoices/reset",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "invoices", "reset"]
-            },
-            "description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "reports",
-      "item": [
-        {
-          "name": "profitWidget",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/reports/profit",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "reports", "profit"],
-              "query": [
-                {
-                  "key": "fromDate",
-                  "value": "2023-12-01",
-                  "disabled": true
-                },
-                {
-                  "key": "toDate",
-                  "value": "2023-12-31",
-                  "disabled": true
-                }
-              ]
-            }
-          },
-          "response": []
-        },
-        {
-          "name": "serviceWidget",
-          "request": {
-            "method": "GET",
-            "header": [],
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/reports/services",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "reports", "services"],
-              "query": [
-                {
-                  "key": "fromDate",
-                  "value": "2023-12-01",
-                  "disabled": true
-                },
-                {
-                  "key": "toDate",
-                  "value": "2023-12-31",
-                  "disabled": true
-                }
-              ]
-            }
-          },
-          "response": []
-        }
-      ]
-    },
-    {
-      "name": "login",
-      "item": [
-        {
-          "name": "login",
-          "event": [
-            {
-              "listen": "prerequest",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript"
-              }
-            },
-            {
-              "listen": "test",
-              "script": {
-                "exec": [""],
-                "type": "text/javascript"
-              }
-            }
-          ],
-          "request": {
-            "method": "POST",
-            "header": [],
-            "body": {
-              "mode": "raw",
-              "raw": "{\r\n    \"username\":\"cgiadmin\",\r\n    \"password\":\"cgiadminpass\"\r\n}",
-              "options": {
-                "raw": {
-                  "language": "json"
-                }
-              }
-            },
-            "url": {
-              "raw": "{{BASE_URL}}/api/v1/login",
-              "host": ["{{BASE_URL}}"],
-              "path": ["api", "v1", "login"]
-            }
-          },
-          "response": []
-        }
-      ]
-    }
-  ],
-  "auth": {
-    "type": "bearer",
-    "bearer": [
-      {
-        "key": "token",
-        "value": "{{ACCESS_TOKEN}}",
-        "type": "string"
-      }
-    ]
-  },
-  "event": [
-    {
-      "listen": "prerequest",
-      "script": {
-        "type": "text/javascript",
-        "exec": [""]
-      }
-    },
-    {
-      "listen": "test",
-      "script": {
-        "type": "text/javascript",
-        "exec": [
-          "if (pm.response.status === \"Unauthorized\") {",
-          "    pm.collectionVariables.set(\"ACCESS_TOKEN\", null);",
-          "",
-          "    pm.sendRequest({",
-          "        url: pm.collectionVariables.get(\"BASE_URL\") + \"/api/v1/login\",",
-          "        method: \"POST\",",
-          "        header: {",
-          "            \"Content-Type\": \"application/json\",",
-          "        },",
-          "        body: {",
-          "            mode: \"raw\",",
-          "            raw: JSON.stringify({",
-          "                username: pm.collectionVariables.get(\"username\"),",
-          "                password: pm.collectionVariables.get(\"password\"),",
-          "            }),",
-          "        },",
-          "    }, (error, response) => {",
-          "        if (error) {",
-          "            console.error(error);",
-          "            return;",
-          "        }",
-          "",
-          "        var jsonData = response.json();",
-          "        pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.content.accessToken);",
-          "    });",
-          "}",
-          ""
-        ]
-      }
-    }
-  ],
-  "variable": [
-    {
-      "key": "BASE_URL",
-      "value": "https://charlie-glass-admin-api.vercel.app",
-      "type": "string"
-    },
-    {
-      "key": "BASE_URL",
-      "value": "http://127.0.0.1:8080",
-      "type": "string",
-      "disabled": true
-    },
-    {
-      "key": "ACCESS_TOKEN",
-      "value": "",
-      "type": "string"
-    },
-    {
-      "key": "username",
-      "value": "cgiadmin",
-      "type": "string"
-    },
-    {
-      "key": "password",
-      "value": "cgiadminpass",
-      "type": "string"
-    }
-  ]
+	"info": {
+		"_postman_id": "155da180-9827-4b18-8de3-93d62fd7b403",
+		"name": "cgi-api",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "19570875",
+		"_collection_link": "https://cgi-admin.postman.co/workspace/CGI-admin-Workspace~6bffd863-21d9-4292-8252-54a1cbfb3ff7/collection/19570875-155da180-9827-4b18-8de3-93d62fd7b403?action=share&source=collection_link&creator=19570875"
+	},
+	"item": [
+		{
+			"name": "invoices",
+			"item": [
+				{
+					"name": "getAllInvoices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices?isSigned=true",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices"
+							],
+							"query": [
+								{
+									"key": "invoice_id",
+									"value": "3",
+									"disabled": true
+								},
+								{
+									"key": "name",
+									"value": "Bob",
+									"disabled": true
+								},
+								{
+									"key": "fromDate",
+									"value": "2023-12-01",
+									"disabled": true
+								},
+								{
+									"key": "toDate",
+									"value": "2023-12-31",
+									"disabled": true
+								},
+								{
+									"key": "pageSize",
+									"value": "10",
+									"disabled": true
+								},
+								{
+									"key": "page",
+									"value": "1",
+									"disabled": true
+								},
+								{
+									"key": "isSigned",
+									"value": "true"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getInvoiceById",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/1",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"1"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getAllServices",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/services",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"services"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "saveInvoice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"receiver_name\": \"John Jones\",\n    \"street\": \"123 Elm Street\",\n    \"city\": \"Townsville\",\n    \"state\": \"NY\",\n    \"zip\": \"54321\",\n    \"items\": [\n        {\n            \"description\": \"Product C\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        },\n        {\n            \"description\": \"Product A\",\n            \"quantity\": 3,\n            \"price\": \"9.99\"\n        }\n    ],\n    \"services\": [\n        1,\n        2,\n        3,\n        4,\n        5,\n        6\n    ]\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/add",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"add"
+							]
+						},
+						"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+					},
+					"response": []
+				},
+				{
+					"name": "signInvoice",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"expense\": 10,\n    \"signature_date\": \"2023-12-25\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/1/sign",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"1",
+								"sign"
+							]
+						},
+						"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+					},
+					"response": []
+				},
+				{
+					"name": "resetInvoices",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/reset",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"reset"
+							]
+						},
+						"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+					},
+					"response": []
+				},
+				{
+					"name": "signInvoice Copy",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"expense\": 10,\n    \"signature_date\": \"2023-12-25\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/invoices/2/delete",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"invoices",
+								"2",
+								"delete"
+							]
+						},
+						"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "reports",
+			"item": [
+				{
+					"name": "profitWidget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/reports/profit",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"profit"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2023-12-01",
+									"disabled": true
+								},
+								{
+									"key": "toDate",
+									"value": "2023-12-31",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "serviceWidget",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/reports/services",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"reports",
+								"services"
+							],
+							"query": [
+								{
+									"key": "fromDate",
+									"value": "2023-12-01",
+									"disabled": true
+								},
+								{
+									"key": "toDate",
+									"value": "2023-12-31",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "login",
+			"item": [
+				{
+					"name": "login",
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"username\":\"cgiadmin\",\r\n    \"password\":\"cgiadminpass\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{BASE_URL}}/api/v1/login",
+							"host": [
+								"{{BASE_URL}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"login"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "{{ACCESS_TOKEN}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					"if (pm.response.status === \"Unauthorized\") {",
+					"    pm.collectionVariables.set(\"ACCESS_TOKEN\", null);",
+					"",
+					"    pm.sendRequest({",
+					"        url: pm.collectionVariables.get(\"BASE_URL\") + \"/api/v1/login\",",
+					"        method: \"POST\",",
+					"        header: {",
+					"            \"Content-Type\": \"application/json\",",
+					"        },",
+					"        body: {",
+					"            mode: \"raw\",",
+					"            raw: JSON.stringify({",
+					"                username: pm.collectionVariables.get(\"username\"),",
+					"                password: pm.collectionVariables.get(\"password\"),",
+					"            }),",
+					"        },",
+					"    }, (error, response) => {",
+					"        if (error) {",
+					"            console.error(error);",
+					"            return;",
+					"        }",
+					"",
+					"        var jsonData = response.json();",
+					"        pm.collectionVariables.set(\"ACCESS_TOKEN\", jsonData.content.accessToken);",
+					"    });",
+					"}",
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "BASE_URL",
+			"value": "https://chalie-glass-admin-api.vercel.app",
+			"type": "string"
+		},
+		{
+			"key": "BASE_URL",
+			"value": "http://127.0.0.1:8080",
+			"type": "string",
+			"disabled": true
+		},
+		{
+			"key": "ACCESS_TOKEN",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "username",
+			"value": "cgiadmin",
+			"type": "string"
+		},
+		{
+			"key": "password",
+			"value": "cgiadminpass",
+			"type": "string"
+		}
+	]
 }
