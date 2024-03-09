@@ -4,23 +4,24 @@ import { encrypt } from "../../../util/encryption";
 export const useLoginRepo = () => {
   const login = async ({ username, password }: any) => {
     try {
-      const connection = await dbConnection();
-      let query = `
+      const pool = await dbConnection();
+      const query = `
         SELECT 
-        id as userId, 
-        name as userName
-        FROM user
-        WHERE username = ?
-        and password = ?
-        and isActive = '1'
+        id as "userId", 
+        name as "userName"
+        FROM "user"
+        WHERE username = $1
+        AND password = $2
+        AND "isActive" = '1'
       `;
 
-      const [rows, fields]: any = await connection.execute(query, [
-        username,
-        encrypt(password),
-      ]);
+      // Encrypt the password before comparing
+      const encryptedPassword = encrypt(password);
 
-      connection.release();
+      // Use query method directly on the pool for a single query
+      const { rows } = await pool.query(query, [username, encryptedPassword]);
+
+      // No need to release the connection explicitly when using pool.query
 
       return rows;
     } catch (error: any) {

@@ -30,7 +30,8 @@
     "jsonwebtoken": "^9.0.2",
     "lodash": "^4.17.21",
     "morgan": "^1.10.0",
-    "mysql2": "^3.6.5"
+    "mysql2": "^3.6.5",
+    "pg": "^8.11.3"
   },
   "devDependencies": {
     "@types/cors": "^2.8.17",
@@ -40,6 +41,7 @@
     "@types/lodash": "^4.14.202",
     "@types/morgan": "^1.9.9",
     "@types/node": "^20.10.0",
+    "@types/pg": "^8.11.2",
     "@types/supertest": "^2.0.16",
     "@typescript-eslint/eslint-plugin": "^6.13.1",
     "@typescript-eslint/parser": "^6.13.1",
