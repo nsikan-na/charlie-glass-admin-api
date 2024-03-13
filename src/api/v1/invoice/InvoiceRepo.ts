@@ -22,13 +22,13 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       if (name) {
         paramCounter++;
-        query += ` AND receiver_name LIKE '$${paramCounter}'`;
+        query += ` AND receiver_name LIKE '%' || $${paramCounter} || '%'`;
         params.push(name);
       }
       if (invoice_id) {
         paramCounter++;
-        query += ` AND invoice_id LIKE '$${paramCounter}'`;
-        params.push(invoice_id);
+        query += ` AND invoice_id::text LIKE '%' || $${paramCounter} || '%'`;
+        params.push(invoice_id.toString());
       }
       if (isSigned === "true") {
         query += ` AND "isSigned" = '1'`;
