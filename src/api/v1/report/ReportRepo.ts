@@ -1,7 +1,7 @@
 import db from "../../../config/db-config/db";
 
 export const useReportRepo = ({ user_id }: { user_id: string }) => {
-  const getProfitData = async ({ toDate, fromDate, user_id }: any) => {
+  const getProfitData = async ({ toDate, fromDate }: any) => {
     const client = await db.connect();
     try {
       let query = `
@@ -32,7 +32,7 @@ export const useReportRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getServiceData = async ({ toDate, fromDate, user_id }: any) => {
+  const getServiceData = async ({ toDate, fromDate }: any) => {
     const client = await db.connect();
     try {
       let query = `

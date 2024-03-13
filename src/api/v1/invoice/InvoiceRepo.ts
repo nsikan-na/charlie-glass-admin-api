@@ -14,7 +14,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     try {
       let query = `
         SELECT *
-        FROM invoice_summary_view
+        FROM public.invoice_summary_view
         WHERE user_id = $1
       `;
       const params = [user_id];
@@ -31,9 +31,9 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         params.push(`%${invoice_id}%`);
       }
       if (isSigned === "true") {
-        query += " AND isSigned = '1'";
+        query += ` AND "isSigned" = '1'`;
       } else if (isSigned === "false") {
-        query += " AND isSigned = '0'";
+        query += ` AND "isSigned" = '0'`;
       }
 
       if (toDate && fromDate) {
@@ -95,7 +95,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const { rows } = await client.query(query, [user_id, id]);
       return rows;
     } catch (error) {
-      console.error(`Error in getInvoiceById: ${error}`);
+      console.log(`Error in getInvoiceById: ${error}`);
       throw error;
     } finally {
       client.release();
@@ -117,7 +117,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const { rows } = await client.query(query, [user_id, id]);
       return rows;
     } catch (error) {
-      console.error(`Error in getInvoiceItemsById: ${error}`);
+      console.log(`Error in getInvoiceItemsById: ${error}`);
       throw error;
     } finally {
       client.release();
@@ -137,7 +137,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const { rows } = await client.query(query, [user_id, id]);
       return rows;
     } catch (error) {
-      console.error(`Error in getInvoiceServicesById: ${error}`);
+      console.log(`Error in getInvoiceServicesById: ${error}`);
       throw error;
     } finally {
       client.release();
@@ -160,7 +160,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       const { rows } = await client.query(query, [user_id, id]);
       return rows;
     } catch (error) {
-      console.error(`Error in getInvoiceReceiverInfoById: ${error}`);
+      console.log(`Error in getInvoiceReceiverInfoById: ${error}`);
       throw new Error(`Error in getInvoiceReceiverInfoById Repo: ${error}`);
     } finally {
       client.release();
@@ -228,7 +228,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       await client.query("COMMIT");
       return `Invoice #${lastPrimaryKey} created successfully`;
     } catch (error) {
-      console.error(error);
+      console.log(error);
       await client.query("ROLLBACK");
       throw error;
     } finally {
@@ -241,7 +241,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     try {
       await client.query("BEGIN");
       const invoiceQuery = `
-        UPDATE invoice
+        UPDATE public.invoice
         SET "isSigned" = 1, "expense" = $1, "signature_date" = $2
         WHERE "user_id" = $3 AND "id" = $4;
       `;
@@ -249,7 +249,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       await client.query("COMMIT");
       return `Invoice #${id} signed successfully`;
     } catch (error) {
-      console.error(error);
+      console.log(error);
       await client.query("ROLLBACK");
       throw error;
     } finally {
@@ -263,12 +263,12 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       await client.query("BEGIN");
 
       const deleteQuery = `
-        DELETE FROM invoice WHERE user_id = '0';
+        DELETE FROM public.invoice WHERE user_id = '0';
       `;
       await client.query(deleteQuery);
 
       const insertQuery = `
-        INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+        INSERT INTO public.invoice (user_id, id, expense, creation_date, "isSigned", signature_date, "isActive") VALUES
         (0, 1, NULL, '2023-11-05', 0, NULL, 1),
         (0, 2, NULL, '2023-11-15', 0, NULL, 1),
         (0, 3, NULL, '2023-12-02', 0, NULL, 1),
@@ -284,9 +284,8 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       await client.query("COMMIT");
       return "User 0 Invoices Reset";
     } catch (error) {
-      console.error(error);
+      console.log(error);
       await client.query("ROLLBACK");
-      throw error;
     } finally {
       client.release();
     }
@@ -306,7 +305,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
       return `Invoice #${id} deleted successfully`;
     } catch (error) {
       await client.query("ROLLBACK");
-      console.error(error);
+      console.log(error);
       throw error;
     } finally {
       client.release();
