@@ -37,7 +37,7 @@ export const useLoginService = () => {
       if (error instanceof UnAuthError) {
         throw new UnAuthError();
       }
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 

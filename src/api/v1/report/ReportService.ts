@@ -24,7 +24,7 @@ export const useReportService = ({ user_id }: { user_id: string }) => {
 
       return { rows: queryResult, totalRevenue, totalExpense, totalProfit };
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
   const getServiceData = async ({ fromDate, toDate }: any) => {
@@ -37,7 +37,7 @@ export const useReportService = ({ user_id }: { user_id: string }) => {
 
       return queryResult;
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 

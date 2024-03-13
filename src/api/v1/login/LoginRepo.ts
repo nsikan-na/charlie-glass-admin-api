@@ -1,4 +1,4 @@
-import pool from "../../../config/db-config/pool";
+import db from "../../../config/db-config/db";
 import { encrypt } from "../../../util/encryption";
 
 export const useLoginRepo = () => {
@@ -15,7 +15,7 @@ export const useLoginRepo = () => {
       `;
 
       const encryptedPassword = encrypt(password);
-      const client = await pool.connect();
+      const client = await db.connect();
       const { rows } = await client.query(query, [username, encryptedPassword]);
 
       return rows;

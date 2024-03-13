@@ -1,3 +1,5 @@
+import db from "../../../config/db-config/db";
+
 export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   const getAllInvoices = async ({
     name,
@@ -8,150 +10,165 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     pageSize,
     isSigned,
   }: any) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   let query = `
-    //   SELECT *
-    //   FROM invoice_summary_view
-    //   WHERE user_id = ?
-    // `;
-    //   const params: (string | number)[] = [user_id];
-    //   if (name) {
-    //     query += " AND receiver_name LIKE ?";
-    //     params.push(`%${name}%`);
-    //   }
-    //   if (invoice_id) {
-    //     query += " AND invoice_id LIKE ?";
-    //     params.push(`%${invoice_id}%`);
-    //   }
-    //   if (isSigned === "true") {
-    //     query += " AND isSigned = '1'";
-    //   } else if (isSigned === "false") {
-    //     query += " AND isSigned = '0'";
-    //   } else {
-    //   }
-    //   if (toDate && fromDate) {
-    //     query +=
-    //       " AND ((creation_date between ? and ?) or (signature_date between ? and ?))";
-    //     params.push(`${fromDate}`);
-    //     params.push(`${toDate}`);
-    //     params.push(`${fromDate}`);
-    //     params.push(`${toDate}`);
-    //   }
-    //   query += " ORDER BY invoice_id DESC";
-    //   if (page && pageSize) {
-    //     if (+page <= 0) {
-    //       throw new Error("Invalid page number");
-    //     }
-    //     const offset: any = (page - 1) * pageSize;
-    //     query += " LIMIT ? OFFSET ?";
-    //     params.push(+pageSize, +offset);
-    //   }
-    //   console.log(query);
-    //   const [rows, fields] = await connection.execute(query, params);
-    //   connection.release();
-    //   return rows;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+    const client = await db.connect();
+    try {
+      let query = `
+        SELECT *
+        FROM invoice_summary_view
+        WHERE user_id = $1
+      `;
+      const params = [user_id];
+      let paramCounter = 1;
+
+      if (name) {
+        paramCounter++;
+        query += ` AND receiver_name LIKE $${paramCounter}`;
+        params.push(`%${name}%`);
+      }
+      if (invoice_id) {
+        paramCounter++;
+        query += ` AND invoice_id LIKE $${paramCounter}`;
+        params.push(`%${invoice_id}%`);
+      }
+      if (isSigned === "true") {
+        query += " AND isSigned = '1'";
+      } else if (isSigned === "false") {
+        query += " AND isSigned = '0'";
+      }
+
+      if (toDate && fromDate) {
+        query += ` AND ((creation_date BETWEEN $${paramCounter + 1} AND $${
+          paramCounter + 2
+        }) OR (signature_date BETWEEN $${paramCounter + 3} AND $${
+          paramCounter + 4
+        }))`;
+        params.push(fromDate, toDate, fromDate, toDate);
+        paramCounter += 4;
+      }
+
+      query += " ORDER BY invoice_id DESC";
+
+      if (page && pageSize) {
+        if (+page <= 0) {
+          throw new Error("Invalid page number");
+        }
+        const offset = (page - 1) * pageSize;
+        paramCounter++;
+        query += ` LIMIT $${paramCounter} OFFSET $${paramCounter + 1}`;
+        params.push(pageSize, offset.toString());
+      }
+
+      console.log(query);
+      const { rows } = await client.query(query, params);
+      return rows;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      client.release();
+    }
   };
 
   const getAllServices = async () => {
-    // try {
-    //   const connection = await dbConnection();
-    //   const query = `
-    //   SELECT distinct id, label
-    //   FROM service
-    //   `;
-    //   const [rows, fields] = await connection.execute(query, []);
-    //   connection.release();
-    //   return rows;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+    const client = await db.connect();
+    try {
+      const query = `
+        SELECT DISTINCT id, label
+        FROM service
+      `;
+      const { rows } = await client.query(query);
+      return rows;
+    } catch (error) {
+      console.log(error);
+    } finally {
+      client.release();
+    }
   };
 
-  const getInvoiceById = async ({ id }: { id: string }) => {
-    //     try {
-    //       const connection = await dbConnection();
-    //       const query = `
-    //   SELECT *
-    //   FROM invoice
-    //   where user_id = ?
-    //   and id = ?
-    // `;
-    //       const [rows, fields] = await connection.execute(query, [user_id, id]);
-    //       connection.release();
-    //       return rows;
-    //     } catch (error: any) {
-    //       throw new Error(`${error.message}`);
-    //     }
+  const getInvoiceById = async ({ id, user_id }: any) => {
+    const client = await db.connect();
+    try {
+      const query = `
+        SELECT *
+        FROM invoice
+        WHERE user_id = $1 AND id = $2;
+      `;
+      const { rows } = await client.query(query, [user_id, id]);
+      return rows;
+    } catch (error) {
+      console.error(`Error in getInvoiceById: ${error}`);
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
-  const getInvoiceItemsById = async ({ id }: { id: string }) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   const query = `
-    //   SELECT
-    //   item_id,
-    //   item_description,
-    //   item_quantity,
-    //   item_price
-    //   FROM invoice_item_view
-    //   where user_id = ?
-    //   and invoice_id = ?;
-    //   `;
-    //   const [rows, fields] = await connection.execute(query, [user_id, id]);
-    //   connection.release();
-    //   return rows;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+  const getInvoiceItemsById = async ({ id, user_id }: any) => {
+    const client = await db.connect();
+    try {
+      const query = `
+        SELECT
+          "item_id" AS "id",
+          "item_description" AS "description",
+          "item_quantity" AS "quantity",
+          "item_price" AS "price"
+        FROM invoice_item_view
+        WHERE "user_id" = $1 AND "invoice_id" = $2;
+      `;
+      const { rows } = await client.query(query, [user_id, id]);
+      return rows;
+    } catch (error) {
+      console.error(`Error in getInvoiceItemsById: ${error}`);
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
-  const getInvoiceServicesById = async ({ id }: { id: string }) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   const query = `
-    //   SELECT
-    //   service_id,
-    //   service_label
-    //   FROM invoice_service_view
-    //   where user_id = ?
-    //   and invoice_id = ?;
-    //   `;
-    //   const [rows, fields] = await connection.execute(query, [user_id, id]);
-    //   connection.release();
-    //   return rows;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+  const getInvoiceServicesById = async ({ id, user_id }: any) => {
+    const client = await db.connect();
+    try {
+      const query = `
+        SELECT
+          "service_id",
+          "service_label"
+        FROM invoice_service_view
+        WHERE "user_id" = $1 AND "invoice_id" = $2;
+      `;
+      const { rows } = await client.query(query, [user_id, id]);
+      return rows;
+    } catch (error) {
+      console.error(`Error in getInvoiceServicesById: ${error}`);
+      throw error;
+    } finally {
+      client.release();
+    }
   };
-  const getInvoiceReceiverInfoById = async ({ id }: { id: string }) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   const query = `
-    //   SELECT
-    //   receiver_name,
-    //   receiver_street,
-    //   receiver_city,
-    //   receiver_state,
-    //   receiver_zip
-    //   FROM invoice_receiver_view
-    //   where user_id = ?
-    //   and invoice_id = ?;
-    //   `;
-    //   const [rows, fields] = await connection.execute(query, [user_id, id]);
-    //   connection.release();
-    //   return rows;
-    // } catch (error: any) {
-    //   throw new Error(
-    //     `Error in getInvoiceReceiverInfoById Repo: ${error.message}`
-    //   );
-    // }
+
+  const getInvoiceReceiverInfoById = async ({ id, user_id }: any) => {
+    const client = await db.connect();
+    try {
+      const query = `
+        SELECT
+          "receiver_name",
+          "receiver_street" AS "street",
+          "receiver_city" AS "city",
+          "receiver_state" AS "state",
+          "receiver_zip" AS "zip"
+        FROM invoice_receiver_view
+        WHERE "user_id" = $1 AND "invoice_id" = $2;
+      `;
+      const { rows } = await client.query(query, [user_id, id]);
+      return rows;
+    } catch (error) {
+      console.error(`Error in getInvoiceReceiverInfoById: ${error}`);
+      throw new Error(`Error in getInvoiceReceiverInfoById Repo: ${error}`);
+    } finally {
+      client.release();
+    }
   };
 
   const saveInvoice = async ({
+    user_id,
     receiver_name,
     creation_date,
     street,
@@ -161,125 +178,139 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     items,
     services,
   }: any) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   await connection.beginTransaction();
-    //   const invoiceQuery =
-    //     "INSERT INTO invoice (user_id, creation_date, isSigned, isActive) VALUES (?, ?, 0, 1)";
-    //   const [insertTable1]: any = await connection.execute(invoiceQuery, [
-    //     user_id,
-    //     creation_date,
-    //   ]);
-    //   const lastPrimaryKey = insertTable1.insertId;
-    //   const receiverInfoQuery =
-    //     "INSERT INTO invoice_receiver (invoice_id, name, street, city, state, zip) VALUES (?, ?, ?, ?, ?, ?);";
-    //   await connection.execute(receiverInfoQuery, [
-    //     lastPrimaryKey,
-    //     receiver_name,
-    //     street,
-    //     city,
-    //     state,
-    //     zip,
-    //   ]);
-    //   const itemsQuery =
-    //     "INSERT INTO invoice_item (invoice_id, description, quantity, price, isActive) VALUES (?, ?, ?, ?, 1);";
-    //   await Promise.all(
-    //     items.map((itemsItem: any) =>
-    //       connection.execute(itemsQuery, [
-    //         lastPrimaryKey,
-    //         itemsItem.description,
-    //         itemsItem.quantity,
-    //         itemsItem.price,
-    //       ])
-    //     )
-    //   );
-    //   const serviceQuery =
-    //     "INSERT INTO invoice_service (invoice_id, service_id, isActive) VALUES (?, ?, 1);";
-    //   await Promise.all(
-    //     services.map((service_id: any) =>
-    //       connection.execute(serviceQuery, [lastPrimaryKey, service_id])
-    //     )
-    //   );
-    //   await connection.commit();
-    //   await connection.release();
-    //   return `Quote #${lastPrimaryKey} created successfully`;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+      const invoiceQuery = `
+      INSERT INTO invoice (user_id, creation_date, "isSigned", "isActive")
+      VALUES ($1, $2, 0, 1) RETURNING id;
+    `;
+      const { rows } = await client.query(invoiceQuery, [
+        user_id,
+        creation_date,
+      ]);
+      const lastPrimaryKey = rows[0].id;
+
+      const receiverInfoQuery = `
+      INSERT INTO invoice_receiver (invoice_id, name, street, city, state, zip)
+      VALUES ($1, $2, $3, $4, $5, $6);
+    `;
+      await client.query(receiverInfoQuery, [
+        lastPrimaryKey,
+        receiver_name,
+        street,
+        city,
+        state,
+        zip,
+      ]);
+
+      const itemsQuery = `
+      INSERT INTO invoice_item (invoice_id, description, quantity, price, "isActive")
+      VALUES ($1, $2, $3, $4, 1);
+    `;
+      for (let item of items) {
+        await client.query(itemsQuery, [
+          lastPrimaryKey,
+          item.description,
+          item.quantity,
+          item.price,
+        ]);
+      }
+
+      const serviceQuery = `
+      INSERT INTO invoice_service (invoice_id, service_id, "isActive")
+      VALUES ($1, $2, 1);
+    `;
+      for (let service_id of services) {
+        await client.query(serviceQuery, [lastPrimaryKey, service_id]);
+      }
+
+      await client.query("COMMIT");
+      return `Invoice #${lastPrimaryKey} created successfully`;
+    } catch (error) {
+      console.error(error);
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
-  const signInvoice = async ({ id, expense, signature_date }: any) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   await connection.beginTransaction();
-    //   const invoiceQuery = `
-    //   Update invoice
-    //   set isSigned = 1, expense = ?, signature_date = ?
-    //   where user_id = ? and id = ?;
-    //   `;
-    //   await connection.execute(invoiceQuery, [
-    //     expense,
-    //     signature_date,
-    //     user_id,
-    //     id,
-    //   ]);
-    //   await connection.commit();
-    //   await connection.release();
-    //   return `Quote #${id} signed successfully`;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+  const signInvoice = async ({ id, user_id, expense, signature_date }: any) => {
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+      const invoiceQuery = `
+        UPDATE invoice
+        SET "isSigned" = 1, "expense" = $1, "signature_date" = $2
+        WHERE "user_id" = $3 AND "id" = $4;
+      `;
+      await client.query(invoiceQuery, [expense, signature_date, user_id, id]);
+      await client.query("COMMIT");
+      return `Invoice #${id} signed successfully`;
+    } catch (error) {
+      console.error(error);
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
   const resetInvoices = async () => {
-    // try {
-    //   const connection = await dbConnection();
-    //   const deleteQuery = `
-    //   DELETE FROM invoice where user_id = '0';
-    //   `;
-    //   const [deleteQueryRows, deleteQueryFields] = await connection.execute(
-    //     deleteQuery,
-    //     []
-    //   );
-    //   const insertQuery = `
-    //   INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
-    //   (0, 1, NULL, '2023-11-05', 0, NULL, 1),
-    //   (0, 2, NULL, '2023-11-15', 0, NULL, 1),
-    //   (0, 3, NULL, '2023-12-02', 0, NULL, 1),
-    //   (0, 4, NULL, '2023-11-08', 0, NULL, 1),
-    //   (0, 5, NULL, '2023-11-25', 0, NULL, 1),
-    //   (0, 6, NULL, '2023-12-10', 0, NULL, 1),
-    //   (0, 7, 27, '2023-11-20', 1, '2024-01-25', 1),
-    //   (0, 8, 50, '2023-11-28', 1, '2024-01-20', 1),
-    //   (0, 9, 35, '2023-12-15', 1, '2024-01-17', 1);
-    //   `;
-    //   const [insertRows, insertFields] = await connection.execute(
-    //     insertQuery,
-    //     []
-    //   );
-    //   connection.release();
-    //   return "User 0 Invoices Reset";
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+
+      const deleteQuery = `
+        DELETE FROM invoice WHERE user_id = '0';
+      `;
+      await client.query(deleteQuery);
+
+      const insertQuery = `
+        INSERT INTO invoice (user_id, id, expense, creation_date, isSigned, signature_date, isActive) VALUES
+        (0, 1, NULL, '2023-11-05', 0, NULL, 1),
+        (0, 2, NULL, '2023-11-15', 0, NULL, 1),
+        (0, 3, NULL, '2023-12-02', 0, NULL, 1),
+        (0, 4, NULL, '2023-11-08', 0, NULL, 1),
+        (0, 5, NULL, '2023-11-25', 0, NULL, 1),
+        (0, 6, NULL, '2023-12-10', 0, NULL, 1),
+        (0, 7, 27, '2023-11-20', 1, '2024-01-25', 1),
+        (0, 8, 50, '2023-11-28', 1, '2024-01-20', 1),
+        (0, 9, 35, '2023-12-15', 1, '2024-01-17', 1);
+      `;
+      await client.query(insertQuery);
+
+      await client.query("COMMIT");
+      return "User 0 Invoices Reset";
+    } catch (error) {
+      console.error(error);
+      await client.query("ROLLBACK");
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
   const deleteInvoice = async ({ id }: any) => {
-    // try {
-    //   const connection = await dbConnection();
-    //   await connection.beginTransaction();
-    //   const invoiceQuery = `
-    //   Update invoice
-    //   set isActive = 0
-    //   where user_id = ? and id = ?;
-    //   `;
-    //   await connection.execute(invoiceQuery, [user_id, id]);
-    //   await connection.commit();
-    //   await connection.release();
-    //   return `Quote #${id} deleted successfully`;
-    // } catch (error: any) {
-    //   throw new Error(`${error.message}`);
-    // }
+    const client = await db.connect();
+    try {
+      await client.query("BEGIN");
+      const invoiceQuery = `
+      UPDATE invoice
+      SET "isActive" = 0
+      WHERE "user_id" = $1 AND "id" = $2;
+    `;
+      await client.query(invoiceQuery, [user_id, id]);
+      await client.query("COMMIT");
+      return `Invoice #${id} deleted successfully`;
+    } catch (error) {
+      await client.query("ROLLBACK");
+      console.error(error);
+      throw error;
+    } finally {
+      client.release();
+    }
   };
 
   return {
