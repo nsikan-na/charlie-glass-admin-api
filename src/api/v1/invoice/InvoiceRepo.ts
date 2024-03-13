@@ -189,7 +189,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
         creation_date,
       ]);
       const lastPrimaryKey = rows[0].id;
-
+      console.log(lastPrimaryKey);
       const receiverInfoQuery = `
       INSERT INTO invoice_receiver (invoice_id, name, street, city, state, zip)
       VALUES ($1, $2, $3, $4, $5, $6);
