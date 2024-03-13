@@ -28,7 +28,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         services: invoice?.services?.split(","),
       }));
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
@@ -50,7 +50,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
       output.services = invoiceServices;
       return output;
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
@@ -108,7 +108,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
         services,
       });
     } catch (error: any) {
-      throw new Error(error.message);
+      console.log(error);
     }
   };
 
@@ -117,7 +117,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await getAllServices();
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
@@ -136,7 +136,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await signInvoice({ id, expense, signature_date });
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
@@ -145,7 +145,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await resetInvoices();
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
@@ -160,7 +160,7 @@ export const useInvoiceService = ({ user_id }: { user_id: string }) => {
     try {
       return await deleteInvoice({ id });
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 

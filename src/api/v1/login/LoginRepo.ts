@@ -1,30 +1,26 @@
-import dbConnection from "../../../config/db-config/db-connection";
+import db from "../../../config/db-config/db";
 import { encrypt } from "../../../util/encryption";
 
 export const useLoginRepo = () => {
   const login = async ({ username, password }: any) => {
     try {
-      const connection = await dbConnection();
-      let query = `
-        SELECT 
-        id as userId, 
-        name as userName
-        FROM user
-        WHERE username = ?
-        and password = ?
-        and isActive = '1'
+      const query = `
+        SELECT
+        id as "userId",
+        name as "userName"
+        FROM "user"
+        WHERE username = $1
+        AND password = $2
+        AND "isActive" = '1'
       `;
 
-      const [rows, fields]: any = await connection.execute(query, [
-        username,
-        encrypt(password),
-      ]);
-
-      connection.release();
+      const encryptedPassword = encrypt(password);
+      const client = await db.connect();
+      const { rows } = await client.query(query, [username, encryptedPassword]);
 
       return rows;
     } catch (error: any) {
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 

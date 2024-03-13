@@ -16,7 +16,7 @@ export const useLoginService = () => {
     }
     try {
       const { login: loginRepo } = useLoginRepo();
-      const queryResult = await loginRepo({ username, password });
+      const queryResult: any = await loginRepo({ username, password });
 
       if (queryResult.length === 0) {
         throw new UnAuthError();
@@ -37,7 +37,7 @@ export const useLoginService = () => {
       if (error instanceof UnAuthError) {
         throw new UnAuthError();
       }
-      throw new Error(`${error.message}`);
+      console.log(error);
     }
   };
 
