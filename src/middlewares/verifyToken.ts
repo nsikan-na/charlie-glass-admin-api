@@ -15,7 +15,7 @@ const verifyToken = async (req: any, res: any, next: any) => {
   }
 
   try {
-    const decoded = await jwt.verify(token, process.env.CGI_ADMIN_JWT_SECRET);
+    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
     logger.log(decoded);
 
     const currentTimestamp = Math.floor(Date.now() / 1000);
