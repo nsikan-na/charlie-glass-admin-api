@@ -22,7 +22,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
 
       if (name) {
         paramCounter++;
-        query += ` AND receiver_name LIKE '%' || $${paramCounter} || '%'`;
+        query += ` AND receiver_name ILIKE '%' || $${paramCounter} || '%'`;
         params.push(name);
       }
       if (invoice_id) {
