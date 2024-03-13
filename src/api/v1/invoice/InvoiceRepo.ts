@@ -1,5 +1,3 @@
-import dbConnection from "../../../config/db-config/db-connection";
-
 export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   const getAllInvoices = async ({
     name,
