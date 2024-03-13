@@ -84,7 +84,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getInvoiceById = async ({ id, user_id }: any) => {
+  const getInvoiceById = async ({ id }: any) => {
     const client = await db.connect();
     try {
       const query = `
@@ -102,7 +102,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getInvoiceItemsById = async ({ id, user_id }: any) => {
+  const getInvoiceItemsById = async ({ id }: any) => {
     const client = await db.connect();
     try {
       const query = `
@@ -124,7 +124,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getInvoiceServicesById = async ({ id, user_id }: any) => {
+  const getInvoiceServicesById = async ({ id }: any) => {
     const client = await db.connect();
     try {
       const query = `
@@ -144,7 +144,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const getInvoiceReceiverInfoById = async ({ id, user_id }: any) => {
+  const getInvoiceReceiverInfoById = async ({ id }: any) => {
     const client = await db.connect();
     try {
       const query = `
@@ -168,7 +168,6 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
   };
 
   const saveInvoice = async ({
-    user_id,
     receiver_name,
     creation_date,
     street,
@@ -236,7 +235,7 @@ export const useInvoiceRepo = ({ user_id }: { user_id: string }) => {
     }
   };
 
-  const signInvoice = async ({ id, user_id, expense, signature_date }: any) => {
+  const signInvoice = async ({ id, expense, signature_date }: any) => {
     const client = await db.connect();
     try {
       await client.query("BEGIN");
