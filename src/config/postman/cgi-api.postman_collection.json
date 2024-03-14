@@ -16,7 +16,7 @@
 						"method": "GET",
 						"header": [],
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/invoices?isSigned=true",
+							"raw": "{{BASE_URL}}/api/v1/invoices?name=Bob",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -28,13 +28,12 @@
 							"query": [
 								{
 									"key": "invoice_id",
-									"value": "3",
+									"value": "9",
 									"disabled": true
 								},
 								{
 									"key": "name",
-									"value": "Bob",
-									"disabled": true
+									"value": "Bob"
 								},
 								{
 									"key": "fromDate",
@@ -58,7 +57,8 @@
 								},
 								{
 									"key": "isSigned",
-									"value": "true"
+									"value": "true",
+									"disabled": true
 								}
 							]
 						}
@@ -167,28 +167,7 @@
 					"response": []
 				},
 				{
-					"name": "resetInvoices",
-					"request": {
-						"method": "POST",
-						"header": [],
-						"url": {
-							"raw": "{{BASE_URL}}/api/v1/invoices/reset",
-							"host": [
-								"{{BASE_URL}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"invoices",
-								"reset"
-							]
-						},
-						"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
-					},
-					"response": []
-				},
-				{
-					"name": "signInvoice Copy",
+					"name": "deleteInvoice",
 					"request": {
 						"method": "DELETE",
 						"header": [],
@@ -202,7 +181,7 @@
 							}
 						},
 						"url": {
-							"raw": "{{BASE_URL}}/api/v1/invoices/2/delete",
+							"raw": "{{BASE_URL}}/api/v1/invoices/1/delete",
 							"host": [
 								"{{BASE_URL}}"
 							],
@@ -210,7 +189,7 @@
 								"api",
 								"v1",
 								"invoices",
-								"2",
+								"1",
 								"delete"
 							]
 						},
@@ -341,6 +320,39 @@
 					"response": []
 				}
 			]
+		},
+		{
+			"name": "healthCheck",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}",
+					"host": [
+						"{{BASE_URL}}"
+					]
+				},
+				"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+			},
+			"response": []
+		},
+		{
+			"name": "resetInvoices",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{BASE_URL}}/reset",
+					"host": [
+						"{{BASE_URL}}"
+					],
+					"path": [
+						"reset"
+					]
+				},
+				"description": "\n### Add Invoice\nThis endpoint allows the user to add a new invoice with the specified details.\n\n#### Request Body\n- `receiver_name` (string): Name of the receiver.\n- `street` (string): Street address of the receiver.\n- `city` (string): City of the receiver.\n- `state` (string): State of the receiver.\n- `zip` (string): Zip code of the receiver.\n- `cart` (array): Array of items in the cart.\n    - `description` (string): Description of the item.\n    - `quantity` (number): Quantity of the item.\n    - `price` (string): Price of the item.\n- `services` (array): Array of services.\n\n#### Response\n- `id` (number): ID of the invoice.\n- `user_id` (number): ID of the user.\n- `expense` (string): Expense details.\n- `creation_date` (string): Date of creation.\n- `isSigned` (number): Indicates if the invoice is signed.\n- `signature_date` (string): Date of signature.\n- `isActive` (number): Indicates if the invoice is active.\n- `receiver_name` (string): Name of the receiver.\n- `receiver_street` (string): Street address of the receiver.\n- `receiver_city` (string): City of the receiver.\n- `receiver_state` (string): State of the receiver.\n- `receiver_zip` (string): Zip code of the receiver.\n- `items` (array): Array of items in the invoice.\n    - `item_id` (number): ID of the item.\n    - `item_description` (string): Description of the item.\n    - `item_quantity` (number): Quantity of the item.\n    - `item_price` (string): Price of the item.\n- `services` (array): Array of services.\n    - `service_id` (number): ID of the service.\n    - `service_label` (string): Label of the service.\n\n#### Example\n```json\n{\n    \"receiver_name\": \"John Doe\",\n    \"street\": \"123 Main St\",\n    \"city\": \"Anytown\",\n    \"state\": \"CA\",\n    \"zip\": \"12345\",\n    \"cart\": [\n        {\n            \"description\": \"Product 1\",\n            \"quantity\": 2,\n            \"price\": \"25.00\"\n        }\n    ],\n    \"services\": [1, 2]\n}\n"
+			},
+			"response": []
 		}
 	],
 	"auth": {
@@ -403,13 +415,13 @@
 		{
 			"key": "BASE_URL",
 			"value": "https://chalie-glass-admin-api.vercel.app",
-			"type": "string"
+			"type": "string",
+			"disabled": true
 		},
 		{
 			"key": "BASE_URL",
 			"value": "http://127.0.0.1:8080",
-			"type": "string",
-			"disabled": true
+			"type": "string"
 		},
 		{
 			"key": "ACCESS_TOKEN",

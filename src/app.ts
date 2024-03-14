@@ -9,6 +9,8 @@ import InvoiceController from "./api/v1/invoice/InvoiceController";
 import LoginController from "./api/v1/login/LoginController";
 import ReportController from "./api/v1/report/ReportController";
 import verifyToken from "./middlewares/verifyToken";
+import { useInvoiceService } from "./api/v1/invoice/InvoiceService";
+import logger from "./util/logger";
 
 require("dotenv").config();
 
@@ -23,6 +25,16 @@ app.get<{}, MessageResponse>("/", (req, res) => {
   res.json({
     message: "Hello World",
   });
+});
+
+app.get<{}, MessageResponse>("/reset", async (req: any, res: any) => {
+  const { resetInvoices } = useInvoiceService({ user_id: "0" });
+  try {
+    return res.send({ message: await resetInvoices() });
+  } catch (error) {
+    logger.log(error);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
 });
 
 app.use("/api/v1/login", LoginController);
