@@ -1,6 +1,6 @@
 # Charlie Glass Admin Api
 
-## [Visit Live](https://charlie-glass-admin.vercel.app)
+## [Visit Live](https://charlie-glass-admin.vercel.app/login)
 
 ### [Frontend Repo](https://github.com/nsikan-na/charlie-glass-admin)
 
